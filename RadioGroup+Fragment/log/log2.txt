@@ -1,0 +1,173 @@
+保留Fragment实例日志
+打开->选中"我的音乐"->选中"朋友"->旋转->锁屏->解锁->选中"账号"->选中"发现音乐"->退出
+
+// 打开
+*809 MainActivity1: -->onCreate(@Nullable Bundle savedInstanceState)
+*809 configuration: {1.0 310mcc260mnc en_US ldltr sw360dp w360dp h616dp 320dpi nrml long port finger -keyb/v/h dpad/v s.186}
+
+*870 Fragment1: -->创建Fragment1
+*871 Fragment1: -->onAttach(Context context)
+*872 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.radiogroupfragment.Fragment1
+*872 Fragment1: -->onCreate(@Nullable Bundle savedInstanceState)
+*872 Fragment1: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+*872 Fragment1: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+*872 Fragment1: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+*872 Fragment1: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+*872 Fragment1: -->onStart()
+*872 MainActivity1: -->onStart()
+*872 MainActivity1: -->onResume()
+*872 Fragment1: -->onResume()
+*889 MainActivity1: -->onAttachedToWindow()
+*008 MainActivity1: -->onCreateOptionsMenu(Menu menu)
+*008 MainActivity1: -->onPrepareOptionsMenu(Menu menu)
+// 选中"我的音乐"
+*424 Fragment2: -->创建Fragment2
+*441 Fragment2: -->onAttach(Context context)
+*441 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.radiogroupfragment.Fragment2
+*441 Fragment2: -->onCreate(@Nullable Bundle savedInstanceState)
+*441 Fragment1: -->onHiddenChanged(boolean hidden) = true // 隐藏Fragment1
+*441 Fragment2: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+*442 Fragment2: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+*442 Fragment2: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+*442 Fragment2: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+*442 Fragment2: -->onStart()
+*442 Fragment2: -->onResume()
+// 选中"朋友"
+*001 Fragment3: -->创建Fragment3
+*018 Fragment3: -->onAttach(Context context)
+*019 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.radiogroupfragment.Fragment3
+*026 Fragment3: -->onCreate(@Nullable Bundle savedInstanceState)
+*027 Fragment2: -->onHiddenChanged(boolean hidden) = true // 隐藏Fragment2
+*027 Fragment3: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+*028 Fragment3: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+*028 Fragment3: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+*028 Fragment3: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+*028 Fragment3: -->onStart()
+*028 Fragment3: -->onResume()
+// 旋转
+*423 Fragment1: -->onPause()
+*423 Fragment2: -->onPause()
+*423 Fragment3: -->onPause()
+*423 MainActivity1: -->onPause()
+*424 Fragment1: -->onSaveInstanceState(@NonNull Bundle outState)
+*424 Fragment2: -->onSaveInstanceState(@NonNull Bundle outState)
+*424 Fragment3: -->onSaveInstanceState(@NonNull Bundle outState)
+*425 MainActivity1: -->onSaveInstanceState(Bundle outState)
+*425 Fragment1: -->onStop()
+*425 Fragment2: -->onStop()
+*425 Fragment3: -->onStop()
+*425 MainActivity1: -->onStop()
+*430 Fragment1: -->onDestroyView()
+*434 Fragment1: -->onDetach()
+*434 Fragment2: -->onDestroyView()
+*434 Fragment2: -->onDetach()
+*434 Fragment3: -->onDestroyView()
+*434 Fragment3: -->onDetach()
+*435 MainActivity1: -->onDestroy()
+*441 MainActivity1: -->onDetachedFromWindow()
+
+// 没有调用构造方法,保留了实例
+*480 Fragment1: -->onAttach(Context context)
+*480 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.radiogroupfragment.Fragment1
+
+*480 Fragment2: -->onAttach(Context context)
+*480 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.radiogroupfragment.Fragment2
+
+*480 Fragment3: -->onAttach(Context context)
+*480 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.radiogroupfragment.Fragment3
+
+*480 MainActivity1: -->onCreate(@Nullable Bundle savedInstanceState)
+*480 configuration: {1.0 310mcc260mnc en_US ldltr sw360dp w640dp h336dp 320dpi nrml long land finger -keyb/v/h dpad/v s.187}
+
+*491 Fragment1: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+*491 Fragment1: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+*491 Fragment1: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+*491 Fragment1: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+
+*491 Fragment2: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+*491 Fragment2: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+*491 Fragment2: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+*491 Fragment2: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+
+*491 Fragment3: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+*491 Fragment3: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+*491 Fragment3: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+*491 Fragment3: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+
+*491 Fragment1: -->onHiddenChanged(boolean hidden) = false
+*491 Fragment1: -->onStart()
+*491 Fragment2: -->onStart()
+*491 Fragment3: -->onStart()
+*492 MainActivity1: -->onStart()
+*492 MainActivity1: -->onRestoreInstanceState(Bundle savedInstanceState)
+*492 Fragment1: -->onHiddenChanged(boolean hidden) = true
+*492 MainActivity1: -->onResume()
+*492 Fragment1: -->onResume()
+*492 Fragment2: -->onResume()
+*492 Fragment3: -->onResume()
+*494 MainActivity1: -->onAttachedToWindow()
+*673 MainActivity1: -->onCreateOptionsMenu(Menu menu)
+*673 MainActivity1: -->onPrepareOptionsMenu(Menu menu)
+// 锁屏
+*129 Fragment1: -->onPause()
+*129 Fragment2: -->onPause()
+*129 Fragment3: -->onPause()
+*129 MainActivity1: -->onPause()
+*166 Fragment1: -->onSaveInstanceState(@NonNull Bundle outState)
+*166 Fragment2: -->onSaveInstanceState(@NonNull Bundle outState)
+*166 Fragment3: -->onSaveInstanceState(@NonNull Bundle outState)
+*170 MainActivity1: -->onSaveInstanceState(Bundle outState)
+*170 Fragment1: -->onStop()
+*172 Fragment2: -->onStop()
+*172 Fragment3: -->onStop()
+*172 MainActivity1: -->onStop()
+// 解锁
+*740 MainActivity1: -->onRestart()
+*756 Fragment1: -->onStart()
+*756 Fragment2: -->onStart()
+*756 Fragment3: -->onStart()
+*756 MainActivity1: -->onStart()
+*785 MainActivity1: -->onResume()
+*785 Fragment1: -->onResume()
+*785 Fragment2: -->onResume()
+*785 Fragment3: -->onResume()
+// 选中"账号"
+*031 Fragment4: -->创建Fragment4
+*053 Fragment4: -->onAttach(Context context)
+*053 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.radiogroupfragment.Fragment4
+*053 Fragment4: -->onCreate(@Nullable Bundle savedInstanceState)
+*054 Fragment3: -->onHiddenChanged(boolean hidden) = true
+*055 Fragment4: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+*056 Fragment4: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+*056 Fragment4: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+*061 Fragment4: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+*061 Fragment4: -->onStart()
+*061 Fragment4: -->onResume()
+// 选中"发现音乐"
+*460 Fragment4: -->onHiddenChanged(boolean hidden) = true
+*460 Fragment1: -->onHiddenChanged(boolean hidden) = false
+// 退出
+*032 Fragment1: -->onPause()
+*032 Fragment2: -->onPause()
+*032 Fragment3: -->onPause()
+*032 Fragment4: -->onPause()
+*032 MainActivity1: -->onPause()
+*160 Fragment1: -->onStop()
+*160 Fragment2: -->onStop()
+*160 Fragment3: -->onStop()
+*160 Fragment4: -->onStop()
+*160 MainActivity1: -->onStop()
+*161 Fragment1: -->onDestroyView()
+*170 Fragment1: -->onDestroy()
+*170 Fragment1: -->onDetach()
+*170 Fragment2: -->onDestroyView()
+*178 Fragment2: -->onDestroy()
+*178 Fragment2: -->onDetach()
+*178 Fragment3: -->onDestroyView()
+*178 Fragment3: -->onDestroy()
+*178 Fragment3: -->onDetach()
+*178 Fragment4: -->onDestroyView()
+*183 Fragment4: -->onDestroy()
+*183 Fragment4: -->onDetach()
+*183 MainActivity1: -->onDestroy()
+*186 MainActivity1: -->onDetachedFromWindow()
