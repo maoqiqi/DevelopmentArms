@@ -1,0 +1,357 @@
+viewPager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager()));
+打开->选中"热点"->选中"社会"->选中"娱乐"->选中"情感"->旋转->选中"故事"->退出
+
+// 打开
+03-08 14:07:13.038 MainActivity1: -->onCreate(@Nullable Bundle savedInstanceState)
+03-08 14:07:13.038 configuration: {1.0 310mcc260mnc zh_CN ldltr sw360dp w360dp h616dp 320dpi nrml long port finger -keyb/v/h dpad/v s.367}
+
+03-08 14:07:13.133 MainActivity1: -->onStart()
+03-08 14:07:13.133 MainActivity1: -->onResume()
+03-08 14:07:13.177 MainActivity1: -->onAttachedToWindow()
+
+03-08 14:07:13.178 MyFragment1: getItem(int position), position = 0
+03-08 14:07:13.178 MyFragment: -->setUserVisibleHint(boolean isVisibleToUser) = false
+03-08 14:07:13.178 MyFragment1: instantiateItem()->Fragment->hashCode():181582168
+
+03-08 14:07:13.179 MyFragment2: getItem(int position), position = 1
+03-08 14:07:13.179 MyFragment: -->setUserVisibleHint(boolean isVisibleToUser) = false
+03-08 14:07:13.179 MyFragment2: instantiateItem()->Fragment->hashCode():37874353
+
+03-08 14:07:13.179 MyFragment: -->setUserVisibleHint(boolean isVisibleToUser) = true
+
+03-08 14:07:13.179 MyFragment: -->onAttach(Context context)
+03-08 14:07:13.179 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.tablayoutviewpagerfragment.MyFragment
+03-08 14:07:13.179 MyFragment: -->onCreate(@Nullable Bundle savedInstanceState)
+
+03-08 14:07:13.180 MyFragment: -->onAttach(Context context)
+03-08 14:07:13.180 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.tablayoutviewpagerfragment.MyFragment
+03-08 14:07:13.180 MyFragment: -->onCreate(@Nullable Bundle savedInstanceState)
+
+03-08 14:07:13.189 MyFragment1: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+03-08 14:07:13.189 MyFragment1: -->创建View
+03-08 14:07:13.207 MyFragment1: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+03-08 14:07:13.207 MyFragment1: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+03-08 14:07:13.207 MyFragment1: -->onVisibleChange(boolean isVisible) = true
+03-08 14:07:13.207 Fragment1: status = 0
+03-08 14:07:13.207 MyFragment1: -->loadData()
+03-08 14:07:13.207 MyFragment1: -->loadData()
+03-08 14:07:13.207 MyFragment1: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+03-08 14:07:13.207 MyFragment1: -->onStart()
+03-08 14:07:13.207 MyFragment1: -->onResume()
+
+03-08 14:07:13.207 MyFragment2: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+03-08 14:07:13.207 MyFragment2: -->创建View
+03-08 14:07:13.209 MyFragment2: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+03-08 14:07:13.209 MyFragment2: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+03-08 14:07:13.209 MyFragment2: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+03-08 14:07:13.209 MyFragment2: -->onStart()
+03-08 14:07:13.209 MyFragment2: -->onResume()
+
+03-08 14:07:13.334 MainActivity1: -->onCreateOptionsMenu(Menu menu)
+03-08 14:07:13.334 MainActivity1: -->onPrepareOptionsMenu(Menu menu)
+// 选中"热点"
+03-08 14:07:17.936 MyFragment3: getItem(int position), position = 2
+03-08 14:07:17.936 MyFragment: -->setUserVisibleHint(boolean isVisibleToUser) = false
+03-08 14:07:17.936 MyFragment3: instantiateItem()->Fragment->hashCode():155097130
+
+03-08 14:07:17.936 MyFragment1: -->setUserVisibleHint(boolean isVisibleToUser) = false
+03-08 14:07:17.936 MyFragment1: -->onVisibleChange(boolean isVisible) = false
+03-08 14:07:17.936 Fragment1: status = 1
+03-08 14:07:17.936 Fragment1: 取消加载
+
+03-08 14:07:17.936 MyFragment2: -->setUserVisibleHint(boolean isVisibleToUser) = true
+03-08 14:07:17.936 MyFragment2: -->onVisibleChange(boolean isVisible) = true
+03-08 14:07:17.936 Fragment2: status = 0
+03-08 14:07:17.936 MyFragment2: -->loadData()
+03-08 14:07:17.937 MyFragment2: -->loadData()
+
+03-08 14:07:17.937 MyFragment: -->onAttach(Context context)
+03-08 14:07:17.937 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.tablayoutviewpagerfragment.MyFragment
+03-08 14:07:17.938 MyFragment: -->onCreate(@Nullable Bundle savedInstanceState)
+
+03-08 14:07:17.938 MyFragment3: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+03-08 14:07:17.938 MyFragment3: -->创建View
+03-08 14:07:17.939 MyFragment3: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+03-08 14:07:17.939 MyFragment3: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+03-08 14:07:17.939 MyFragment3: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+03-08 14:07:17.940 MyFragment3: -->onStart()
+03-08 14:07:17.940 MyFragment3: -->onResume()
+// 选中"社会"
+03-08 14:07:21.696 MyFragment4: getItem(int position), position = 3
+03-08 14:07:21.697 MyFragment: -->setUserVisibleHint(boolean isVisibleToUser) = false
+03-08 14:07:21.697 MyFragment4: instantiateItem()->Fragment->hashCode():44548079
+
+03-08 14:07:21.697 MyFragment2: -->setUserVisibleHint(boolean isVisibleToUser) = false
+03-08 14:07:21.697 MyFragment2: -->onVisibleChange(boolean isVisible) = false
+03-08 14:07:21.702 Fragment2: status = 1
+03-08 14:07:21.702 Fragment2: 取消加载
+
+03-08 14:07:21.703 MyFragment3: -->setUserVisibleHint(boolean isVisibleToUser) = true
+03-08 14:07:21.704 MyFragment3: -->onVisibleChange(boolean isVisible) = true
+03-08 14:07:21.704 Fragment3: status = 0
+03-08 14:07:21.705 MyFragment3: -->loadData()
+03-08 14:07:21.705 MyFragment3: -->loadData()
+
+03-08 14:07:21.705 MyFragment: -->onAttach(Context context)
+03-08 14:07:21.705 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.tablayoutviewpagerfragment.MyFragment
+03-08 14:07:21.705 MyFragment: -->onCreate(@Nullable Bundle savedInstanceState)
+
+03-08 14:07:21.705 MyFragment1: -->onPause()
+03-08 14:07:21.705 MyFragment1: -->onStop()
+03-08 14:07:21.705 MyFragment1: -->onDestroyView()
+
+03-08 14:07:21.706 MyFragment4: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+03-08 14:07:21.706 MyFragment4: -->创建View
+03-08 14:07:21.707 MyFragment4: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+03-08 14:07:21.707 MyFragment4: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+03-08 14:07:21.708 MyFragment4: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+03-08 14:07:21.708 MyFragment4: -->onStart()
+03-08 14:07:21.708 MyFragment4: -->onResume()
+// 选中"娱乐"
+03-08 14:07:25.128 MyFragment5: getItem(int position), position = 4
+03-08 14:07:25.128 MyFragment: -->setUserVisibleHint(boolean isVisibleToUser) = false
+03-08 14:07:25.128 MyFragment5: instantiateItem()->Fragment->hashCode():22740350
+
+03-08 14:07:25.128 MyFragment3: -->setUserVisibleHint(boolean isVisibleToUser) = false
+03-08 14:07:25.129 MyFragment3: -->onVisibleChange(boolean isVisible) = false
+03-08 14:07:25.129 Fragment3: status = 1
+03-08 14:07:25.129 Fragment3: 取消加载
+
+03-08 14:07:25.129 MyFragment4: -->setUserVisibleHint(boolean isVisibleToUser) = true
+03-08 14:07:25.129 MyFragment4: -->onVisibleChange(boolean isVisible) = true
+03-08 14:07:25.129 Fragment4: status = 0
+03-08 14:07:25.129 MyFragment4: -->loadData()
+03-08 14:07:25.135 MyFragment4: -->loadData()
+
+03-08 14:07:25.135 MyFragment: -->onAttach(Context context)
+03-08 14:07:25.140 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.tablayoutviewpagerfragment.MyFragment
+03-08 14:07:25.142 MyFragment: -->onCreate(@Nullable Bundle savedInstanceState)
+
+03-08 14:07:25.142 MyFragment2: -->onPause()
+03-08 14:07:25.142 MyFragment2: -->onStop()
+03-08 14:07:25.142 MyFragment2: -->onDestroyView()
+
+03-08 14:07:25.143 MyFragment5: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+03-08 14:07:25.143 MyFragment5: -->创建View
+03-08 14:07:25.144 MyFragment5: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+03-08 14:07:25.144 MyFragment5: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+03-08 14:07:25.144 MyFragment5: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+03-08 14:07:25.144 MyFragment5: -->onStart()
+03-08 14:07:25.144 MyFragment5: -->onResume()
+// 选中"情感"
+03-08 14:07:28.995 MyFragment6: getItem(int position), position = 5
+03-08 14:07:28.995 MyFragment: -->setUserVisibleHint(boolean isVisibleToUser) = false
+03-08 14:07:28.997 MyFragment6: instantiateItem()->Fragment->hashCode():197828979
+
+03-08 14:07:28.997 MyFragment4: -->setUserVisibleHint(boolean isVisibleToUser) = false
+03-08 14:07:29.003 MyFragment4: -->onVisibleChange(boolean isVisible) = false
+03-08 14:07:29.003 Fragment4: status = 1
+03-08 14:07:29.003 Fragment4: 取消加载
+
+03-08 14:07:29.004 MyFragment5: -->setUserVisibleHint(boolean isVisibleToUser) = true
+03-08 14:07:29.004 MyFragment5: -->onVisibleChange(boolean isVisible) = true
+03-08 14:07:29.004 Fragment5: status = 0
+03-08 14:07:29.004 MyFragment5: -->loadData()
+03-08 14:07:29.004 MyFragment5: -->loadData()
+
+03-08 14:07:29.004 MyFragment: -->onAttach(Context context)
+03-08 14:07:29.004 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.tablayoutviewpagerfragment.MyFragment
+03-08 14:07:29.004 MyFragment: -->onCreate(@Nullable Bundle savedInstanceState)
+
+03-08 14:07:29.005 MyFragment3: -->onPause()
+03-08 14:07:29.005 MyFragment3: -->onStop()
+03-08 14:07:29.005 MyFragment3: -->onDestroyView()
+
+03-08 14:07:29.006 MyFragment6: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+03-08 14:07:29.007 MyFragment6: -->创建View
+03-08 14:07:29.008 MyFragment6: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+03-08 14:07:29.008 MyFragment6: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+03-08 14:07:29.008 MyFragment6: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+03-08 14:07:29.008 MyFragment6: -->onStart()
+03-08 14:07:29.008 MyFragment6: -->onResume()
+// 旋转
+03-08 14:07:33.311 MyFragment4: -->onPause()
+03-08 14:07:33.311 MyFragment5: -->onPause()
+03-08 14:07:33.311 Fragment5: 取消加载
+03-08 14:07:33.311 MyFragment6: -->onPause()
+03-08 14:07:33.311 MainActivity1: -->onPause()
+
+// FragmentPagerAdapter 一起调用onSaveInstanceState
+03-08 14:07:33.313 MyFragment1: -->onSaveInstanceState(@NonNull Bundle outState)
+03-08 14:07:33.313 MyFragment2: -->onSaveInstanceState(@NonNull Bundle outState)
+03-08 14:07:33.313 MyFragment3: -->onSaveInstanceState(@NonNull Bundle outState)
+
+03-08 14:07:33.313 MyFragment4: -->onSaveInstanceState(@NonNull Bundle outState)
+03-08 14:07:33.313 MyFragment5: -->onSaveInstanceState(@NonNull Bundle outState)
+03-08 14:07:33.314 MyFragment6: -->onSaveInstanceState(@NonNull Bundle outState)
+03-08 14:07:33.314 MainActivity1: -->onSaveInstanceState(Bundle outState)
+
+03-08 14:07:33.314 MyFragment4: -->onStop()
+03-08 14:07:33.314 MyFragment5: -->onStop()
+03-08 14:07:33.314 MyFragment6: -->onStop()
+03-08 14:07:33.314 MainActivity1: -->onStop()
+
+03-08 14:07:33.315 MyFragment4: -->onDestroyView()
+03-08 14:07:33.339 MyFragment4: -->onDetach()
+
+03-08 14:07:33.339 MyFragment5: -->onDestroyView()
+03-08 14:07:33.340 MyFragment5: -->onDetach()
+
+03-08 14:07:33.340 MyFragment6: -->onDestroyView()
+03-08 14:07:33.341 MyFragment6: -->onDetach()
+
+03-08 14:07:33.346 MyFragment1: -->onDetach()
+03-08 14:07:33.346 MyFragment2: -->onDetach()
+03-08 14:07:33.346 MyFragment3: -->onDetach()
+
+03-08 14:07:33.346 MainActivity1: -->onDestroy()
+03-08 14:07:33.349 MainActivity1: -->onDetachedFromWindow()
+
+03-08 14:07:33.367 MyFragment4: -->onAttach(Context context)
+03-08 14:07:33.367 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.tablayoutviewpagerfragment.MyFragment
+
+03-08 14:07:33.367 MyFragment5: -->onAttach(Context context)
+03-08 14:07:33.367 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.tablayoutviewpagerfragment.MyFragment
+
+03-08 14:07:33.367 MyFragment6: -->onAttach(Context context)
+03-08 14:07:33.367 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.tablayoutviewpagerfragment.MyFragment
+
+03-08 14:07:33.367 MyFragment1: -->onAttach(Context context)
+03-08 14:07:33.367 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.tablayoutviewpagerfragment.MyFragment
+
+03-08 14:07:33.368 MyFragment2: -->onAttach(Context context)
+03-08 14:07:33.368 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.tablayoutviewpagerfragment.MyFragment
+
+03-08 14:07:33.368 MyFragment3: -->onAttach(Context context)
+03-08 14:07:33.368 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.tablayoutviewpagerfragment.MyFragment
+
+03-08 14:07:33.368 MainActivity1: -->onCreate(@Nullable Bundle savedInstanceState)
+03-08 14:07:33.368 configuration: {1.0 310mcc260mnc zh_CN ldltr sw360dp w640dp h336dp 320dpi nrml long land finger -keyb/v/h dpad/v s.368}
+
+03-08 14:07:33.438 MyFragment4: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+03-08 14:07:33.438 MyFragment4: -->创建View
+03-08 14:07:33.439 MyFragment4: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+03-08 14:07:33.439 MyFragment4: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+03-08 14:07:33.439 MyFragment4: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+
+03-08 14:07:33.439 MyFragment5: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+03-08 14:07:33.439 MyFragment5: -->创建View
+03-08 14:07:33.440 MyFragment5: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+03-08 14:07:33.440 MyFragment5: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+03-08 14:07:33.440 MyFragment5: -->onVisibleChange(boolean isVisible) = true
+03-08 14:07:33.440 Fragment5: status = 2
+03-08 14:07:33.440 MyFragment5: -->loadData()
+03-08 14:07:33.440 MyFragment5: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+
+03-08 14:07:33.440 MyFragment6: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+03-08 14:07:33.440 MyFragment6: -->创建View
+03-08 14:07:33.441 MyFragment6: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+03-08 14:07:33.441 MyFragment6: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+03-08 14:07:33.441 MyFragment6: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+
+03-08 14:07:33.441 MyFragment4: -->onStart()
+03-08 14:07:33.441 MyFragment5: -->onStart()
+03-08 14:07:33.441 MyFragment6: -->onStart()
+03-08 14:07:33.441 MainActivity1: -->onStart()
+03-08 14:07:33.441 MainActivity1: -->onRestoreInstanceState(Bundle savedInstanceState)
+
+03-08 14:07:33.441 MainActivity1: -->onResume()
+03-08 14:07:33.441 MyFragment4: -->onResume()
+03-08 14:07:33.441 MyFragment5: -->onResume()
+03-08 14:07:33.442 MyFragment6: -->onResume()
+03-08 14:07:33.445 MainActivity1: -->onAttachedToWindow()
+
+03-08 14:07:33.447 MyFragment5: -->setUserVisibleHint(boolean isVisibleToUser) = false
+03-08 14:07:33.448 MyFragment5: -->onVisibleChange(boolean isVisible) = false
+03-08 14:07:33.448 Fragment5: status = 1
+03-08 14:07:33.448 Fragment5: 取消加载
+03-08 14:07:33.448 MyFragment5: instantiateItem()->Fragment->hashCode():22740350
+
+03-08 14:07:33.448 MyFragment4: -->setUserVisibleHint(boolean isVisibleToUser) = false
+03-08 14:07:33.448 MyFragment4: -->onVisibleChange(boolean isVisible) = false
+03-08 14:07:33.448 Fragment4: status = 2
+03-08 14:07:33.448 MyFragment4: instantiateItem()->Fragment->hashCode():44548079
+
+03-08 14:07:33.448 MyFragment6: -->setUserVisibleHint(boolean isVisibleToUser) = false
+03-08 14:07:33.448 MyFragment6: -->onVisibleChange(boolean isVisible) = false
+03-08 14:07:33.448 Fragment6: status = 0
+03-08 14:07:33.448 MyFragment6: instantiateItem()->Fragment->hashCode():197828979
+
+03-08 14:07:33.448 MyFragment5: -->setUserVisibleHint(boolean isVisibleToUser) = true
+03-08 14:07:33.448 MyFragment5: -->onVisibleChange(boolean isVisible) = true
+03-08 14:07:33.448 Fragment5: status = 2
+03-08 14:07:33.448 MyFragment5: -->loadData()
+
+03-08 14:07:33.565 MainActivity1: -->onCreateOptionsMenu(Menu menu)
+03-08 14:07:33.566 MainActivity1: -->onPrepareOptionsMenu(Menu menu)
+
+03-08 14:07:38.449 Fragment5: 加载完成!
+// 选中"故事"
+03-08 14:07:43.815 MyFragment7: getItem(int position), position = 6
+03-08 14:07:43.815 MyFragment: -->setUserVisibleHint(boolean isVisibleToUser) = false
+03-08 14:07:43.815 MyFragment7: instantiateItem()->Fragment->hashCode():101798949
+
+03-08 14:07:43.815 MyFragment5: -->setUserVisibleHint(boolean isVisibleToUser) = false
+03-08 14:07:43.815 MyFragment5: -->onVisibleChange(boolean isVisible) = false
+03-08 14:07:43.821 Fragment5: status = 3
+
+03-08 14:07:43.821 MyFragment6: -->setUserVisibleHint(boolean isVisibleToUser) = true
+03-08 14:07:43.821 MyFragment6: -->onVisibleChange(boolean isVisible) = true
+03-08 14:07:43.821 Fragment6: status = 0
+03-08 14:07:43.821 MyFragment6: -->loadData()
+03-08 14:07:43.821 MyFragment6: -->loadData()
+
+03-08 14:07:43.822 MyFragment: -->onAttach(Context context)
+03-08 14:07:43.822 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.tablayoutviewpagerfragment.MyFragment
+03-08 14:07:43.822 MyFragment: -->onCreate(@Nullable Bundle savedInstanceState)
+
+03-08 14:07:43.822 MyFragment4: -->onPause()
+03-08 14:07:43.822 MyFragment4: -->onStop()
+03-08 14:07:43.822 MyFragment4: -->onDestroyView()
+
+03-08 14:07:43.822 MyFragment7: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+03-08 14:07:43.822 MyFragment7: -->创建View
+03-08 14:07:43.823 MyFragment7: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+03-08 14:07:43.823 MyFragment7: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+03-08 14:07:43.823 MyFragment7: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+03-08 14:07:43.823 MyFragment7: -->onStart()
+03-08 14:07:43.823 MyFragment7: -->onResume()
+
+03-08 14:07:48.824 Fragment6: 加载完成!
+// 退出
+03-08 14:08:05.793 MyFragment5: -->onPause()
+03-08 14:08:05.793 MyFragment6: -->onPause()
+03-08 14:08:05.793 MyFragment7: -->onPause()
+03-08 14:08:05.793 MainActivity1: -->onPause()
+
+03-08 14:08:06.299 MyFragment5: -->onStop()
+03-08 14:08:06.299 MyFragment6: -->onStop()
+03-08 14:08:06.299 MyFragment7: -->onStop()
+03-08 14:08:06.299 MainActivity1: -->onStop()
+
+03-08 14:08:06.299 MyFragment5: -->onDestroyView()
+03-08 14:08:06.299 MyFragment5: -->onDestroy()
+03-08 14:08:06.299 MyFragment5: -->onDetach()
+
+03-08 14:08:06.299 MyFragment6: -->onDestroyView()
+03-08 14:08:06.300 MyFragment6: -->onDestroy()
+03-08 14:08:06.300 MyFragment6: -->onDetach()
+
+03-08 14:08:06.300 MyFragment7: -->onDestroyView()
+03-08 14:08:06.300 MyFragment7: -->onDestroy()
+03-08 14:08:06.300 MyFragment7: -->onDetach()
+
+03-08 14:08:06.300 MyFragment1: -->onDestroy()
+03-08 14:08:06.300 MyFragment1: -->onDetach()
+
+03-08 14:08:06.300 MyFragment2: -->onDestroy()
+03-08 14:08:06.300 MyFragment2: -->onDetach()
+
+03-08 14:08:06.300 MyFragment3: -->onDestroy()
+03-08 14:08:06.300 MyFragment3: -->onDetach()
+
+03-08 14:08:06.300 MyFragment4: -->onDestroy()
+03-08 14:08:06.300 MyFragment4: -->onDetach()
+
+03-08 14:08:06.300 MainActivity1: -->onDestroy()
+03-08 14:08:06.301 MainActivity1: -->onDetachedFromWindow()
