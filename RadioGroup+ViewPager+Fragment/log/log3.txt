@@ -1,0 +1,306 @@
+viewPager.setAdapter(new MyFragmentStatePagerAdapter(getSupportFragmentManager()));
+viewPager.setOffscreenPageLimit(1);
+打开->选中"我的音乐"->选中"朋友"->选中"账号"->旋转->锁屏->解锁->选中"发现音乐"->退出
+
+// 打开
+15:10:36.808 MainActivity1: -->onCreate(@Nullable Bundle savedInstanceState)
+15:10:36.808 configuration: {1.0 310mcc260mnc zh_CN ldltr sw360dp w360dp h616dp 320dpi nrml long port finger -keyb/v/h dpad/v s.385}
+15:10:36.834 MainActivity1: -->onStart()
+15:10:36.834 MainActivity1: -->onResume()
+15:10:36.859 MainActivity1: -->onAttachedToWindow()
+
+15:10:36.859 Fragment1: getItem(int position), position = 0
+15:10:36.859 Fragment1: -->创建Fragment1
+15:10:36.859 Fragment1: -->setUserVisibleHint(boolean isVisibleToUser) = false
+15:10:36.859 Fragment1: instantiateItem()->Fragment->hashCode():190046828
+
+15:10:36.859 Fragment2: getItem(int position), position = 1
+15:10:36.859 Fragment2: -->创建Fragment2
+15:10:36.859 Fragment2: -->setUserVisibleHint(boolean isVisibleToUser) = false
+15:10:36.859 Fragment2: instantiateItem()->Fragment->hashCode():222068789
+
+15:10:36.859 Fragment1: -->setUserVisibleHint(boolean isVisibleToUser) = true
+
+15:10:36.859 Fragment1: -->onAttach(Context context)
+15:10:36.859 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.radiogroupviewpagerfragment.Fragment1
+15:10:36.859 Fragment1: -->onCreate(@Nullable Bundle savedInstanceState)
+
+15:10:36.859 Fragment2: -->onAttach(Context context)
+15:10:36.859 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.radiogroupviewpagerfragment.Fragment2
+15:10:36.859 Fragment2: -->onCreate(@Nullable Bundle savedInstanceState)
+
+15:10:36.859 Fragment1: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+15:10:36.859 Fragment1: -->创建View
+15:10:36.860 Fragment1: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+15:10:36.860 Fragment1: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+15:10:36.860 Fragment1: -->onVisibleChange(boolean isVisible) = true
+15:10:36.860 Fragment1: -->loadData()
+15:10:36.860 Fragment1: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+15:10:36.860 Fragment1: -->onStart()
+15:10:36.860 Fragment1: -->onResume()
+
+15:10:36.860 Fragment2: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+15:10:36.860 Fragment2: -->创建View
+15:10:36.860 Fragment2: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+15:10:36.860 Fragment2: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+15:10:36.860 Fragment2: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+
+15:10:36.860 Fragment2: -->onStart()
+15:10:36.861 Fragment2: -->onResume()
+
+15:10:36.969 MainActivity1: -->onCreateOptionsMenu(Menu menu)
+15:10:36.969 MainActivity1: -->onPrepareOptionsMenu(Menu menu)
+// 选中"我的音乐"
+15:10:41.103 info: onPageSelected(),position=1
+15:10:41.103 info: onCheckedChanged(),checkedId=2131165270,position=1
+
+15:10:41.393 Fragment3: getItem(int position), position = 2
+15:10:41.395 Fragment3: -->创建Fragment3
+15:10:41.395 Fragment3: -->setUserVisibleHint(boolean isVisibleToUser) = false
+15:10:41.396 Fragment3: instantiateItem()->Fragment->hashCode():37874353
+
+15:10:41.396 Fragment1: -->setUserVisibleHint(boolean isVisibleToUser) = false
+15:10:41.396 Fragment1: -->onVisibleChange(boolean isVisible) = false
+
+15:10:41.396 Fragment2: -->setUserVisibleHint(boolean isVisibleToUser) = true
+15:10:41.396 Fragment2: -->onVisibleChange(boolean isVisible) = true
+15:10:41.396 Fragment2: -->loadData()
+
+15:10:41.396 Fragment3: -->onAttach(Context context)
+15:10:41.396 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.radiogroupviewpagerfragment.Fragment3
+15:10:41.396 Fragment3: -->onCreate(@Nullable Bundle savedInstanceState)
+15:10:41.397 Fragment3: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+15:10:41.397 Fragment3: -->创建View
+15:10:41.401 Fragment3: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+15:10:41.402 Fragment3: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+15:10:41.402 Fragment3: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+15:10:41.402 Fragment3: -->onStart()
+15:10:41.402 Fragment3: -->onResume()
+// 选中"朋友"
+15:10:44.310 info: onPageSelected(),position=2
+15:10:44.317 info: onCheckedChanged(),checkedId=2131165271,position=2
+
+// 只会缓存limit左右的Fragment实例
+15:10:44.657 Fragment1: -->onSaveInstanceState(@NonNull Bundle outState)
+
+15:10:44.658 Fragment4: getItem(int position), position = 3
+15:10:44.658 Fragment4: -->创建Fragment4
+15:10:44.658 Fragment4: -->setUserVisibleHint(boolean isVisibleToUser) = false
+15:10:44.658 Fragment4: instantiateItem()->Fragment->hashCode():6689540
+
+15:10:44.658 Fragment2: -->setUserVisibleHint(boolean isVisibleToUser) = false
+15:10:44.658 Fragment2: -->onVisibleChange(boolean isVisible) = false
+
+15:10:44.658 Fragment3: -->setUserVisibleHint(boolean isVisibleToUser) = true
+15:10:44.658 Fragment3: -->onVisibleChange(boolean isVisible) = true
+15:10:44.659 Fragment3: -->loadData()
+
+15:10:44.659 Fragment4: -->onAttach(Context context)
+15:10:44.659 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.radiogroupviewpagerfragment.Fragment4
+15:10:44.659 Fragment4: -->onCreate(@Nullable Bundle savedInstanceState)
+
+15:10:44.659 Fragment1: -->onPause()
+15:10:44.659 Fragment1: -->onStop()
+15:10:44.659 Fragment1: -->onDestroyView()
+
+// 在这里销毁了limit外的Fragment实例
+15:10:44.659 Fragment1: -->onDestroy()
+15:10:44.659 Fragment1: -->onDetach()
+
+15:10:44.659 Fragment4: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+15:10:44.659 Fragment4: -->创建View
+15:10:44.660 Fragment4: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+15:10:44.660 Fragment4: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+15:10:44.660 Fragment4: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+15:10:44.660 Fragment4: -->onStart()
+15:10:44.660 Fragment4: -->onResume()
+// 选中"账号"
+15:10:47.369 info: onPageSelected(),position=3
+15:10:47.370 info: onCheckedChanged(),checkedId=2131165272,position=3
+
+15:10:47.665 Fragment2: -->onSaveInstanceState(@NonNull Bundle outState)
+
+15:10:47.665 Fragment3: -->setUserVisibleHint(boolean isVisibleToUser) = false
+15:10:47.665 Fragment3: -->onVisibleChange(boolean isVisible) = false
+
+15:10:47.665 Fragment4: -->setUserVisibleHint(boolean isVisibleToUser) = true
+15:10:47.665 Fragment4: -->onVisibleChange(boolean isVisible) = true
+15:10:47.665 Fragment4: -->loadData()
+
+15:10:47.665 Fragment2: -->onPause()
+15:10:47.665 Fragment2: -->onStop()
+15:10:47.665 Fragment2: -->onDestroyView()
+
+15:10:47.675 Fragment2: -->onDestroy()
+15:10:47.675 Fragment2: -->onDetach()
+// 旋转
+15:10:53.324 Fragment3: -->onPause()
+15:10:53.324 Fragment4: -->onPause()
+15:10:53.324 MainActivity1: -->onPause()
+
+15:10:53.325 Fragment3: -->onSaveInstanceState(@NonNull Bundle outState)
+15:10:53.325 Fragment4: -->onSaveInstanceState(@NonNull Bundle outState)
+15:10:53.326 MainActivity1: -->onSaveInstanceState(Bundle outState)
+
+15:10:53.326 Fragment3: -->onStop()
+15:10:53.326 Fragment4: -->onStop()
+15:10:53.326 MainActivity1: -->onStop()
+
+15:10:53.326 Fragment3: -->onDestroyView()
+15:10:53.332 Fragment3: -->onDetach()
+
+15:10:53.332 Fragment4: -->onDestroyView()
+15:10:53.332 Fragment4: -->onDetach()
+
+15:10:53.332 MainActivity1: -->onDestroy()
+15:10:53.343 MainActivity1: -->onDetachedFromWindow()
+
+// 没有调用构造方法,保留了实例
+15:10:53.393 Fragment3: -->onAttach(Context context)
+15:10:53.393 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.radiogroupviewpagerfragment.Fragment3
+
+15:10:53.393 Fragment4: -->onAttach(Context context)
+15:10:53.393 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.radiogroupviewpagerfragment.Fragment4
+
+15:10:53.393 MainActivity1: -->onCreate(@Nullable Bundle savedInstanceState)
+15:10:53.393 configuration: {1.0 310mcc260mnc zh_CN ldltr sw360dp w640dp h336dp 320dpi nrml long land finger -keyb/v/h dpad/v s.386}
+
+15:10:53.398 Fragment3: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+15:10:53.398 Fragment3: -->创建View
+15:10:53.399 Fragment3: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+15:10:53.399 Fragment3: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+15:10:53.399 Fragment3: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+
+15:10:53.399 Fragment4: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+15:10:53.399 Fragment4: -->创建View
+15:10:53.400 Fragment4: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+15:10:53.400 Fragment4: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+15:10:53.400 Fragment4: -->onVisibleChange(boolean isVisible) = true
+15:10:53.400 Fragment4: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+
+15:10:53.400 Fragment3: -->onStart()
+15:10:53.400 Fragment4: -->onStart()
+15:10:53.400 MainActivity1: -->onStart()
+15:10:53.400 MainActivity1: -->onRestoreInstanceState(Bundle savedInstanceState)
+
+15:10:53.400 MainActivity1: -->onResume()
+15:10:53.400 Fragment3: -->onResume()
+15:10:53.400 Fragment4: -->onResume()
+15:10:53.403 MainActivity1: -->onAttachedToWindow()
+
+15:10:53.405 Fragment4: instantiateItem()->Fragment->hashCode():6689540
+15:10:53.405 Fragment3: instantiateItem()->Fragment->hashCode():37874353
+
+15:10:53.405 Fragment4: -->setUserVisibleHint(boolean isVisibleToUser) = true
+15:10:53.405 Fragment4: -->onVisibleChange(boolean isVisible) = true
+
+15:10:53.541 MainActivity1: -->onCreateOptionsMenu(Menu menu)
+15:10:53.541 MainActivity1: -->onPrepareOptionsMenu(Menu menu)
+// 锁屏
+15:10:57.657 Fragment3: -->onPause()
+15:10:57.658 Fragment4: -->onPause()
+15:10:57.658 MainActivity1: -->onPause()
+
+15:10:57.663 Fragment3: -->onSaveInstanceState(@NonNull Bundle outState)
+15:10:57.663 Fragment4: -->onSaveInstanceState(@NonNull Bundle outState)
+15:10:57.663 MainActivity1: -->onSaveInstanceState(Bundle outState)
+
+15:10:57.663 Fragment3: -->onStop()
+15:10:57.663 Fragment4: -->onStop()
+15:10:57.663 MainActivity1: -->onStop()
+// 解锁
+15:11:01.037 MainActivity1: -->onRestart()
+15:11:01.050 Fragment3: -->onStart()
+15:11:01.050 Fragment4: -->onStart()
+15:11:01.050 MainActivity1: -->onStart()
+
+15:11:01.074 MainActivity1: -->onResume()
+15:11:01.074 Fragment3: -->onResume()
+15:11:01.074 Fragment4: -->onResume()
+// 选中"发现音乐"
+15:11:04.920 info: onCheckedChanged(),checkedId=2131165269,position=0
+
+// 重新创建了Fragment1
+15:11:04.921 Fragment1: getItem(int position), position = 0
+15:11:04.921 Fragment1: -->创建Fragment1
+15:11:04.921 Fragment1: -->setUserVisibleHint(boolean isVisibleToUser) = false
+15:11:04.921 Fragment1: instantiateItem()->Fragment->hashCode():254843135
+
+// 重新创建了Fragment2
+15:11:04.921 Fragment2: getItem(int position), position = 1
+15:11:04.921 Fragment2: -->创建Fragment2
+15:11:04.922 Fragment2: -->setUserVisibleHint(boolean isVisibleToUser) = false
+15:11:04.922 Fragment2: instantiateItem()->Fragment->hashCode():176752332
+
+15:11:04.922 Fragment4: -->setUserVisibleHint(boolean isVisibleToUser) = false
+15:11:04.922 Fragment4: -->onVisibleChange(boolean isVisible) = false
+
+15:11:04.922 Fragment1: -->setUserVisibleHint(boolean isVisibleToUser) = true
+
+15:11:04.922 Fragment1: -->onAttach(Context context)
+15:11:04.922 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.radiogroupviewpagerfragment.Fragment1
+15:11:04.922 Fragment1: -->onCreate(@Nullable Bundle savedInstanceState)
+15:11:04.922 Fragment1: isLoadDataCompleted = true, isReuse = true, isForcedToRefresh = false
+
+15:11:04.922 Fragment2: -->onAttach(Context context)
+15:11:04.922 MainActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.radiogroupviewpagerfragment.Fragment2
+15:11:04.922 Fragment2: -->onCreate(@Nullable Bundle savedInstanceState)
+15:11:04.922 Fragment2: isLoadDataCompleted = true, isReuse = true, isForcedToRefresh = false
+
+15:11:04.922 Fragment1: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+15:11:04.922 Fragment1: -->创建View
+15:11:04.923 Fragment1: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+15:11:04.923 Fragment1: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+15:11:04.923 Fragment1: -->onVisibleChange(boolean isVisible) = true
+15:11:04.923 Fragment1: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+15:11:04.923 Fragment1: -->onStart()
+15:11:04.923 Fragment1: -->onResume()
+
+15:11:04.923 Fragment2: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+15:11:04.923 Fragment2: -->创建View
+15:11:04.923 Fragment2: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+15:11:04.923 Fragment2: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+15:11:04.923 Fragment2: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+15:11:04.923 Fragment2: -->onStart()
+15:11:04.923 Fragment2: -->onResume()
+
+15:11:04.923 info: onPageSelected(),position=0
+
+// 此处销毁了Fragment3和Fragment4实例
+15:11:05.444 Fragment3: -->onSaveInstanceState(@NonNull Bundle outState)
+15:11:05.444 Fragment4: -->onSaveInstanceState(@NonNull Bundle outState)
+
+15:11:05.444 Fragment3: -->onPause()
+15:11:05.444 Fragment3: -->onStop()
+15:11:05.453 Fragment3: -->onDestroyView()
+
+15:11:05.455 Fragment3: -->onDestroy()
+15:11:05.455 Fragment3: -->onDetach()
+
+15:11:05.455 Fragment4: -->onPause()
+15:11:05.457 Fragment4: -->onStop()
+15:11:05.457 Fragment4: -->onDestroyView()
+
+15:11:05.458 Fragment4: -->onDestroy()
+15:11:05.458 Fragment4: -->onDetach()
+// 退出
+15:11:08.670 Fragment1: -->onPause()
+15:11:08.670 Fragment2: -->onPause()
+15:11:08.670 MainActivity1: -->onPause()
+
+15:11:09.139 Fragment1: -->onStop()
+15:11:09.139 Fragment2: -->onStop()
+15:11:09.139 MainActivity1: -->onStop()
+
+15:11:09.139 Fragment1: -->onDestroyView()
+15:11:09.140 Fragment1: -->onDestroy()
+15:11:09.141 Fragment1: -->onDetach()
+
+15:11:09.141 Fragment2: -->onDestroyView()
+15:11:09.148 Fragment2: -->onDestroy()
+15:11:09.148 Fragment2: -->onDetach()
+
+// 此处Fragment3和Fragment4早已经销毁
+
+15:11:09.148 MainActivity1: -->onDestroy()
+15:11:09.148 MainActivity1: -->onDetachedFromWindow()
