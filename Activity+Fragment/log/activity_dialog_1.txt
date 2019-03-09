@@ -1,0 +1,27 @@
+// 屏幕没有旋转
+// 打开DialogActivity1
+02-14 10:30:22.714 LifecycleActivity1: -->onPrepareOptionsMenu(Menu menu)
+02-14 10:30:25.344 LifecycleActivity1: -->onPause()
+02-14 10:30:25.380 DialogActivity1: -->onCreate(@Nullable Bundle savedInstanceState)
+02-14 10:30:25.380 configuration: {1.0 310mcc260mnc en_US ldltr sw360dp w360dp h616dp 320dpi nrml long port finger -keyb/v/h dpad/v s.130}
+02-14 10:30:25.428 DialogActivity1: -->onStart()
+02-14 10:30:25.429 DialogActivity1: -->onResume()
+02-14 10:30:25.509 DialogActivity1: -->onAttachedToWindow()
+02-14 10:30:26.126 LifecycleActivity1: -->onSaveInstanceState(Bundle outState)
+// 锁屏
+02-14 10:30:38.167 DialogActivity1: -->onPause()
+02-14 10:30:38.202 DialogActivity1: -->onSaveInstanceState(Bundle outState)
+02-14 10:30:38.202 DialogActivity1: -->onStop()
+02-14 10:30:38.203 LifecycleActivity1: -->onStop()
+// 解锁
+02-14 10:30:47.371 DialogActivity1: -->onRestart()
+02-14 10:30:47.379 DialogActivity1: -->onStart()
+02-14 10:30:47.380 LifecycleActivity1: -->onRestart()
+02-14 10:30:47.390 LifecycleActivity1: -->onStart()
+02-14 10:30:47.390 DialogActivity1: -->onResume()
+// 退出DialogActivity1
+02-14 10:30:55.368 DialogActivity1: -->onPause()
+02-14 10:30:55.407 LifecycleActivity1: -->onResume()
+02-14 10:30:55.440 DialogActivity1: -->onStop()
+02-14 10:30:55.440 DialogActivity1: -->onDestroy()
+02-14 10:30:55.440 DialogActivity1: -->onDetachedFromWindow()

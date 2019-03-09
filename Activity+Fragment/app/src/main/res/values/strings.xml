@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">生命周期</string>
+    <string name="lifecycle_label">Activity生命周期</string>
+    <string name="lifecycle_page">这是第%d个页面</string>
+
+    <string name="static_fragment">静态创建</string>
+    <string name="static_fragment_1">静态创建1111</string>
+    <string name="static_fragment_2">静态创建2222</string>
+    <string name="dynamic_fragment">动态创建</string>
+    <string name="dynamic_fragment_1">动态创建1111</string>
+    <string name="dynamic_fragment_2">动态创建2222</string>
+
+    <string name="articles">文章列表</string>
+    <string name="details">文章详情</string>
+</resources>

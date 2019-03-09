@@ -1,0 +1,48 @@
+// 添加setRetainInstance(true);
+// -->打开
+01-07 17:27:24.689 MainActivity: -->onCreate(@Nullable Bundle savedInstanceState)
+01-07 17:27:24.703 StaticFragment: -->onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState)
+01-07 17:27:24.703 StaticFragment: -->onAttach(Context context)
+01-07 17:27:24.703 MainActivity: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.fragment.StaticFragment
+01-07 17:27:24.703 StaticFragment: -->onCreate(@Nullable Bundle savedInstanceState)
+01-07 17:27:24.703 StaticFragment: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+01-07 17:27:24.703 StaticFragment: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+01-07 17:27:24.730 StaticFragment: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+01-07 17:27:24.731 StaticFragment: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+01-07 17:27:24.731 StaticFragment: -->onStart()
+01-07 17:27:24.731 MainActivity: -->onStart()
+01-07 17:27:24.731 MainActivity: -->onResume()
+01-07 17:27:24.731 StaticFragment: -->onResume()
+01-07 17:27:24.750 MainActivity: -->onAttachedToWindow()
+01-07 17:27:24.857 MainActivity: -->onCreateOptionsMenu(Menu menu)
+01-07 17:27:24.857 MainActivity: -->onPrepareOptionsMenu(Menu menu)
+// -->旋转(设置setRetainInstance(true),实例不会销毁,就是不会调用onDestroy())
+01-07 17:27:32.919 StaticFragment: -->onPause()
+01-07 17:27:32.919 MainActivity: -->onPause()
+01-07 17:27:32.933 StaticFragment: -->onSaveInstanceState(@NonNull Bundle outState)
+01-07 17:27:32.933 MainActivity: -->onSaveInstanceState(Bundle outState)
+01-07 17:27:32.933 StaticFragment: -->onStop()
+01-07 17:27:32.933 MainActivity: -->onStop()
+01-07 17:27:32.934 StaticFragment: -->onDestroyView()
+// 这里没有onDestroy()方法回调
+01-07 17:27:32.934 StaticFragment: -->onDetach()
+01-07 17:27:32.934 MainActivity: -->onDestroy()
+01-07 17:27:32.953 MainActivity: -->onDetachedFromWindow()
+
+01-07 17:27:33.011 MainActivity: -->onCreate(@Nullable Bundle savedInstanceState)
+01-07 17:27:33.053 StaticFragment: -->onAttach(Context context)
+01-07 17:27:33.053 MainActivity: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.fragment.StaticFragment
+// 这里没有回调onCreate()方法
+01-07 17:27:33.053 StaticFragment: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+01-07 17:27:33.054 StaticFragment: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+01-07 17:27:33.079 StaticFragment: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+01-07 17:27:33.079 StaticFragment: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+01-07 17:27:33.079 StaticFragment: -->onStart()
+01-07 17:27:33.079 MainActivity: -->onStart()
+// 这里多了恢复实例的状态onRestoreInstanceState()方法回调
+01-07 17:27:33.079 MainActivity: -->onRestoreInstanceState(Bundle savedInstanceState)
+01-07 17:27:33.079 MainActivity: -->onResume()
+01-07 17:27:33.079 StaticFragment: -->onResume()
+01-07 17:27:33.094 MainActivity: -->onAttachedToWindow()
+01-07 17:27:33.181 MainActivity: -->onCreateOptionsMenu(Menu menu)
+01-07 17:27:33.181 MainActivity: -->onPrepareOptionsMenu(Menu menu)

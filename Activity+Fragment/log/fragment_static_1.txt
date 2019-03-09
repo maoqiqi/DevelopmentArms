@@ -1,0 +1,98 @@
+// 打开
+02-15 10:49:23.869 FragmentLifecycleActivity1: -->onCreate(@Nullable Bundle savedInstanceState)
+02-15 10:49:23.869 configuration: {1.0 310mcc260mnc en_US ldltr sw360dp w360dp h616dp 320dpi nrml long port finger -keyb/v/h dpad/v s.132}
+
+02-15 10:49:23.874 StaticFragment: -->onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState)
+02-15 10:49:23.874 StaticFragment: -->onAttach(Context context)
+02-15 10:49:23.875 FragmentLifecycleActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.activityfragment.fragment.StaticFragment
+02-15 10:49:23.875 StaticFragment: -->onCreate(@Nullable Bundle savedInstanceState)
+02-15 10:49:23.875 StaticFragment: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+02-15 10:49:23.875 StaticFragment: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+
+02-15 10:49:23.875 StaticFragment1: -->onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState)
+02-15 10:49:23.875 StaticFragment1: -->onAttach(Context context)
+02-15 10:49:23.875 FragmentLifecycleActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.activityfragment.fragment.StaticFragment1
+02-15 10:49:23.875 StaticFragment1: -->onCreate(@Nullable Bundle savedInstanceState)
+02-15 10:49:23.875 StaticFragment1: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+02-15 10:49:23.875 StaticFragment1: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+
+02-15 10:49:23.875 StaticFragment2: -->onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState)
+02-15 10:49:23.876 StaticFragment2: -->onAttach(Context context)
+02-15 10:49:23.876 FragmentLifecycleActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.activityfragment.fragment.StaticFragment2
+02-15 10:49:23.876 StaticFragment2: -->onCreate(@Nullable Bundle savedInstanceState)
+02-15 10:49:23.876 StaticFragment2: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+02-15 10:49:23.876 StaticFragment2: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+
+02-15 10:49:23.884 StaticFragment: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+02-15 10:49:23.884 StaticFragment: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+
+02-15 10:49:23.885 StaticFragment1: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+02-15 10:49:23.885 StaticFragment1: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+
+02-15 10:49:23.885 StaticFragment2: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+02-15 10:49:23.885 StaticFragment2: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+
+02-15 10:49:23.885 StaticFragment: -->onStart()
+02-15 10:49:23.885 StaticFragment1: -->onStart()
+02-15 10:49:23.885 StaticFragment2: -->onStart()
+02-15 10:49:23.885 FragmentLifecycleActivity1: -->onStart()
+
+02-15 10:49:23.885 FragmentLifecycleActivity1: -->onResume()
+02-15 10:49:23.886 StaticFragment: -->onResume()
+02-15 10:49:23.886 StaticFragment1: -->onResume()
+02-15 10:49:23.886 StaticFragment2: -->onResume()
+
+02-15 10:49:23.913 FragmentLifecycleActivity1: -->onAttachedToWindow()
+02-15 10:49:24.011 FragmentLifecycleActivity1: -->onCreateOptionsMenu(Menu menu)
+02-15 10:49:24.011 FragmentLifecycleActivity1: -->onPrepareOptionsMenu(Menu menu)
+// 锁屏
+02-15 10:49:30.216 StaticFragment: -->onPause()
+02-15 10:49:30.216 StaticFragment1: -->onPause()
+02-15 10:49:30.216 StaticFragment2: -->onPause()
+02-15 10:49:30.216 FragmentLifecycleActivity1: -->onPause()
+
+02-15 10:49:30.244 StaticFragment: -->onSaveInstanceState(@NonNull Bundle outState)
+02-15 10:49:30.246 StaticFragment1: -->onSaveInstanceState(@NonNull Bundle outState)
+02-15 10:49:30.246 StaticFragment2: -->onSaveInstanceState(@NonNull Bundle outState)
+02-15 10:49:30.246 FragmentLifecycleActivity1: -->onSaveInstanceState(Bundle outState)
+
+02-15 10:49:30.246 StaticFragment: -->onStop()
+02-15 10:49:30.246 StaticFragment1: -->onStop()
+02-15 10:49:30.246 StaticFragment2: -->onStop()
+02-15 10:49:30.246 FragmentLifecycleActivity1: -->onStop()
+// 解锁
+02-15 10:49:34.934 FragmentLifecycleActivity1: -->onRestart()
+02-15 10:49:34.942 StaticFragment: -->onStart()
+02-15 10:49:34.942 StaticFragment1: -->onStart()
+02-15 10:49:34.942 StaticFragment2: -->onStart()
+02-15 10:49:34.942 FragmentLifecycleActivity1: -->onStart()
+
+02-15 10:49:34.966 FragmentLifecycleActivity1: -->onResume()
+02-15 10:49:34.966 StaticFragment: -->onResume()
+02-15 10:49:34.966 StaticFragment1: -->onResume()
+02-15 10:49:34.966 StaticFragment2: -->onResume()
+// 退出
+02-15 10:49:39.488 StaticFragment: -->onPause()
+02-15 10:49:39.488 StaticFragment1: -->onPause()
+02-15 10:49:39.488 StaticFragment2: -->onPause()
+02-15 10:49:39.488 FragmentLifecycleActivity1: -->onPause()
+
+02-15 10:49:39.546 StaticFragment: -->onStop()
+02-15 10:49:39.560 StaticFragment1: -->onStop()
+02-15 10:49:39.560 StaticFragment2: -->onStop()
+02-15 10:49:39.572 FragmentLifecycleActivity1: -->onStop()
+
+02-15 10:49:39.572 StaticFragment: -->onDestroyView()
+02-15 10:49:39.574 StaticFragment: -->onDestroy()
+02-15 10:49:39.574 StaticFragment: -->onDetach()
+
+02-15 10:49:39.574 StaticFragment1: -->onDestroyView()
+02-15 10:49:39.575 StaticFragment1: -->onDestroy()
+02-15 10:49:39.575 StaticFragment1: -->onDetach()
+
+02-15 10:49:39.575 StaticFragment2: -->onDestroyView()
+02-15 10:49:39.575 StaticFragment2: -->onDestroy()
+02-15 10:49:39.575 StaticFragment2: -->onDetach()
+
+02-15 10:49:39.575 FragmentLifecycleActivity1: -->onDestroy()
+02-15 10:49:39.576 FragmentLifecycleActivity1: -->onDetachedFromWindow()

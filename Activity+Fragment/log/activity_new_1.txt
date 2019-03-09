@@ -1,0 +1,29 @@
+// 屏幕没有旋转
+// 打开LifecycleActivity2
+02-14 10:21:19.949 LifecycleActivity1: -->onPrepareOptionsMenu(Menu menu)
+02-14 10:21:27.009 LifecycleActivity1: -->onPause()
+02-14 10:21:27.306 LifecycleActivity2: -->onCreate(@Nullable Bundle savedInstanceState)
+02-14 10:21:27.306 configuration: {1.0 310mcc260mnc en_US ldltr sw360dp w360dp h616dp 320dpi nrml long port finger -keyb/v/h dpad/v s.128}
+02-14 10:21:27.320 LifecycleActivity2: -->onStart()
+02-14 10:21:27.320 LifecycleActivity2: -->onResume()
+02-14 10:21:27.330 LifecycleActivity2: -->onAttachedToWindow()
+02-14 10:21:27.652 LifecycleActivity2: -->onCreateOptionsMenu(Menu menu)
+02-14 10:21:27.652 LifecycleActivity2: -->onPrepareOptionsMenu(Menu menu)
+02-14 10:21:28.333 LifecycleActivity1: -->onSaveInstanceState(Bundle outState)
+02-14 10:21:28.333 LifecycleActivity1: -->onStop()
+// 锁屏
+02-14 10:21:45.441 LifecycleActivity2: -->onPause()
+02-14 10:21:45.454 LifecycleActivity2: -->onSaveInstanceState(Bundle outState)
+02-14 10:21:45.454 LifecycleActivity2: -->onStop()
+// 解锁
+02-14 10:21:54.865 LifecycleActivity2: -->onRestart()
+02-14 10:21:54.883 LifecycleActivity2: -->onStart()
+02-14 10:21:54.920 LifecycleActivity2: -->onResume()
+// 退出LifecycleActivity2
+02-14 10:22:08.952 LifecycleActivity2: -->onPause()
+02-14 10:22:08.960 LifecycleActivity1: -->onRestart()
+02-14 10:22:08.961 LifecycleActivity1: -->onStart()
+02-14 10:22:08.961 LifecycleActivity1: -->onResume()
+02-14 10:22:09.357 LifecycleActivity2: -->onStop()
+02-14 10:22:09.357 LifecycleActivity2: -->onDestroy()
+02-14 10:22:09.357 LifecycleActivity2: -->onDetachedFromWindow()

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--不在横屏时显示,只显示标题列表-->
+    <fragment
+        android:id="@+id/articles"
+        class="com.codearms.maoqiqi.activityfragment.fragment.ArticlesFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</FrameLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/new_activity"
+        android:orderInCategory="1"
+        android:title="创建Activity"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/dialog_activity"
+        android:orderInCategory="2"
+        android:title="创建Activity(Dialog)"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/new_dialog"
+        android:orderInCategory="3"
+        android:title="创建Dialog"
+        app:showAsAction="never" />
+</menu>

@@ -1,0 +1,136 @@
+// 测试 Add-->Hide-->旋转-->锁屏-->解锁-->Show-->Remove-->退出
+// 打开
+02-18 14:03:27.191 FragmentMethodActivity1: -->onCreate(@Nullable Bundle savedInstanceState)
+02-18 14:03:27.191 configuration: {1.0 310mcc260mnc en_US ldltr sw360dp w640dp h336dp 320dpi nrml long land finger -keyb/v/h dpad/v s.169}
+
+02-18 14:03:27.263 info: 创建DynamicFragment1
+02-18 14:03:27.264 DynamicFragment1: -->动态创建1111
+02-18 14:03:27.264 info: 创建DynamicFragment2
+02-18 14:03:27.264 DynamicFragment2: -->动态创建2222
+
+02-18 14:03:27.265 FragmentMethodActivity1: -->onStart()
+02-18 14:03:27.265 FragmentMethodActivity1: -->onResume()
+02-18 14:03:27.275 FragmentMethodActivity1: -->onAttachedToWindow()
+02-18 14:03:27.389 FragmentMethodActivity1: -->onCreateOptionsMenu(Menu menu)
+02-18 14:03:27.403 FragmentMethodActivity1: -->onPrepareOptionsMenu(Menu menu)
+// Add
+02-18 14:03:35.461 info: fragment1.isAdded() = false
+02-18 14:03:35.470 info: fragment2.isAdded() = false
+
+02-18 14:03:35.472 DynamicFragment1: -->onAttach(Context context)
+02-18 14:03:35.472 FragmentMethodActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.activityfragment.fragment.DynamicFragment1
+02-18 14:03:35.472 DynamicFragment1: -->onCreate(@Nullable Bundle savedInstanceState)
+02-18 14:03:35.477 DynamicFragment1: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+02-18 14:03:35.479 DynamicFragment1: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+02-18 14:03:35.479 DynamicFragment1: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+02-18 14:03:35.479 DynamicFragment1: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+02-18 14:03:35.479 DynamicFragment1: -->onStart()
+02-18 14:03:35.479 DynamicFragment1: -->onResume()
+
+02-18 14:03:35.480 DynamicFragment2: -->onAttach(Context context)
+02-18 14:03:35.480 FragmentMethodActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.activityfragment.fragment.DynamicFragment2
+02-18 14:03:35.480 DynamicFragment2: -->onCreate(@Nullable Bundle savedInstanceState)
+02-18 14:03:35.480 DynamicFragment2: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+02-18 14:03:35.480 DynamicFragment2: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+02-18 14:03:35.480 DynamicFragment2: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+02-18 14:03:35.480 DynamicFragment2: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+02-18 14:03:35.480 DynamicFragment2: -->onStart()
+02-18 14:03:35.480 DynamicFragment2: -->onResume()
+// Hide
+02-18 14:03:40.749 DynamicFragment1: -->onHiddenChanged(boolean hidden) = true
+02-18 14:03:40.749 DynamicFragment2: -->onHiddenChanged(boolean hidden) = true
+// 旋转
+02-18 14:04:03.222 DynamicFragment1: -->onPause()
+02-18 14:04:03.222 DynamicFragment2: -->onPause()
+02-18 14:04:03.222 FragmentMethodActivity1: -->onPause()
+02-18 14:04:03.223 DynamicFragment1: -->onSaveInstanceState(@NonNull Bundle outState)
+02-18 14:04:03.223 DynamicFragment2: -->onSaveInstanceState(@NonNull Bundle outState)
+02-18 14:04:03.223 FragmentMethodActivity1: -->onSaveInstanceState(Bundle outState)
+02-18 14:04:03.223 DynamicFragment1: -->onStop()
+02-18 14:04:03.223 DynamicFragment2: -->onStop()
+02-18 14:04:03.223 FragmentMethodActivity1: -->onStop()
+
+02-18 14:04:03.223 DynamicFragment1: -->onDestroyView()
+02-18 14:04:03.242 DynamicFragment1: -->onDestroy()
+02-18 14:04:03.242 DynamicFragment1: -->onDetach()
+
+02-18 14:04:03.242 DynamicFragment2: -->onDestroyView()
+02-18 14:04:03.242 DynamicFragment2: -->onDetach()
+
+02-18 14:04:03.243 FragmentMethodActivity1: -->onDestroy()
+02-18 14:04:03.253 FragmentMethodActivity1: -->onDetachedFromWindow()
+
+02-18 14:04:03.274 DynamicFragment1: -->动态创建1111
+
+02-18 14:04:03.274 DynamicFragment1: -->onAttach(Context context)
+02-18 14:04:03.274 FragmentMethodActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.activityfragment.fragment.DynamicFragment1
+02-18 14:04:03.274 DynamicFragment1: -->onCreate(@Nullable Bundle savedInstanceState)
+
+02-18 14:04:03.274 DynamicFragment2: -->onAttach(Context context)
+02-18 14:04:03.274 FragmentMethodActivity1: -->onAttachFragment(Fragment fragment) = com.codearms.maoqiqi.activityfragment.fragment.DynamicFragment2
+
+02-18 14:04:03.275 FragmentMethodActivity1: -->onCreate(@Nullable Bundle savedInstanceState)
+02-18 14:04:03.275 configuration: {1.0 310mcc260mnc en_US ldltr sw360dp w360dp h616dp 320dpi nrml long port finger -keyb/v/h dpad/v s.170}
+
+02-18 14:04:03.281 info: 复用DynamicFragment1
+02-18 14:04:03.281 info: 复用DynamicFragment2
+
+02-18 14:04:03.282 DynamicFragment1: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+02-18 14:04:03.282 DynamicFragment1: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+02-18 14:04:03.283 DynamicFragment1: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+02-18 14:04:03.283 DynamicFragment1: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+
+02-18 14:04:03.283 DynamicFragment2: -->onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+02-18 14:04:03.284 DynamicFragment2: -->onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+02-18 14:04:03.284 DynamicFragment2: -->onActivityCreated(@Nullable Bundle savedInstanceState)
+02-18 14:04:03.284 DynamicFragment2: -->onViewStateRestored(@Nullable Bundle savedInstanceState)
+
+02-18 14:04:03.284 DynamicFragment1: -->onStart()
+02-18 14:04:03.284 DynamicFragment2: -->onStart()
+02-18 14:04:03.284 FragmentMethodActivity1: -->onStart()
+02-18 14:04:03.284 FragmentMethodActivity1: -->onRestoreInstanceState(Bundle savedInstanceState)
+02-18 14:04:03.284 FragmentMethodActivity1: -->onResume()
+02-18 14:04:03.284 DynamicFragment1: -->onResume()
+02-18 14:04:03.284 DynamicFragment2: -->onResume()
+
+02-18 14:04:03.285 FragmentMethodActivity1: -->onAttachedToWindow()
+02-18 14:04:03.352 FragmentMethodActivity1: -->onCreateOptionsMenu(Menu menu)
+02-18 14:04:03.352 FragmentMethodActivity1: -->onPrepareOptionsMenu(Menu menu)
+// 锁屏
+02-18 14:04:12.461 DynamicFragment1: -->onPause()
+02-18 14:04:12.461 DynamicFragment2: -->onPause()
+02-18 14:04:12.461 FragmentMethodActivity1: -->onPause()
+02-18 14:04:12.492 DynamicFragment1: -->onSaveInstanceState(@NonNull Bundle outState)
+02-18 14:04:12.492 DynamicFragment2: -->onSaveInstanceState(@NonNull Bundle outState)
+02-18 14:04:12.492 FragmentMethodActivity1: -->onSaveInstanceState(Bundle outState)
+02-18 14:04:12.493 DynamicFragment1: -->onStop()
+02-18 14:04:12.493 DynamicFragment2: -->onStop()
+02-18 14:04:12.493 FragmentMethodActivity1: -->onStop()
+// 解锁
+02-18 14:04:16.538 FragmentMethodActivity1: -->onRestart()
+02-18 14:04:16.547 DynamicFragment1: -->onStart()
+02-18 14:04:16.547 DynamicFragment2: -->onStart()
+02-18 14:04:16.547 FragmentMethodActivity1: -->onStart()
+02-18 14:04:16.578 FragmentMethodActivity1: -->onResume()
+02-18 14:04:16.578 DynamicFragment1: -->onResume()
+02-18 14:04:16.578 DynamicFragment2: -->onResume()
+// Show
+02-18 14:04:22.433 DynamicFragment1: -->onHiddenChanged(boolean hidden) = false
+02-18 14:04:22.433 DynamicFragment2: -->onHiddenChanged(boolean hidden) = false
+// Remove
+02-18 14:04:30.407 DynamicFragment1: -->onPause()
+02-18 14:04:30.407 DynamicFragment1: -->onStop()
+02-18 14:04:30.407 DynamicFragment1: -->onDestroyView()
+02-18 14:04:30.408 DynamicFragment1: -->onDestroy()
+02-18 14:04:30.408 DynamicFragment1: -->onDetach()
+
+02-18 14:04:30.408 DynamicFragment2: -->onPause()
+02-18 14:04:30.408 DynamicFragment2: -->onStop()
+02-18 14:04:30.408 DynamicFragment2: -->onDestroyView()
+02-18 14:04:30.408 DynamicFragment2: -->onDestroy()
+02-18 14:04:30.408 DynamicFragment2: -->onDetach()
+// 退出
+02-18 14:04:39.371 FragmentMethodActivity1: -->onPause()
+02-18 14:04:39.388 FragmentMethodActivity1: -->onStop()
+02-18 14:04:39.388 FragmentMethodActivity1: -->onDestroy()
+02-18 14:04:39.389 FragmentMethodActivity1: -->onDetachedFromWindow()
