@@ -1,16 +1,48 @@
-# °²×¿ÏîÄ¿»òÄ£¿é
+# å®‰å“é¡¹ç›®æˆ–æ¨¡å—
 
-> * **×÷Õß**£ºMarch
-> * **Á´½Ó**£º[°²×¿ÏîÄ¿»òÄ£¿é](https://github.com/maoqiqi/DevelopmentArms)
-> * **ÓÊÏä**£ºfengqi.mao.march@gmail.com
-> * **Í·Ìõ**£ºhttps://toutiao.io/u/425956/subjects
-> * **¼òÊé**£ºhttps://www.jianshu.com/u/02f2491c607d
-> * **¾ò½ğ**£ºhttps://juejin.im/user/5b484473e51d45199940e2ae
-> * **CSDN**£ºhttp://blog.csdn.net/u011810138
-> * **SegmentFault**£ºhttps://segmentfault.com/u/maoqiqi
-> * **StackOverFlow**£ºhttps://stackoverflow.com/users/8223522
+> * **ä½œè€…**ï¼šMarch
+> * **é“¾æ¥**ï¼š[å®‰å“é¡¹ç›®æˆ–æ¨¡å—](https://github.com/maoqiqi/DevelopmentArms)
+> * **é‚®ç®±**ï¼šfengqi.mao.march@gmail.com
+> * **å¤´æ¡**ï¼šhttps://toutiao.io/u/425956/subjects
+> * **ç®€ä¹¦**ï¼šhttps://www.jianshu.com/u/02f2491c607d
+> * **æ˜é‡‘**ï¼šhttps://juejin.im/user/5b484473e51d45199940e2ae
+> * **CSDN**ï¼šhttp://blog.csdn.net/u011810138
+> * **SegmentFault**ï¼šhttps://segmentfault.com/u/maoqiqi
+> * **StackOverFlow**ï¼šhttps://stackoverflow.com/users/8223522
 >
-> Öø×÷È¨¹é×÷ÕßËùÓĞ¡£ÉÌÒµ×ªÔØÇëÁªÏµ×÷Õß»ñµÃÊÚÈ¨£¬·ÇÉÌÒµ×ªÔØÇë×¢Ã÷³ö´¦¡£
+> è‘—ä½œæƒå½’ä½œè€…æ‰€æœ‰ã€‚å•†ä¸šè½¬è½½è¯·è”ç³»ä½œè€…è·å¾—æˆæƒï¼Œéå•†ä¸šè½¬è½½è¯·æ³¨æ˜å‡ºå¤„ã€‚
 
 
-°²×¿¿ª·¢ÖĞ¾­³£ÓÃµ½µÄÏîÄ¿»òÄ£¿é,ÔÚ¿ª·¢Ò»¸öĞÂµÄÏîÄ¿ºÍÃæÊÔÖĞ»úÊÔµÄÊ±ºò¿ÉÄÜ»áÓÃµ½.
+å®‰å“å¼€å‘ä¸­ç»å¸¸ç”¨åˆ°çš„é¡¹ç›®æˆ–æ¨¡å—,åœ¨å¼€å‘ä¸€ä¸ªæ–°çš„é¡¹ç›®å’Œé¢è¯•ä¸­æœºè¯•çš„æ—¶å€™å¯èƒ½ä¼šç”¨åˆ°.
+
+
+## ç›®å½•
+
+* [Link](#Link)
+* [License](#License)
+
+
+## Link
+
+* [Activity + Fragment åŸºç¡€çŸ¥è¯†](Activity+Fragment)
+* [RadioGroup + Fragment æ¨¡æ¿](RadioGroup+Fragment)
+* [RadioGroup + ViewPager + Fragment æ¨¡æ¿](RadioGroup+ViewPager+Fragment)
+* [TabLayout + ViewPager + Fragment æ¨¡æ¿](TabLayout+ViewPager+Fragment)
+* [è‡ªå®šä¹‰æ‡’åŠ è½½Fragment](https://github.com/maoqiqi/LazyLoad)
+
+
+## License
+
+```
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+```
