@@ -1,0 +1,32 @@
+/**
+ * Displays an add or edit task screen.
+ * Author: fengqi.mao.march@gmail.com
+ * Date: 2019/3/12 13:14
+ */
+
+Displays an add or edit task screen.
+显示添加或编辑任务屏幕。
+
+This specifies the contract between the view and the presenter.
+这指定了视图和演示程序之间的契约。
+
+Main UI for the add task screen. Users can enter a task title and description.
+添加任务屏幕的主UI。用户可以输入任务标题和描述。
+
+Listens to user actions from the UI ({@link AddEditTaskFragment}), retrieves the data and updates the UI as required.
+监听来自UI的用户操作({@link AddEditTaskFragment})，检索数据并根据需要更新UI。
+
+Main entry point for accessing tasks data.
+访问任务数据的主要入口点。
+
+
+// Prevent direct instantiation.
+// 防止直接实例化。
+
+// Get a reference to the class under test
+//获取对被测试类的引用
+
+
+// To avoid leaks, this must be an Application Context.
+
+// Force use of Application Context.

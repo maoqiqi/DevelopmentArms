@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">MVPK</string>
+    <string name="app_id">AppId:%s</string>
+    <string name="filter">Filter</string>
+    <string name="all">All</string>
+    <string name="active">Active</string>
+    <string name="completed">Completed</string>
+    <string name="clear_completed">Clear completed</string>
+    <string name="refresh">Refresh</string>
+    <string name="statistics">Statistics</string>
+    <string name="all_tasks">所有任务</string>
+    <string name="active_tasks">未完成任务</string>
+    <string name="completed_tasks">已完成任务</string>
+    <string name="no_all_tasks">暂时没有任务</string>
+    <string name="no_active_tasks">暂时没有未完成任务</string>
+    <string name="no_completed_tasks">暂时没有已完成任务</string>
+
+    <string name="add_task">添加任务</string>
+    <string name="edit_task">编辑任务</string>
+    <string name="title">在这里输入你的标题</string>
+    <string name="description">在这里输入你的任务详情</string>
+
+    <string name="task_detail">任务详情</string>
+    <string name="delete">Delete</string>
+    <string name="task_detail_description">task_detail</string>
+
+    <string name="statistics_info">未完成任务总数：%d\n已完成任务总数：%d</string>
+</resources>

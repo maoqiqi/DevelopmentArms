@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="taskBean"
+            type="com.codearms.maoqiqi.app.data.TaskBean" />
+
+        <variable
+            name="tasksViewModel"
+            type="com.codearms.maoqiqi.app.tasks.TasksViewModel" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/llItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@{taskBean.completed ? @drawable/bg_item_completed : @drawable/bg_item_active }"
+        android:onClick="@{() -> tasksViewModel.openTaskDetails(taskBean)}"
+        android:padding="@dimen/sixteen">
+
+        <CheckBox
+            android:id="@+id/cbComplete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{taskBean.completed}"
+            android:onClick="@{() -> taskBean.completed ? tasksViewModel.activateTask(taskBean) : tasksViewModel.completeTask(taskBean)}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/sixteen"
+            android:layout_marginLeft="@dimen/sixteen"
+            android:singleLine="true"
+            android:text="@{taskBean.title}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            app:layout_constraintBaseline_toBaselineOf="@id/cbComplete"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cbComplete"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+</layout>
