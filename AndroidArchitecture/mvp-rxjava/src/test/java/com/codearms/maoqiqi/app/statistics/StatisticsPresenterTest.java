@@ -33,9 +33,6 @@ public class StatisticsPresenterTest {
     @Mock
     private StatisticsContract.View statisticsView;
 
-    @Captor
-    private ArgumentCaptor<TasksDataSource.LoadTasksCallBack> loadTasksCallBackArgumentCaptor;
-
     private StatisticsPresenter statisticsPresenter;
 
     private List<TaskBean> taskBeanList;
@@ -63,33 +60,33 @@ public class StatisticsPresenterTest {
         // Given an initialized StatisticsPresenter with no tasks
         taskBeanList.clear();
 
-        statisticsPresenter.start();
+        statisticsPresenter.subscribe();
 
-        verify(tasksRepository).loadTasks(loadTasksCallBackArgumentCaptor.capture());
+        verify(tasksRepository).loadTasks();
 
-        loadTasksCallBackArgumentCaptor.getValue().onTasksLoaded(taskBeanList);
+//        loadTasksCallBackArgumentCaptor.getValue().onTasksLoaded(taskBeanList);
 
         verify(statisticsView).showStatistics(0, 0);
     }
 
     @Test
     public void loadStatistics() {
-        statisticsPresenter.start();
+        statisticsPresenter.subscribe();
 
-        verify(tasksRepository).loadTasks(loadTasksCallBackArgumentCaptor.capture());
+        verify(tasksRepository).loadTasks();
 
-        loadTasksCallBackArgumentCaptor.getValue().onTasksLoaded(taskBeanList);
+//        loadTasksCallBackArgumentCaptor.getValue().onTasksLoaded(taskBeanList);
 
         verify(statisticsView).showStatistics(2, 1);
     }
 
     @Test
     public void loadStatisticsUnavailable() {
-        statisticsPresenter.start();
+        statisticsPresenter.subscribe();
 
-        verify(tasksRepository).loadTasks(loadTasksCallBackArgumentCaptor.capture());
+        verify(tasksRepository).loadTasks();
 
-        loadTasksCallBackArgumentCaptor.getValue().onDataNotAvailable();
+//        loadTasksCallBackArgumentCaptor.getValue().onDataNotAvailable();
 
         verify(statisticsView).showMessage(MessageMap.NO_DATA);
     }

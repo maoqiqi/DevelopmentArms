@@ -4,6 +4,9 @@ import com.codearms.maoqiqi.app.data.TaskBean;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+
 /**
  * Main entry point for accessing tasks data.
  * Author: fengqi.mao.march@gmail.com
@@ -11,23 +14,9 @@ import java.util.List;
  */
 public interface TasksDataSource {
 
-    interface LoadTasksCallBack {
+    Single<List<TaskBean>> loadTasks();
 
-        void onTasksLoaded(List<TaskBean> taskBeanList);
-
-        void onDataNotAvailable();
-    }
-
-    interface GetTaskCallBack {
-
-        void onTaskLoaded(TaskBean taskBean);
-
-        void onDataNotAvailable();
-    }
-
-    void loadTasks(LoadTasksCallBack callBack);
-
-    void getTask(String taskId, GetTaskCallBack callBack);
+    Flowable<TaskBean> getTask(String taskId);
 
     void clearCompletedTasks();
 

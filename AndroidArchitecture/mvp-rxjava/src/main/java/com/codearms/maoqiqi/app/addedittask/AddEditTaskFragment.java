@@ -58,7 +58,13 @@ public class AddEditTaskFragment extends BaseFragment implements AddEditTaskCont
     @Override
     public void onResume() {
         super.onResume();
-        presenter.start();
+        presenter.subscribe();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.unsubscribe();
     }
 
     @Override

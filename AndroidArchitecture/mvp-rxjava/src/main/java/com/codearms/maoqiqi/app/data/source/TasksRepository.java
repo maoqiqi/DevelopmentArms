@@ -3,13 +3,20 @@ package com.codearms.maoqiqi.app.data.source;
 import android.support.annotation.VisibleForTesting;
 
 import com.codearms.maoqiqi.app.data.TaskBean;
-import com.codearms.maoqiqi.app.utils.EspressoIdlingResource;
 
-import java.util.ArrayList;
+import org.reactivestreams.Publisher;
+
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 
 /**
  * Load tasks from the data sources into a cache.
@@ -65,84 +72,54 @@ public class TasksRepository implements TasksDataSource {
      * Gets tasks from cache, local data source (SQLite) or remote data source, whichever is available first.
      */
     @Override
-    public void loadTasks(final LoadTasksCallBack callBack) {
+    public Single<List<TaskBean>> loadTasks() {
         // Respond immediately with cache if available and not dirty
         if (cachedTasksMap != null && !cacheIsDirty) {
-            callBack.onTasksLoaded(new ArrayList<>(cachedTasksMap.values()));
-            return;
+            return Flowable.fromIterable(cachedTasksMap.values()).toList();
         }
 
-        EspressoIdlingResource.increment();
-
         if (cacheIsDirty) {
-            // If the cache is dirty we need to fetch new data from the network.
-            getTasksFromRemoteDataSource(callBack);
+            return getTasksFromRemoteDataSource();
         } else {
-            // Query the local storage if available. If not, query the network.
-            tasksLocalDataSource.loadTasks(new LoadTasksCallBack() {
-                @Override
-                public void onTasksLoaded(List<TaskBean> taskBeanList) {
-                    refreshCache(taskBeanList);
-                    if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
-                        EspressoIdlingResource.decrement();
-                    }
-                    callBack.onTasksLoaded(new ArrayList<>(cachedTasksMap.values()));
-                }
-
-                @Override
-                public void onDataNotAvailable() {
-                    getTasksFromRemoteDataSource(callBack);
-                }
-            });
+            return Single.concat(getTasksFromLocalDataSource(), getTasksFromRemoteDataSource())
+                    .filter(new Predicate<List<TaskBean>>() {
+                        @Override
+                        public boolean test(List<TaskBean> taskBeans) {
+                            return !taskBeans.isEmpty();
+                        }
+                    })
+                    .firstOrError();
         }
     }
 
     @Override
-    public void getTask(final String taskId, final GetTaskCallBack callBack) {
+    public Flowable<TaskBean> getTask(final String taskId) {
         TaskBean cachedTaskBean = getTaskById(taskId);
         // Respond immediately with cache if available
         if (cachedTaskBean != null) {
-            callBack.onTaskLoaded(cachedTaskBean);
-            return;
+            return Flowable.just(cachedTaskBean);
         }
-
-        EspressoIdlingResource.increment();
 
         // Load from server/persisted if needed.
 
-        // Query the local storage if available. If not, query the network.
-        tasksLocalDataSource.getTask(taskId, new GetTaskCallBack() {
+        if (cachedTasksMap == null) {
+            cachedTasksMap = new LinkedHashMap<>();
+        }
+
+        Flowable<TaskBean> localTask = tasksLocalDataSource.getTask(taskId).doOnNext(new Consumer<TaskBean>() {
             @Override
-            public void onTaskLoaded(TaskBean taskBean) {
-                refreshCache(taskBean);
-                if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
-                    EspressoIdlingResource.decrement();
-                }
-                callBack.onTaskLoaded(taskBean);
+            public void accept(TaskBean taskBean) {
+                cachedTasksMap.put(taskBean.getId(), taskBean);
             }
-
+        }).firstElement().toFlowable();
+        Flowable<TaskBean> remoteTask = tasksRemoteDataSource.getTask(taskId).doOnNext(new Consumer<TaskBean>() {
             @Override
-            public void onDataNotAvailable() {
-                tasksRemoteDataSource.getTask(taskId, new GetTaskCallBack() {
-                    @Override
-                    public void onTaskLoaded(TaskBean taskBean) {
-                        refreshCache(taskBean);
-                        if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
-                            EspressoIdlingResource.decrement();
-                        }
-                        callBack.onTaskLoaded(taskBean);
-                    }
-
-                    @Override
-                    public void onDataNotAvailable() {
-                        if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
-                            EspressoIdlingResource.decrement();
-                        }
-                        callBack.onDataNotAvailable();
-                    }
-                });
+            public void accept(TaskBean taskBean) {
+                cachedTasksMap.put(taskBean.getId(), taskBean);
+                tasksLocalDataSource.addTask(taskBean);
             }
         });
+        return Flowable.concat(localTask, remoteTask).firstElement().toFlowable();
     }
 
     @Override
@@ -229,42 +206,59 @@ public class TasksRepository implements TasksDataSource {
     /**
      * Getting new data from the network.
      */
-    private void getTasksFromRemoteDataSource(final LoadTasksCallBack callBack) {
-        tasksRemoteDataSource.loadTasks(new LoadTasksCallBack() {
-            @Override
-            public void onTasksLoaded(List<TaskBean> taskBeanList) {
-                refreshCache(taskBeanList);
-                refreshLocalDataSource(taskBeanList);
-                if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
-                    EspressoIdlingResource.decrement();
-                }
-                callBack.onTasksLoaded(new ArrayList<>(cachedTasksMap.values()));
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
-                    EspressoIdlingResource.decrement();
-                }
-                callBack.onDataNotAvailable();
-            }
-        });
-    }
-
-    /**
-     * Refresh cache data
-     */
-    private void refreshCache(List<TaskBean> taskBeanList) {
+    private Single<List<TaskBean>> getTasksFromRemoteDataSource() {
         if (cachedTasksMap == null) {
             cachedTasksMap = new LinkedHashMap<>();
         } else {
             cachedTasksMap.clear();
         }
+        tasksLocalDataSource.deleteAllTasks();
+        return tasksRemoteDataSource.loadTasks().toFlowable().flatMap(
+                new Function<List<TaskBean>, Publisher<TaskBean>>() {
+                    @Override
+                    public Publisher<TaskBean> apply(List<TaskBean> taskBeans) {
+                        return Flowable.fromIterable(taskBeans).doOnNext(new Consumer<TaskBean>() {
+                            @Override
+                            public void accept(TaskBean taskBean) {
+                                cachedTasksMap.put(taskBean.getId(), taskBean);
+                                tasksLocalDataSource.addTask(taskBean);
+                            }
+                        });
+                    }
+                })
+                .doOnComplete(new Action() {
+                    @Override
+                    public void run() {
+                        cacheIsDirty = false;
+                    }
+                }).toList();
+    }
 
-        for (TaskBean taskBean : taskBeanList) {
-            cachedTasksMap.put(taskBean.getId(), taskBean);
+    private Single<List<TaskBean>> getTasksFromLocalDataSource() {
+        if (cachedTasksMap == null) {
+            cachedTasksMap = new LinkedHashMap<>();
+        } else {
+            cachedTasksMap.clear();
         }
-        cacheIsDirty = false;
+        return tasksLocalDataSource.loadTasks().toFlowable().flatMap(
+                new Function<List<TaskBean>, Publisher<TaskBean>>() {
+                    @Override
+                    public Publisher<TaskBean> apply(List<TaskBean> taskBeans) {
+                        return Flowable.fromIterable(taskBeans).doOnNext(new Consumer<TaskBean>() {
+                            @Override
+                            public void accept(TaskBean taskBean) {
+                                cachedTasksMap.put(taskBean.getId(), taskBean);
+                            }
+                        });
+                    }
+                })
+                .doOnComplete(new Action() {
+                    @Override
+                    public void run() {
+                        cacheIsDirty = false;
+                    }
+                })
+                .toList();
     }
 
     /**
@@ -276,16 +270,6 @@ public class TasksRepository implements TasksDataSource {
             cachedTasksMap = new LinkedHashMap<>();
         }
         cachedTasksMap.put(taskBean.getId(), taskBean);
-    }
-
-    /**
-     * Refresh local source data
-     */
-    private void refreshLocalDataSource(List<TaskBean> taskBeanList) {
-        tasksLocalDataSource.deleteAllTasks();
-        for (TaskBean taskBean : taskBeanList) {
-            tasksLocalDataSource.addTask(taskBean);
-        }
     }
 
     /**

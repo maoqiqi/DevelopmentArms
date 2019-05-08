@@ -1,13 +1,20 @@
 package com.codearms.maoqiqi.app.data.source.room;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.codearms.maoqiqi.app.data.TaskBean;
 import com.codearms.maoqiqi.app.data.source.TasksDataSource;
-import com.codearms.maoqiqi.app.utils.AppExecutors;
+import com.codearms.maoqiqi.app.utils.schedulers.BaseSchedulerProvider;
 
 import java.util.List;
+
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.Observer;
+import io.reactivex.Single;
 
 /**
  * Use room to create the sqlite database as the data source.
@@ -19,18 +26,18 @@ public class TasksRoomDataSource implements TasksDataSource {
     private static volatile TasksRoomDataSource INSTANCE;
 
     private final TasksDAO dao;
-    private final AppExecutors appExecutors;
+    private final BaseSchedulerProvider schedulerProvider;
 
-    private TasksRoomDataSource(Context context, AppExecutors appExecutors) {
+    private TasksRoomDataSource(@NonNull Context context, @NonNull BaseSchedulerProvider schedulerProvider) {
         this.dao = TaskDataBase.getInstance(context).tasksDAO();
-        this.appExecutors = appExecutors;
+        this.schedulerProvider = schedulerProvider;
     }
 
-    public static TasksRoomDataSource getInstance(Context context, AppExecutors appExecutors) {
+    public static TasksRoomDataSource getInstance(Context context, BaseSchedulerProvider schedulerProvider) {
         if (INSTANCE == null) {
             synchronized (TasksRoomDataSource.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new TasksRoomDataSource(context, appExecutors);
+                    INSTANCE = new TasksRoomDataSource(context, schedulerProvider);
                 }
             }
         }
@@ -43,56 +50,25 @@ public class TasksRoomDataSource implements TasksDataSource {
     }
 
     @Override
-    public void loadTasks(final LoadTasksCallBack callBack) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                final List<TaskBean> list = dao.loadTasks();
-                appExecutors.getMainThread().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (list.isEmpty()) {
-                            callBack.onDataNotAvailable();
-                        } else {
-                            callBack.onTasksLoaded(list);
-                        }
-                    }
-                });
-            }
-        };
-        appExecutors.getDiskIO().execute(runnable);
+    public Single<List<TaskBean>> loadTasks() {
+        return dao.loadTasks();
     }
 
     @Override
-    public void getTask(final String taskId, final GetTaskCallBack callBack) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                final TaskBean taskBean = dao.getTaskById(taskId);
-                appExecutors.getMainThread().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (taskBean == null) {
-                            callBack.onDataNotAvailable();
-                        } else {
-                            callBack.onTaskLoaded(taskBean);
-                        }
-                    }
-                });
-            }
-        };
-        appExecutors.getDiskIO().execute(runnable);
+    public Flowable<TaskBean> getTask(final String taskId) {
+        return dao.getTaskById(taskId);
     }
 
     @Override
     public void clearCompletedTasks() {
-        Runnable runnable = new Runnable() {
+        Observable.unsafeCreate(new ObservableSource<Boolean>() {
             @Override
-            public void run() {
+            public void subscribe(Observer<? super Boolean> observer) {
                 dao.deleteCompletedTasks();
+                observer.onNext(true);
+                observer.onComplete();
             }
-        };
-        appExecutors.getDiskIO().execute(runnable);
+        }).subscribeOn(schedulerProvider.computation()).observeOn(schedulerProvider.ui()).subscribe();
     }
 
     @Override
@@ -102,24 +78,26 @@ public class TasksRoomDataSource implements TasksDataSource {
 
     @Override
     public void addTask(final TaskBean taskBean) {
-        Runnable runnable = new Runnable() {
+        Observable.unsafeCreate(new ObservableSource<Boolean>() {
             @Override
-            public void run() {
+            public void subscribe(Observer<? super Boolean> observer) {
                 dao.addTask(taskBean);
+                observer.onNext(true);
+                observer.onComplete();
             }
-        };
-        appExecutors.getDiskIO().execute(runnable);
+        }).subscribeOn(schedulerProvider.computation()).observeOn(schedulerProvider.ui()).subscribe();
     }
 
     @Override
     public void updateTask(final TaskBean taskBean) {
-        Runnable runnable = new Runnable() {
+        Observable.unsafeCreate(new ObservableSource<Boolean>() {
             @Override
-            public void run() {
+            public void subscribe(Observer<? super Boolean> observer) {
                 dao.updateTask(taskBean);
+                observer.onNext(true);
+                observer.onComplete();
             }
-        };
-        appExecutors.getDiskIO().execute(runnable);
+        }).subscribeOn(schedulerProvider.computation()).observeOn(schedulerProvider.ui()).subscribe();
     }
 
     @Override
@@ -129,13 +107,14 @@ public class TasksRoomDataSource implements TasksDataSource {
 
     @Override
     public void completeTask(final String taskId) {
-        Runnable runnable = new Runnable() {
+        Observable.unsafeCreate(new ObservableSource<Boolean>() {
             @Override
-            public void run() {
+            public void subscribe(Observer<? super Boolean> observer) {
                 dao.updateCompleted(taskId, true);
+                observer.onNext(true);
+                observer.onComplete();
             }
-        };
-        appExecutors.getDiskIO().execute(runnable);
+        }).subscribeOn(schedulerProvider.computation()).observeOn(schedulerProvider.ui()).subscribe();
     }
 
     @Override
@@ -145,34 +124,37 @@ public class TasksRoomDataSource implements TasksDataSource {
 
     @Override
     public void activateTask(final String taskId) {
-        Runnable runnable = new Runnable() {
+        Observable.unsafeCreate(new ObservableSource<Boolean>() {
             @Override
-            public void run() {
+            public void subscribe(Observer<? super Boolean> observer) {
                 dao.updateCompleted(taskId, false);
+                observer.onNext(true);
+                observer.onComplete();
             }
-        };
-        appExecutors.getDiskIO().execute(runnable);
+        }).subscribeOn(schedulerProvider.computation()).observeOn(schedulerProvider.ui()).subscribe();
     }
 
     @Override
     public void deleteTask(final String taskId) {
-        Runnable runnable = new Runnable() {
+        Observable.unsafeCreate(new ObservableSource<Boolean>() {
             @Override
-            public void run() {
+            public void subscribe(Observer<? super Boolean> observer) {
                 dao.deleteTaskById(taskId);
+                observer.onNext(true);
+                observer.onComplete();
             }
-        };
-        appExecutors.getDiskIO().execute(runnable);
+        }).subscribeOn(schedulerProvider.computation()).observeOn(schedulerProvider.ui()).subscribe();
     }
 
     @Override
     public void deleteAllTasks() {
-        Runnable runnable = new Runnable() {
+        Observable.unsafeCreate(new ObservableSource<Boolean>() {
             @Override
-            public void run() {
+            public void subscribe(Observer<? super Boolean> observer) {
                 dao.deleteTasks();
+                observer.onNext(true);
+                observer.onComplete();
             }
-        };
-        appExecutors.getDiskIO().execute(runnable);
+        }).subscribeOn(schedulerProvider.computation()).observeOn(schedulerProvider.ui()).subscribe();
     }
 }

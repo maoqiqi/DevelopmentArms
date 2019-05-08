@@ -10,6 +10,9 @@ import com.codearms.maoqiqi.app.data.TaskBean;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+
 /**
  * Data Access Object for the task table.
  * Author: fengqi.mao.march@gmail.com
@@ -24,7 +27,7 @@ public interface TasksDAO {
      * @return all tasks.
      */
     @Query("select id,title,description,completed from task")
-    List<TaskBean> loadTasks();
+    Single<List<TaskBean>> loadTasks();
 
     /**
      * Select a task by id.
@@ -33,7 +36,7 @@ public interface TasksDAO {
      * @return the task with taskId.
      */
     @Query("select id,title,description,completed from task where id = :taskId")
-    TaskBean getTaskById(String taskId);
+    Flowable<TaskBean> getTaskById(String taskId);
 
     /**
      * Insert a task in the database. If the task already exists, replace it.

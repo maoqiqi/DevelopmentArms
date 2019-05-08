@@ -37,8 +37,6 @@ public class TasksPresenterTest {
     private TasksContract.View tasksView;
 
     @Captor
-    private ArgumentCaptor<TasksDataSource.LoadTasksCallBack> loadTasksCallBackArgumentCaptor;
-    @Captor
     private ArgumentCaptor<List<TaskBean>> listArgumentCaptor;
 
     private TasksPresenter tasksPresenter;
@@ -72,14 +70,14 @@ public class TasksPresenterTest {
         tasksPresenter.loadTasks(true);
 
         // Callback is captured and invoked with stubbed tasks
-        verify(tasksRepository).loadTasks(loadTasksCallBackArgumentCaptor.capture());
+        verify(tasksRepository).loadTasks();
 
         // Then progress indicator is shown
         InOrder inOrder = Mockito.inOrder(tasksView);
         inOrder.verify(tasksView).setLoadingIndicator(true);
 
         // When task is finally loaded
-        loadTasksCallBackArgumentCaptor.getValue().onTasksLoaded(taskBeanList);
+//        loadTasksCallBackArgumentCaptor.getValue().onTasksLoaded(taskBeanList);
 
         // Then progress indicator is hidden and all tasks are shown in UI
         inOrder.verify(tasksView).setLoadingIndicator(false);
@@ -92,8 +90,8 @@ public class TasksPresenterTest {
         tasksPresenter.setFiltering(TasksFilterType.ACTIVE_TASKS);
         tasksPresenter.loadTasks(true);
 
-        verify(tasksRepository).loadTasks(loadTasksCallBackArgumentCaptor.capture());
-        loadTasksCallBackArgumentCaptor.getValue().onTasksLoaded(taskBeanList);
+        verify(tasksRepository).loadTasks();
+//        loadTasksCallBackArgumentCaptor.getValue().onTasksLoaded(taskBeanList);
 
         verify(tasksView).setLoadingIndicator(false);
         verify(tasksView).showTasks(listArgumentCaptor.capture());
@@ -105,8 +103,8 @@ public class TasksPresenterTest {
         tasksPresenter.setFiltering(TasksFilterType.COMPLETED_TASKS);
         tasksPresenter.loadTasks(true);
 
-        verify(tasksRepository).loadTasks(loadTasksCallBackArgumentCaptor.capture());
-        loadTasksCallBackArgumentCaptor.getValue().onTasksLoaded(taskBeanList);
+        verify(tasksRepository).loadTasks();
+//        loadTasksCallBackArgumentCaptor.getValue().onTasksLoaded(taskBeanList);
 
         verify(tasksView).setLoadingIndicator(false);
         verify(tasksView).showTasks(listArgumentCaptor.capture());
@@ -119,8 +117,8 @@ public class TasksPresenterTest {
         tasksPresenter.loadTasks(true);
 
         // And the tasks aren't available in the repository
-        verify(tasksRepository).loadTasks(loadTasksCallBackArgumentCaptor.capture());
-        loadTasksCallBackArgumentCaptor.getValue().onDataNotAvailable();
+        verify(tasksRepository).loadTasks();
+//        loadTasksCallBackArgumentCaptor.getValue().onDataNotAvailable();
 
         // Then an error message is shown
         verify(tasksView).showNoTasks();
@@ -133,7 +131,7 @@ public class TasksPresenterTest {
 
         // Then repository is called and the view is notified
         verify(tasksRepository).clearCompletedTasks();
-        verify(tasksRepository).loadTasks(Mockito.any(TasksDataSource.LoadTasksCallBack.class));
+        verify(tasksRepository).loadTasks();
     }
 
     @Test

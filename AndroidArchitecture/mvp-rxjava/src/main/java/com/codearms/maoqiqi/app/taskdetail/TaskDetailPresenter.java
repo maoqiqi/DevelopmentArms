@@ -1,9 +1,16 @@
 package com.codearms.maoqiqi.app.taskdetail;
 
+import android.support.annotation.NonNull;
+
+import com.codearms.maoqiqi.app.Injection;
 import com.codearms.maoqiqi.app.data.TaskBean;
-import com.codearms.maoqiqi.app.data.source.TasksDataSource;
 import com.codearms.maoqiqi.app.data.source.TasksRepository;
 import com.codearms.maoqiqi.app.utils.MessageMap;
+import com.codearms.maoqiqi.app.utils.schedulers.BaseSchedulerProvider;
+
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * Listens to user actions from the UI ({@link TaskDetailFragment}), retrieves the data and updates the UI as required.
@@ -16,33 +23,48 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
     private TasksRepository tasksRepository;
     private TaskDetailContract.View taskDetailView;
 
+    @NonNull
+    private final BaseSchedulerProvider schedulerProvider = Injection.provideSchedulerProvider();
+    @NonNull
+    private CompositeDisposable compositeDisposable;
+
     TaskDetailPresenter(String taskId, TasksRepository tasksRepository, TaskDetailContract.View taskDetailView) {
         this.taskId = taskId;
         this.tasksRepository = tasksRepository;
         this.taskDetailView = taskDetailView;
         this.taskDetailView.setPresenter(this);
+        compositeDisposable = new CompositeDisposable();
     }
 
     @Override
-    public void start() {
+    public void subscribe() {
         getTask();
+    }
+
+    @Override
+    public void unsubscribe() {
+        compositeDisposable.clear();
     }
 
     @Override
     public void getTask() {
         if (isInvalidTaskId()) return;
 
-        tasksRepository.getTask(taskId, new TasksDataSource.GetTaskCallBack() {
-            @Override
-            public void onTaskLoaded(TaskBean taskBean) {
-                if (taskDetailView.isActive()) taskDetailView.showTask(taskBean);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                if (taskDetailView.isActive()) taskDetailView.showMessage(MessageMap.NO_DATA);
-            }
-        });
+        Disposable disposable = tasksRepository.getTask(taskId)
+                .subscribeOn(schedulerProvider.computation())
+                .observeOn(schedulerProvider.ui())
+                .subscribe(new Consumer<TaskBean>() {
+                    @Override
+                    public void accept(TaskBean taskBean) {
+                        taskDetailView.showTask(taskBean);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+                        taskDetailView.showMessage(MessageMap.NO_DATA);
+                    }
+                });
+        compositeDisposable.add(disposable);
     }
 
     @Override

@@ -1,11 +1,25 @@
 package com.codearms.maoqiqi.app.statistics;
 
+import android.support.annotation.NonNull;
+import android.support.v4.util.Pair;
+
+import com.codearms.maoqiqi.app.Injection;
 import com.codearms.maoqiqi.app.data.TaskBean;
-import com.codearms.maoqiqi.app.data.source.TasksDataSource;
 import com.codearms.maoqiqi.app.data.source.TasksRepository;
 import com.codearms.maoqiqi.app.utils.MessageMap;
+import com.codearms.maoqiqi.app.utils.schedulers.BaseSchedulerProvider;
+
+import org.reactivestreams.Publisher;
 
 import java.util.List;
+
+import io.reactivex.Flowable;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 
 /**
  * Listens to user actions from the UI ({@link StatisticsFragment}), retrieves the data and updates the UI as required.
@@ -16,43 +30,71 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
 
     private TasksRepository tasksRepository;
     private StatisticsContract.View statisticsView;
+    @NonNull
+    private final BaseSchedulerProvider schedulerProvider = Injection.provideSchedulerProvider();
+
+    @NonNull
+    private CompositeDisposable compositeDisposable;
 
     StatisticsPresenter(TasksRepository tasksRepository, StatisticsContract.View statisticsView) {
         this.tasksRepository = tasksRepository;
         this.statisticsView = statisticsView;
         this.statisticsView.setPresenter(this);
+        compositeDisposable = new CompositeDisposable();
     }
 
     @Override
-    public void start() {
+    public void subscribe() {
         loadStatistics();
     }
 
     @Override
+    public void unsubscribe() {
+        compositeDisposable.clear();
+    }
+
+    @Override
     public void loadStatistics() {
-        tasksRepository.loadTasks(new TasksDataSource.LoadTasksCallBack() {
+        Flowable<TaskBean> f = tasksRepository.loadTasks().toFlowable().flatMap(new Function<List<TaskBean>, Publisher<TaskBean>>() {
             @Override
-            public void onTasksLoaded(List<TaskBean> taskBeanList) {
-                int activeTasks = 0;
-                int completedTasks = 0;
-
-                // We calculate number of active and completed tasks
-                for (TaskBean taskBean : taskBeanList) {
-                    if (taskBean.isCompleted()) {
-                        completedTasks += 1;
-                    } else {
-                        activeTasks += 1;
-                    }
-                }
-
-                if (statisticsView.isActive())
-                    statisticsView.showStatistics(activeTasks, completedTasks);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                if (statisticsView.isActive()) statisticsView.showMessage(MessageMap.NO_DATA);
+            public Publisher<TaskBean> apply(List<TaskBean> taskBeans) {
+                return Flowable.fromIterable(taskBeans);
             }
         });
+        Flowable<Long> completedTasks = f.filter(new Predicate<TaskBean>() {
+            @Override
+            public boolean test(TaskBean taskBean) {
+                return taskBean.isCompleted();
+            }
+        }).count().toFlowable();
+        Flowable<Long> activeTasks = f.filter(new Predicate<TaskBean>() {
+            @Override
+            public boolean test(TaskBean taskBean) {
+                return taskBean.isActive();
+            }
+        }).count().toFlowable();
+        Disposable disposable = Flowable.zip(completedTasks, activeTasks,
+                new BiFunction<Long, Long, Pair>() {
+                    @Override
+                    public Pair apply(Long completed, Long active) {
+                        return Pair.create(active, completed);
+                    }
+                })
+                .subscribeOn(schedulerProvider.computation())
+                .observeOn(schedulerProvider.ui())
+                .subscribe(new Consumer<Pair>() {
+                    @Override
+                    public void accept(Pair pair) {
+                        long activeTasks = (long) pair.first;
+                        long completedTasks = (long) pair.second;
+                        statisticsView.showStatistics((int) activeTasks, (int) completedTasks);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+                        statisticsView.showMessage(MessageMap.NO_DATA);
+                    }
+                });
+        compositeDisposable.add(disposable);
     }
 }

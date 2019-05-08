@@ -1,14 +1,16 @@
 package com.codearms.maoqiqi.app.data.source.remote;
 
-import android.os.Handler;
-
 import com.codearms.maoqiqi.app.data.TaskBean;
 import com.codearms.maoqiqi.app.data.source.TasksDataSource;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 /**
  * Access the server API interface data as a data source.
@@ -44,38 +46,21 @@ public class TasksRemoteDataSource implements TasksDataSource {
         return INSTANCE;
     }
 
-    /**
-     * {@link LoadTasksCallBack#onDataNotAvailable()} is never fired.
-     * In a real remote data source implementation, this would be fired
-     * if the server can't be contacted or the server returns an error.
-     */
     @Override
-    public void loadTasks(final LoadTasksCallBack callBack) {
-        // Simulate network by delaying the execution.
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                callBack.onTasksLoaded(new ArrayList<>(TASKS_SERVICE_DATA.values()));
-            }
-        }, SERVICE_LATENCY_IN_MILLIS);
+    public Single<List<TaskBean>> loadTasks() {
+        return Flowable.fromIterable(TASKS_SERVICE_DATA.values())
+                .delay(SERVICE_LATENCY_IN_MILLIS, TimeUnit.MILLISECONDS)
+                .toList();
     }
 
-    /**
-     * {@link GetTaskCallBack#onDataNotAvailable()} is never fired.
-     * In a real remote data source implementation, this would be fired
-     * if the server can't be contacted or the server returns an error.
-     */
     @Override
-    public void getTask(String taskId, final GetTaskCallBack callBack) {
+    public Flowable<TaskBean> getTask(String taskId) {
         final TaskBean taskBean = TASKS_SERVICE_DATA.get(taskId);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                callBack.onTaskLoaded(taskBean);
-            }
-        }, SERVICE_LATENCY_IN_MILLIS);
+        if (taskBean != null) {
+            return Flowable.just(taskBean).delay(SERVICE_LATENCY_IN_MILLIS, TimeUnit.MILLISECONDS);
+        } else {
+            return Flowable.empty();
+        }
     }
 
     @Override

@@ -3,10 +3,13 @@ package com.codearms.maoqiqi.app.data.source.remote;
 import com.codearms.maoqiqi.app.data.TaskBean;
 import com.codearms.maoqiqi.app.data.source.TasksDataSource;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
+import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 /**
  * Implement a fast access to the server API interface.
@@ -35,14 +38,18 @@ public class FakeTasksRemoteDataSource implements TasksDataSource {
     }
 
     @Override
-    public void loadTasks(LoadTasksCallBack callBack) {
-        callBack.onTasksLoaded(new ArrayList<>(TASKS_SERVICE_DATA.values()));
+    public Single<List<TaskBean>> loadTasks() {
+        return Flowable.fromIterable(TASKS_SERVICE_DATA.values()).toList();
     }
 
     @Override
-    public void getTask(String taskId, GetTaskCallBack callBack) {
+    public Flowable<TaskBean> getTask(String taskId) {
         TaskBean taskBean = TASKS_SERVICE_DATA.get(taskId);
-        callBack.onTaskLoaded(taskBean);
+        if (taskBean != null) {
+            return Flowable.just(taskBean);
+        } else {
+            return Flowable.empty();
+        }
     }
 
     @Override

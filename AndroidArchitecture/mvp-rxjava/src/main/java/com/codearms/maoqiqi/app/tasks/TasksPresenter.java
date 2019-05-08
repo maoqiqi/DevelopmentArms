@@ -1,12 +1,24 @@
 package com.codearms.maoqiqi.app.tasks;
 
+import android.support.annotation.NonNull;
+
+import com.codearms.maoqiqi.app.Injection;
 import com.codearms.maoqiqi.app.data.TaskBean;
 import com.codearms.maoqiqi.app.data.source.TasksDataSource;
 import com.codearms.maoqiqi.app.data.source.TasksRepository;
 import com.codearms.maoqiqi.app.utils.MessageMap;
+import com.codearms.maoqiqi.app.utils.schedulers.BaseSchedulerProvider;
 
-import java.util.ArrayList;
+import org.reactivestreams.Publisher;
+
 import java.util.List;
+
+import io.reactivex.Flowable;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 
 /**
  * Listens to user actions from the UI ({@link TasksFragment}), retrieves the data and updates the UI as required.
@@ -21,15 +33,26 @@ public class TasksPresenter implements TasksContract.Presenter {
     private TasksFilterType currentFiltering = TasksFilterType.ALL_TASKS;
     private boolean firstLoad = true;
 
+    @NonNull
+    private final BaseSchedulerProvider schedulerProvider = Injection.provideSchedulerProvider();
+    @NonNull
+    private CompositeDisposable compositeDisposable;
+
     TasksPresenter(TasksRepository tasksRepository, TasksContract.View tasksView) {
         this.tasksRepository = tasksRepository;
         this.tasksView = tasksView;
         this.tasksView.setPresenter(this);
+        compositeDisposable = new CompositeDisposable();
     }
 
     @Override
-    public void start() {
+    public void subscribe() {
         loadTasks(false);
+    }
+
+    @Override
+    public void unsubscribe() {
+        compositeDisposable.clear();
     }
 
     @Override
@@ -51,42 +74,44 @@ public class TasksPresenter implements TasksContract.Presenter {
         // Notice:Tests are used to clear the data each time.
         // if (forceUpdate) tasksRepository.refreshTasks();
 
-        tasksRepository.loadTasks(new TasksDataSource.LoadTasksCallBack() {
-            @Override
-            public void onTasksLoaded(List<TaskBean> taskBeanList) {
-                List<TaskBean> tasksToShow = new ArrayList<>();
-
-                // We filter the tasks based on the requestType
-                for (TaskBean taskBean : taskBeanList) {
-                    switch (currentFiltering) {
-                        case ALL_TASKS:
-                            tasksToShow.add(taskBean);
-                            break;
-                        case ACTIVE_TASKS:
-                            if (taskBean.isActive()) tasksToShow.add(taskBean);
-                            break;
-                        case COMPLETED_TASKS:
-                            if (taskBean.isCompleted()) tasksToShow.add(taskBean);
-                            break;
+        Disposable disposable = tasksRepository.loadTasks().toFlowable().flatMap(
+                new Function<List<TaskBean>, Publisher<TaskBean>>() {
+                    @Override
+                    public Publisher<TaskBean> apply(List<TaskBean> taskBeans) {
+                        return Flowable.fromIterable(taskBeans);
                     }
-                }
-
-                // The view may not be able to handle UI updates anymore
-                if (!tasksView.isActive()) return;
-
-                if (showLoading) tasksView.setLoadingIndicator(false);
-
-                processTasks(tasksToShow);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                if (!tasksView.isActive()) return;
-
-                if (showLoading) tasksView.setLoadingIndicator(false);
-                tasksView.showNoTasks();
-            }
-        });
+                })
+                .filter(new Predicate<TaskBean>() {
+                    @Override
+                    public boolean test(TaskBean taskBean) {
+                        switch (currentFiltering) {
+                            case ACTIVE_TASKS:
+                                return taskBean.isActive();
+                            case COMPLETED_TASKS:
+                                return taskBean.isCompleted();
+                            case ALL_TASKS:
+                            default:
+                                return true;
+                        }
+                    }
+                })
+                .toList()
+                .subscribeOn(schedulerProvider.computation())
+                .observeOn(schedulerProvider.ui())
+                .subscribe(new Consumer<List<TaskBean>>() {
+                    @Override
+                    public void accept(List<TaskBean> taskBeans) {
+                        if (showLoading) tasksView.setLoadingIndicator(false);
+                        processTasks(taskBeans);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+                        if (showLoading) tasksView.setLoadingIndicator(false);
+                        tasksView.showNoTasks();
+                    }
+                });
+        compositeDisposable.add(disposable);
     }
 
     private void processTasks(List<TaskBean> taskBeanList) {

@@ -149,7 +149,13 @@ public class TasksFragment extends BaseFragment implements TasksContract.View {
     @Override
     public void onResume() {
         super.onResume();
-        presenter.start();
+        presenter.subscribe();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.unsubscribe();
     }
 
     @Override

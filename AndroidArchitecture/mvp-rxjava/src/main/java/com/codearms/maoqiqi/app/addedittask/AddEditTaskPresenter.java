@@ -1,9 +1,16 @@
 package com.codearms.maoqiqi.app.addedittask;
 
+import android.support.annotation.NonNull;
+
+import com.codearms.maoqiqi.app.Injection;
 import com.codearms.maoqiqi.app.data.TaskBean;
-import com.codearms.maoqiqi.app.data.source.TasksDataSource;
 import com.codearms.maoqiqi.app.data.source.TasksRepository;
 import com.codearms.maoqiqi.app.utils.MessageMap;
+import com.codearms.maoqiqi.app.utils.schedulers.BaseSchedulerProvider;
+
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * Listens to user actions from the UI ({@link AddEditTaskFragment}), retrieves the data and updates the UI as required.
@@ -16,6 +23,11 @@ public class AddEditTaskPresenter implements AddEditTaskContract.Presenter {
     private TasksRepository tasksRepository;
     private AddEditTaskContract.View addEditTaskView;
     private boolean isDataMissing;
+
+    @NonNull
+    private final BaseSchedulerProvider schedulerProvider = Injection.provideSchedulerProvider();
+    @NonNull
+    private CompositeDisposable compositeDisposable;
 
     /**
      * Creates a presenter for the add/edit view.
@@ -31,29 +43,39 @@ public class AddEditTaskPresenter implements AddEditTaskContract.Presenter {
         this.addEditTaskView = addEditTaskView;
         this.isDataMissing = isDataMissing;
         this.addEditTaskView.setPresenter(this);
+        compositeDisposable = new CompositeDisposable();
     }
 
     @Override
-    public void start() {
+    public void subscribe() {
         if (!isNewTask() && isDataMissing) getTask();
+    }
+
+    @Override
+    public void unsubscribe() {
+        compositeDisposable.clear();
     }
 
     @Override
     public void getTask() {
         if (isNewTask()) throw new RuntimeException("getTask() was called but task is new.");
 
-        tasksRepository.getTask(taskId, new TasksDataSource.GetTaskCallBack() {
-            @Override
-            public void onTaskLoaded(TaskBean taskBean) {
-                if (addEditTaskView.isActive()) addEditTaskView.setData(taskBean);
-                isDataMissing = false;
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                if (addEditTaskView.isActive()) addEditTaskView.showMessage(MessageMap.NO_DATA);
-            }
-        });
+        Disposable disposable = tasksRepository.getTask(taskId)
+                .subscribeOn(schedulerProvider.computation())
+                .observeOn(schedulerProvider.ui())
+                .subscribe(new Consumer<TaskBean>() {
+                    @Override
+                    public void accept(TaskBean taskBean) {
+                        addEditTaskView.setData(taskBean);
+                        isDataMissing = false;
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+                        addEditTaskView.showMessage(MessageMap.NO_DATA);
+                    }
+                });
+        compositeDisposable.add(disposable);
     }
 
     @Override

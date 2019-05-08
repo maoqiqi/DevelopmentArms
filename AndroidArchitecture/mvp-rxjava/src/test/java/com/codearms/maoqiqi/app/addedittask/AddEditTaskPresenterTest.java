@@ -33,9 +33,6 @@ public class AddEditTaskPresenterTest {
     @Mock
     private AddEditTaskContract.View addEditTaskView;
 
-    @Captor
-    private ArgumentCaptor<TasksDataSource.GetTaskCallBack> getTaskCallBackArgumentCaptor;
-
     private AddEditTaskPresenter addEditTaskPresenter;
 
     @Before
@@ -91,12 +88,12 @@ public class AddEditTaskPresenterTest {
         addEditTaskPresenter = new AddEditTaskPresenter(taskBean.getId(), tasksRepository, addEditTaskView, true);
 
         // When the presenter is asked to populate an existing task
-        addEditTaskPresenter.start();
+        addEditTaskPresenter.subscribe();
 
-        verify(tasksRepository).getTask(Mockito.eq(taskBean.getId()), getTaskCallBackArgumentCaptor.capture());
+        verify(tasksRepository).getTask(Mockito.eq(taskBean.getId()));
         assertTrue(addEditTaskPresenter.isDataMissing());
 
-        getTaskCallBackArgumentCaptor.getValue().onTaskLoaded(taskBean);
+//        getTaskCallBackArgumentCaptor.getValue().onTaskLoaded(taskBean);
 
         verify(addEditTaskView).setData(taskBean);
         assertFalse(addEditTaskPresenter.isDataMissing());

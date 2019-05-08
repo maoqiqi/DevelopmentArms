@@ -31,9 +31,6 @@ public class TaskDetailPresenterTest {
     @Mock
     private TaskDetailContract.View taskDetailView;
 
-    @Captor
-    private ArgumentCaptor<TasksDataSource.GetTaskCallBack> getTaskCallBackArgumentCaptor;
-
     private TaskDetailPresenter taskDetailPresenter;
 
     private TaskBean activeTaskBean;
@@ -60,13 +57,13 @@ public class TaskDetailPresenterTest {
     public void getActiveTask() {
         // When tasks presenter is asked to open a task
         taskDetailPresenter = new TaskDetailPresenter(activeTaskBean.getId(), tasksRepository, taskDetailView);
-        taskDetailPresenter.start();
+        taskDetailPresenter.subscribe();
 
         // Then task is loaded from model, callback is captured and progress indicator is shown
-        verify(tasksRepository).getTask(Matchers.eq(activeTaskBean.getId()), getTaskCallBackArgumentCaptor.capture());
+        verify(tasksRepository).getTask(Matchers.eq(activeTaskBean.getId()));
 
         // Trigger callback
-        getTaskCallBackArgumentCaptor.getValue().onTaskLoaded(activeTaskBean);
+//        getTaskCallBackArgumentCaptor.getValue().onTaskLoaded(activeTaskBean);
 
         // Title, description and completion status are shown in UI
         verify(taskDetailView).showTask(activeTaskBean);
@@ -75,11 +72,11 @@ public class TaskDetailPresenterTest {
     @Test
     public void getCompletedTask() {
         taskDetailPresenter = new TaskDetailPresenter(completedTaskBean.getId(), tasksRepository, taskDetailView);
-        taskDetailPresenter.start();
+        taskDetailPresenter.subscribe();
 
-        verify(tasksRepository).getTask(Matchers.eq(completedTaskBean.getId()), getTaskCallBackArgumentCaptor.capture());
+        verify(tasksRepository).getTask(Matchers.eq(completedTaskBean.getId()));
 
-        getTaskCallBackArgumentCaptor.getValue().onTaskLoaded(completedTaskBean);
+//        getTaskCallBackArgumentCaptor.getValue().onTaskLoaded(completedTaskBean);
 
         verify(taskDetailView).showTask(completedTaskBean);
     }
@@ -88,18 +85,18 @@ public class TaskDetailPresenterTest {
     public void getUnknownTask() {
         // When loading of a task is requested with an invalid task ID.
         taskDetailPresenter = new TaskDetailPresenter(unknownTaskBean.getId(), tasksRepository, taskDetailView);
-        taskDetailPresenter.start();
+        taskDetailPresenter.subscribe();
         verify(taskDetailView).showMessage(MessageMap.NO_ID);
     }
 
     @Test
     public void getTaskNotAvailable() {
         taskDetailPresenter = new TaskDetailPresenter(activeTaskBean.getId(), tasksRepository, taskDetailView);
-        taskDetailPresenter.start();
+        taskDetailPresenter.subscribe();
 
-        verify(tasksRepository).getTask(Matchers.eq(activeTaskBean.getId()), getTaskCallBackArgumentCaptor.capture());
+        verify(tasksRepository).getTask(Matchers.eq(activeTaskBean.getId()));
 
-        getTaskCallBackArgumentCaptor.getValue().onDataNotAvailable();
+//        getTaskCallBackArgumentCaptor.getValue().onDataNotAvailable();
 
         verify(taskDetailView).showMessage(MessageMap.NO_DATA);
     }

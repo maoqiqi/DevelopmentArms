@@ -9,7 +9,7 @@ import java.util.concurrent.Executor;
  * Author: fengqi.mao.march@gmail.com
  * Date: 2019/3/13 14:15
  */
-public class SingleExecutors extends AppExecutors {
+public class SingleExecutors {
 
     private static Executor instant = new Executor() {
         @Override
@@ -19,6 +19,6 @@ public class SingleExecutors extends AppExecutors {
     };
 
     public SingleExecutors() {
-        super(instant, instant, instant);
+
     }
 }
