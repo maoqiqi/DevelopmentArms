@@ -1,9 +1,9 @@
 package com.codearms.maoqiqi.app.tasks;
 
 import com.codearms.maoqiqi.app.data.TaskBean;
-import com.codearms.maoqiqi.app.data.source.TasksDataSource;
 import com.codearms.maoqiqi.app.data.source.TasksRepository;
 import com.codearms.maoqiqi.app.utils.MessageMap;
+import com.codearms.maoqiqi.app.utils.schedulers.ImmediateSchedulerProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +15,10 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import io.reactivex.Single;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -49,7 +52,7 @@ public class TasksPresenterTest {
         // The presenter won't update the view unless it's active.
         when(tasksView.isActive()).thenReturn(true);
 
-        tasksPresenter = new TasksPresenter(tasksRepository, tasksView);
+        tasksPresenter = new TasksPresenter(tasksRepository, tasksView, new ImmediateSchedulerProvider());
 
         taskBeanList = new ArrayList<>();
         taskBeanList.add(new TaskBean(TITLE, DESCRIPTION, false));
@@ -65,6 +68,8 @@ public class TasksPresenterTest {
 
     @Test
     public void loadTasks() {
+        when(tasksRepository.loadTasks()).thenReturn(Single.just(taskBeanList));
+
         // When loading of Tasks is requested
         tasksPresenter.setFiltering(TasksFilterType.ALL_TASKS);
         tasksPresenter.loadTasks(true);
@@ -76,9 +81,6 @@ public class TasksPresenterTest {
         InOrder inOrder = Mockito.inOrder(tasksView);
         inOrder.verify(tasksView).setLoadingIndicator(true);
 
-        // When task is finally loaded
-//        loadTasksCallBackArgumentCaptor.getValue().onTasksLoaded(taskBeanList);
-
         // Then progress indicator is hidden and all tasks are shown in UI
         inOrder.verify(tasksView).setLoadingIndicator(false);
         verify(tasksView).showTasks(listArgumentCaptor.capture());
@@ -87,11 +89,12 @@ public class TasksPresenterTest {
 
     @Test
     public void loadActiveTasks() {
+        when(tasksRepository.loadTasks()).thenReturn(Single.just(taskBeanList));
+
         tasksPresenter.setFiltering(TasksFilterType.ACTIVE_TASKS);
         tasksPresenter.loadTasks(true);
 
         verify(tasksRepository).loadTasks();
-//        loadTasksCallBackArgumentCaptor.getValue().onTasksLoaded(taskBeanList);
 
         verify(tasksView).setLoadingIndicator(false);
         verify(tasksView).showTasks(listArgumentCaptor.capture());
@@ -100,11 +103,12 @@ public class TasksPresenterTest {
 
     @Test
     public void loadCompletedTasks() {
+        when(tasksRepository.loadTasks()).thenReturn(Single.just(taskBeanList));
+
         tasksPresenter.setFiltering(TasksFilterType.COMPLETED_TASKS);
         tasksPresenter.loadTasks(true);
 
         verify(tasksRepository).loadTasks();
-//        loadTasksCallBackArgumentCaptor.getValue().onTasksLoaded(taskBeanList);
 
         verify(tasksView).setLoadingIndicator(false);
         verify(tasksView).showTasks(listArgumentCaptor.capture());
@@ -113,12 +117,13 @@ public class TasksPresenterTest {
 
     @Test
     public void showNoTasks() {
+        when(tasksRepository.loadTasks()).thenReturn(Single.<List<TaskBean>>error(new Exception()));
+
         tasksPresenter.setFiltering(TasksFilterType.ALL_TASKS);
         tasksPresenter.loadTasks(true);
 
         // And the tasks aren't available in the repository
         verify(tasksRepository).loadTasks();
-//        loadTasksCallBackArgumentCaptor.getValue().onDataNotAvailable();
 
         // Then an error message is shown
         verify(tasksView).showNoTasks();
@@ -126,6 +131,8 @@ public class TasksPresenterTest {
 
     @Test
     public void clearCompletedTasks() {
+        when(tasksRepository.loadTasks()).thenReturn(Single.just(taskBeanList));
+
         // When completed tasks are cleared
         tasksPresenter.clearCompletedTasks();
 
@@ -139,6 +146,8 @@ public class TasksPresenterTest {
         // Given a stubbed activated task
         TaskBean completedTaskBean = new TaskBean(TITLE, DESCRIPTION, false);
 
+        when(tasksRepository.loadTasks()).thenReturn(Single.just(Collections.singletonList(completedTaskBean)));
+
         // When task is marked as complete
         tasksPresenter.completeTask(completedTaskBean);
 
@@ -151,6 +160,8 @@ public class TasksPresenterTest {
     public void activateTask() {
         // Given a stubbed completed task
         TaskBean activeTaskBean = new TaskBean(TITLE, DESCRIPTION, true);
+
+        when(tasksRepository.loadTasks()).thenReturn(Single.just(Collections.singletonList(activeTaskBean)));
 
         // When task is marked as activated
         tasksPresenter.activateTask(activeTaskBean);

@@ -1,18 +1,19 @@
 package com.codearms.maoqiqi.app.taskdetail;
 
 import com.codearms.maoqiqi.app.data.TaskBean;
-import com.codearms.maoqiqi.app.data.source.TasksDataSource;
 import com.codearms.maoqiqi.app.data.source.TasksRepository;
 import com.codearms.maoqiqi.app.utils.MessageMap;
+import com.codearms.maoqiqi.app.utils.schedulers.BaseSchedulerProvider;
+import com.codearms.maoqiqi.app.utils.schedulers.ImmediateSchedulerProvider;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
+import io.reactivex.Flowable;
 
 import static org.mockito.Mockito.verify;
 
@@ -31,6 +32,8 @@ public class TaskDetailPresenterTest {
     @Mock
     private TaskDetailContract.View taskDetailView;
 
+    private BaseSchedulerProvider schedulerProvider;
+
     private TaskDetailPresenter taskDetailPresenter;
 
     private TaskBean activeTaskBean;
@@ -42,6 +45,8 @@ public class TaskDetailPresenterTest {
         MockitoAnnotations.initMocks(this);
         Mockito.when(taskDetailView.isActive()).thenReturn(true);
 
+        schedulerProvider = new ImmediateSchedulerProvider();
+
         activeTaskBean = new TaskBean(TITLE, DESCRIPTION, false);
         completedTaskBean = new TaskBean(TITLE, DESCRIPTION, true);
         unknownTaskBean = new TaskBean("", TITLE, DESCRIPTION, false);
@@ -49,21 +54,20 @@ public class TaskDetailPresenterTest {
 
     @Test
     public void setPresenter() {
-        taskDetailPresenter = new TaskDetailPresenter(activeTaskBean.getId(), tasksRepository, taskDetailView);
+        taskDetailPresenter = new TaskDetailPresenter(activeTaskBean.getId(), tasksRepository, taskDetailView, schedulerProvider);
         verify(taskDetailView).setPresenter(taskDetailPresenter);
     }
 
     @Test
     public void getActiveTask() {
+        Mockito.when(tasksRepository.getTask(Mockito.eq(activeTaskBean.getId()))).thenReturn(Flowable.just(activeTaskBean));
+
         // When tasks presenter is asked to open a task
-        taskDetailPresenter = new TaskDetailPresenter(activeTaskBean.getId(), tasksRepository, taskDetailView);
+        taskDetailPresenter = new TaskDetailPresenter(activeTaskBean.getId(), tasksRepository, taskDetailView, schedulerProvider);
         taskDetailPresenter.subscribe();
 
         // Then task is loaded from model, callback is captured and progress indicator is shown
         verify(tasksRepository).getTask(Matchers.eq(activeTaskBean.getId()));
-
-        // Trigger callback
-//        getTaskCallBackArgumentCaptor.getValue().onTaskLoaded(activeTaskBean);
 
         // Title, description and completion status are shown in UI
         verify(taskDetailView).showTask(activeTaskBean);
@@ -71,12 +75,12 @@ public class TaskDetailPresenterTest {
 
     @Test
     public void getCompletedTask() {
-        taskDetailPresenter = new TaskDetailPresenter(completedTaskBean.getId(), tasksRepository, taskDetailView);
+        Mockito.when(tasksRepository.getTask(Mockito.eq(completedTaskBean.getId()))).thenReturn(Flowable.just(completedTaskBean));
+
+        taskDetailPresenter = new TaskDetailPresenter(completedTaskBean.getId(), tasksRepository, taskDetailView, schedulerProvider);
         taskDetailPresenter.subscribe();
 
         verify(tasksRepository).getTask(Matchers.eq(completedTaskBean.getId()));
-
-//        getTaskCallBackArgumentCaptor.getValue().onTaskLoaded(completedTaskBean);
 
         verify(taskDetailView).showTask(completedTaskBean);
     }
@@ -84,19 +88,19 @@ public class TaskDetailPresenterTest {
     @Test
     public void getUnknownTask() {
         // When loading of a task is requested with an invalid task ID.
-        taskDetailPresenter = new TaskDetailPresenter(unknownTaskBean.getId(), tasksRepository, taskDetailView);
+        taskDetailPresenter = new TaskDetailPresenter(unknownTaskBean.getId(), tasksRepository, taskDetailView, schedulerProvider);
         taskDetailPresenter.subscribe();
         verify(taskDetailView).showMessage(MessageMap.NO_ID);
     }
 
     @Test
     public void getTaskNotAvailable() {
-        taskDetailPresenter = new TaskDetailPresenter(activeTaskBean.getId(), tasksRepository, taskDetailView);
+        Mockito.when(tasksRepository.getTask(Mockito.eq(activeTaskBean.getId()))).thenReturn(Flowable.<TaskBean>error(new Exception()));
+
+        taskDetailPresenter = new TaskDetailPresenter(activeTaskBean.getId(), tasksRepository, taskDetailView, schedulerProvider);
         taskDetailPresenter.subscribe();
 
         verify(tasksRepository).getTask(Matchers.eq(activeTaskBean.getId()));
-
-//        getTaskCallBackArgumentCaptor.getValue().onDataNotAvailable();
 
         verify(taskDetailView).showMessage(MessageMap.NO_DATA);
     }
@@ -104,7 +108,7 @@ public class TaskDetailPresenterTest {
     @Test
     public void completeTask() {
         // Given an initialized presenter with an active task
-        taskDetailPresenter = new TaskDetailPresenter(activeTaskBean.getId(), tasksRepository, taskDetailView);
+        taskDetailPresenter = new TaskDetailPresenter(activeTaskBean.getId(), tasksRepository, taskDetailView, schedulerProvider);
 
         // When the presenter is asked to complete the task
         taskDetailPresenter.completeTask();
@@ -117,7 +121,7 @@ public class TaskDetailPresenterTest {
     @Test
     public void activateTask() {
         // Given an initialized presenter with a completed task
-        taskDetailPresenter = new TaskDetailPresenter(completedTaskBean.getId(), tasksRepository, taskDetailView);
+        taskDetailPresenter = new TaskDetailPresenter(completedTaskBean.getId(), tasksRepository, taskDetailView, schedulerProvider);
 
         // When the presenter is asked to activate the task
         taskDetailPresenter.activateTask();
@@ -129,7 +133,7 @@ public class TaskDetailPresenterTest {
     @Test
     public void deleteTask() {
         // When the deletion of a task is requested
-        taskDetailPresenter = new TaskDetailPresenter(activeTaskBean.getId(), tasksRepository, taskDetailView);
+        taskDetailPresenter = new TaskDetailPresenter(activeTaskBean.getId(), tasksRepository, taskDetailView, schedulerProvider);
         taskDetailPresenter.deleteTask();
 
         // Then the repository and the view are notified

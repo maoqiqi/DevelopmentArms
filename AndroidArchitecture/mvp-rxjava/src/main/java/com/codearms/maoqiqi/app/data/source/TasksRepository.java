@@ -106,20 +106,18 @@ public class TasksRepository implements TasksDataSource {
             cachedTasksMap = new LinkedHashMap<>();
         }
 
-        Flowable<TaskBean> localTask = tasksLocalDataSource.getTask(taskId).doOnNext(new Consumer<TaskBean>() {
+        return Flowable.concat(tasksLocalDataSource.getTask(taskId).doOnNext(new Consumer<TaskBean>() {
             @Override
             public void accept(TaskBean taskBean) {
                 cachedTasksMap.put(taskBean.getId(), taskBean);
             }
-        }).firstElement().toFlowable();
-        Flowable<TaskBean> remoteTask = tasksRemoteDataSource.getTask(taskId).doOnNext(new Consumer<TaskBean>() {
+        }), tasksRemoteDataSource.getTask(taskId).doOnNext(new Consumer<TaskBean>() {
             @Override
             public void accept(TaskBean taskBean) {
                 cachedTasksMap.put(taskBean.getId(), taskBean);
                 tasksLocalDataSource.addTask(taskBean);
             }
-        });
-        return Flowable.concat(localTask, remoteTask).firstElement().toFlowable();
+        })).firstOrError().toFlowable();
     }
 
     @Override

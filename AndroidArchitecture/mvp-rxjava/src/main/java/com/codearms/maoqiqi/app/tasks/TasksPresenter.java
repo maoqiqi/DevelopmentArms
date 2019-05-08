@@ -2,7 +2,6 @@ package com.codearms.maoqiqi.app.tasks;
 
 import android.support.annotation.NonNull;
 
-import com.codearms.maoqiqi.app.Injection;
 import com.codearms.maoqiqi.app.data.TaskBean;
 import com.codearms.maoqiqi.app.data.source.TasksDataSource;
 import com.codearms.maoqiqi.app.data.source.TasksRepository;
@@ -29,18 +28,18 @@ public class TasksPresenter implements TasksContract.Presenter {
 
     private final TasksRepository tasksRepository;
     private final TasksContract.View tasksView;
+    private final BaseSchedulerProvider schedulerProvider;
 
     private TasksFilterType currentFiltering = TasksFilterType.ALL_TASKS;
     private boolean firstLoad = true;
 
     @NonNull
-    private final BaseSchedulerProvider schedulerProvider = Injection.provideSchedulerProvider();
-    @NonNull
     private CompositeDisposable compositeDisposable;
 
-    TasksPresenter(TasksRepository tasksRepository, TasksContract.View tasksView) {
+    TasksPresenter(TasksRepository tasksRepository, TasksContract.View tasksView, BaseSchedulerProvider schedulerProvider) {
         this.tasksRepository = tasksRepository;
         this.tasksView = tasksView;
+        this.schedulerProvider = schedulerProvider;
         this.tasksView.setPresenter(this);
         compositeDisposable = new CompositeDisposable();
     }

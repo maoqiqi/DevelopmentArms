@@ -2,7 +2,6 @@ package com.codearms.maoqiqi.app.addedittask;
 
 import android.support.annotation.NonNull;
 
-import com.codearms.maoqiqi.app.Injection;
 import com.codearms.maoqiqi.app.data.TaskBean;
 import com.codearms.maoqiqi.app.data.source.TasksRepository;
 import com.codearms.maoqiqi.app.utils.MessageMap;
@@ -23,9 +22,8 @@ public class AddEditTaskPresenter implements AddEditTaskContract.Presenter {
     private TasksRepository tasksRepository;
     private AddEditTaskContract.View addEditTaskView;
     private boolean isDataMissing;
+    private BaseSchedulerProvider schedulerProvider;
 
-    @NonNull
-    private final BaseSchedulerProvider schedulerProvider = Injection.provideSchedulerProvider();
     @NonNull
     private CompositeDisposable compositeDisposable;
 
@@ -37,12 +35,13 @@ public class AddEditTaskPresenter implements AddEditTaskContract.Presenter {
      * @param addEditTaskView the add/edit view
      * @param isDataMissing   whether data needs to be loaded or not (for config changes)
      */
-    AddEditTaskPresenter(String taskId, TasksRepository tasksRepository, AddEditTaskContract.View addEditTaskView, boolean isDataMissing) {
+    AddEditTaskPresenter(String taskId, TasksRepository tasksRepository, AddEditTaskContract.View addEditTaskView, boolean isDataMissing, BaseSchedulerProvider schedulerProvider) {
         this.taskId = taskId;
         this.tasksRepository = tasksRepository;
         this.addEditTaskView = addEditTaskView;
         this.isDataMissing = isDataMissing;
         this.addEditTaskView.setPresenter(this);
+        this.schedulerProvider = schedulerProvider;
         compositeDisposable = new CompositeDisposable();
     }
 

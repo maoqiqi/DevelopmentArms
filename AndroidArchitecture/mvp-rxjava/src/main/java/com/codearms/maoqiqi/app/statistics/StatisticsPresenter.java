@@ -3,7 +3,6 @@ package com.codearms.maoqiqi.app.statistics;
 import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 
-import com.codearms.maoqiqi.app.Injection;
 import com.codearms.maoqiqi.app.data.TaskBean;
 import com.codearms.maoqiqi.app.data.source.TasksRepository;
 import com.codearms.maoqiqi.app.utils.MessageMap;
@@ -30,16 +29,16 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
 
     private TasksRepository tasksRepository;
     private StatisticsContract.View statisticsView;
-    @NonNull
-    private final BaseSchedulerProvider schedulerProvider = Injection.provideSchedulerProvider();
+    private BaseSchedulerProvider schedulerProvider;
 
     @NonNull
     private CompositeDisposable compositeDisposable;
 
-    StatisticsPresenter(TasksRepository tasksRepository, StatisticsContract.View statisticsView) {
+    StatisticsPresenter(TasksRepository tasksRepository, StatisticsContract.View statisticsView, BaseSchedulerProvider schedulerProvider) {
         this.tasksRepository = tasksRepository;
         this.statisticsView = statisticsView;
         this.statisticsView.setPresenter(this);
+        this.schedulerProvider = schedulerProvider;
         compositeDisposable = new CompositeDisposable();
     }
 

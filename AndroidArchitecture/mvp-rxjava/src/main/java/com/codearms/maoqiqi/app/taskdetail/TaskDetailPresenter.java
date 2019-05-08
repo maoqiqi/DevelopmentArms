@@ -2,7 +2,6 @@ package com.codearms.maoqiqi.app.taskdetail;
 
 import android.support.annotation.NonNull;
 
-import com.codearms.maoqiqi.app.Injection;
 import com.codearms.maoqiqi.app.data.TaskBean;
 import com.codearms.maoqiqi.app.data.source.TasksRepository;
 import com.codearms.maoqiqi.app.utils.MessageMap;
@@ -22,17 +21,17 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
     private String taskId;
     private TasksRepository tasksRepository;
     private TaskDetailContract.View taskDetailView;
+    private BaseSchedulerProvider schedulerProvider;
 
-    @NonNull
-    private final BaseSchedulerProvider schedulerProvider = Injection.provideSchedulerProvider();
     @NonNull
     private CompositeDisposable compositeDisposable;
 
-    TaskDetailPresenter(String taskId, TasksRepository tasksRepository, TaskDetailContract.View taskDetailView) {
+    TaskDetailPresenter(String taskId, TasksRepository tasksRepository, TaskDetailContract.View taskDetailView, BaseSchedulerProvider schedulerProvider) {
         this.taskId = taskId;
         this.tasksRepository = tasksRepository;
         this.taskDetailView = taskDetailView;
         this.taskDetailView.setPresenter(this);
+        this.schedulerProvider = schedulerProvider;
         compositeDisposable = new CompositeDisposable();
     }
 

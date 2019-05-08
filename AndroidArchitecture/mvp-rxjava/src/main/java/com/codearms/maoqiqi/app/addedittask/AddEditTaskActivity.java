@@ -51,7 +51,7 @@ public class AddEditTaskActivity extends BaseActivity implements View.OnClickLis
         }
 
         presenter = new AddEditTaskPresenter(taskId, Injection.provideTasksRepository(getApplicationContext()),
-                addEditTaskFragment, shouldLoadDataFromRepo);
+                addEditTaskFragment, shouldLoadDataFromRepo, Injection.provideSchedulerProvider());
     }
 
     @Override
