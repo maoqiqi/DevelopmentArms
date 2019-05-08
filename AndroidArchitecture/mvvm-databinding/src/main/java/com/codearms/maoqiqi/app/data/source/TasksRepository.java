@@ -127,6 +127,7 @@ public class TasksRepository implements TasksDataSource {
                     @Override
                     public void onTaskLoaded(TaskBean taskBean) {
                         refreshCache(taskBean);
+                        tasksLocalDataSource.addTask(taskBean);
                         if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
                             EspressoIdlingResource.decrement();
                         }

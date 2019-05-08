@@ -41,8 +41,6 @@ dependencies {
 
     testImplementation "junit:junit:$rootProject.junitVersion"
     testImplementation "org.mockito:mockito-all:$rootProject.mockitoVersion"
-    // Test room
-    // testImplementation "android.arch.persistence.room:testing:$rootProject.roomVersion"
 
     androidTestImplementation "com.android.support.test:runner:$rootProject.runnerVersion"
     androidTestImplementation "com.android.support.test:rules:$rootProject.rulesVersion"

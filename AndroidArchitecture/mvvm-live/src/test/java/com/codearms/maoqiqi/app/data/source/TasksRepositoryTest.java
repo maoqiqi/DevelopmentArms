@@ -36,7 +36,7 @@ public class TasksRepositoryTest {
     @Mock
     private TasksDataSource tasksRemoteDataSource;
     @Mock
-    private TasksDataSource tasksSqliteDataSource;
+    private TasksDataSource tasksLocalDataSource;
 
     @Mock
     private TasksDataSource.LoadTasksCallBack loadTasksCallBack;
@@ -62,7 +62,7 @@ public class TasksRepositoryTest {
         MockitoAnnotations.initMocks(this);
 
         // Get a reference to the class under test
-        tasksRepository = TasksRepository.getInstance(tasksRemoteDataSource, tasksSqliteDataSource);
+        tasksRepository = TasksRepository.getInstance(tasksRemoteDataSource, tasksLocalDataSource);
 
         activeTaskBean = new TaskBean(TITLE, DESCRIPTION, false);
         completedTaskBean = new TaskBean(TITLE, DESCRIPTION, true);
@@ -82,7 +82,7 @@ public class TasksRepositoryTest {
         // When calling getTasks in the repository
         tasksRepository.loadTasks(loadTasksCallBack);
         // Use the Mockito Captor to capture the callback
-        verify(tasksSqliteDataSource).loadTasks(loadTasksCallBackArgumentCaptor.capture());
+        verify(tasksLocalDataSource).loadTasks(loadTasksCallBackArgumentCaptor.capture());
 
         // And the local data source has no data available
         loadTasksCallBackArgumentCaptor.getValue().onDataNotAvailable();
@@ -98,14 +98,14 @@ public class TasksRepositoryTest {
         tasksRepository.loadTasks(loadTasksCallBack);
         // Then tasks were only requested once from Service API
         verify(tasksRemoteDataSource, times(1)).loadTasks(Mockito.any(TasksDataSource.LoadTasksCallBack.class));
-        verify(tasksSqliteDataSource, times(1)).loadTasks(Mockito.any(TasksDataSource.LoadTasksCallBack.class));
+        verify(tasksLocalDataSource, times(1)).loadTasks(Mockito.any(TasksDataSource.LoadTasksCallBack.class));
     }
 
     @Test
     public void getTask() {
         tasksRepository.getTask(activeTaskBean.getId(), getTaskCallBack);
         // if you use the parameter matcher, all parameters should use the parameter matcher.
-        verify(tasksSqliteDataSource).getTask(Mockito.eq(activeTaskBean.getId()), Mockito.any(TasksDataSource.GetTaskCallBack.class));
+        verify(tasksLocalDataSource).getTask(Mockito.eq(activeTaskBean.getId()), Mockito.any(TasksDataSource.GetTaskCallBack.class));
     }
 
     @Test
@@ -119,7 +119,7 @@ public class TasksRepositoryTest {
 
         // Then the service API and persistent repository are called and the cache is updated
         verify(tasksRemoteDataSource).clearCompletedTasks();
-        verify(tasksSqliteDataSource).clearCompletedTasks();
+        verify(tasksLocalDataSource).clearCompletedTasks();
 
         assertEquals(tasksRepository.cachedTasksMap.size(), 1);
     }
@@ -134,7 +134,7 @@ public class TasksRepositoryTest {
         verify(tasksRemoteDataSource).loadTasks(loadTasksCallBackArgumentCaptor.capture());
         loadTasksCallBackArgumentCaptor.getValue().onTasksLoaded(taskBeanList);
 
-        verify(tasksSqliteDataSource, Mockito.never()).loadTasks(loadTasksCallBack);
+        verify(tasksLocalDataSource, Mockito.never()).loadTasks(loadTasksCallBack);
         verify(loadTasksCallBack).onTasksLoaded(taskBeanList);
     }
 
@@ -145,7 +145,7 @@ public class TasksRepositoryTest {
 
         // Then the service API and persistent repository are called and the cache is updated
         verify(tasksRemoteDataSource).addTask(activeTaskBean);
-        verify(tasksSqliteDataSource).addTask(activeTaskBean);
+        verify(tasksLocalDataSource).addTask(activeTaskBean);
         assertEquals(tasksRepository.cachedTasksMap.size(), 1);
     }
 
@@ -157,7 +157,7 @@ public class TasksRepositoryTest {
         tasksRepository.updateTask(taskBean);
 
         verify(tasksRemoteDataSource).updateTask(taskBean);
-        verify(tasksSqliteDataSource).updateTask(taskBean);
+        verify(tasksLocalDataSource).updateTask(taskBean);
 
         assertEquals(tasksRepository.cachedTasksMap.size(), 1);
         assertEquals(tasksRepository.getTaskById(activeTaskBean.getId()).getTitle(), NEW_TITLE);
@@ -172,7 +172,7 @@ public class TasksRepositoryTest {
 
         // Then the service API and persistent repository are called and the cache is updated
         verify(tasksRemoteDataSource).completeTask(activeTaskBean);
-        verify(tasksSqliteDataSource).completeTask(activeTaskBean);
+        verify(tasksLocalDataSource).completeTask(activeTaskBean);
 
         assertEquals(tasksRepository.cachedTasksMap.size(), 1);
         assertTrue(tasksRepository.getTaskById(activeTaskBean.getId()).isCompleted());
@@ -187,7 +187,7 @@ public class TasksRepositoryTest {
 
         // Then the service API and persistent repository are called and the cache is updated
         verify(tasksRemoteDataSource).completeTask(activeTaskBean);
-        verify(tasksSqliteDataSource).completeTask(activeTaskBean);
+        verify(tasksLocalDataSource).completeTask(activeTaskBean);
 
         assertEquals(tasksRepository.cachedTasksMap.size(), 1);
         assertTrue(tasksRepository.getTaskById(activeTaskBean.getId()).isCompleted());
@@ -201,7 +201,7 @@ public class TasksRepositoryTest {
         tasksRepository.activateTask(completedTaskBean);
 
         verify(tasksRemoteDataSource).activateTask(completedTaskBean);
-        verify(tasksSqliteDataSource).activateTask(completedTaskBean);
+        verify(tasksLocalDataSource).activateTask(completedTaskBean);
 
         assertEquals(tasksRepository.cachedTasksMap.size(), 1);
         assertTrue(tasksRepository.getTaskById(completedTaskBean.getId()).isActive());
@@ -215,7 +215,7 @@ public class TasksRepositoryTest {
         tasksRepository.activateTask(completedTaskBean.getId());
 
         verify(tasksRemoteDataSource).activateTask(completedTaskBean);
-        verify(tasksSqliteDataSource).activateTask(completedTaskBean);
+        verify(tasksLocalDataSource).activateTask(completedTaskBean);
 
         assertEquals(tasksRepository.cachedTasksMap.size(), 1);
         assertTrue(tasksRepository.getTaskById(completedTaskBean.getId()).isActive());
@@ -231,7 +231,7 @@ public class TasksRepositoryTest {
 
         // Verify the data sources were called
         verify(tasksRemoteDataSource).deleteTask(activeTaskBean.getId());
-        verify(tasksSqliteDataSource).deleteTask(activeTaskBean.getId());
+        verify(tasksLocalDataSource).deleteTask(activeTaskBean.getId());
 
         // Verify it's removed from repository
         assertFalse(tasksRepository.cachedTasksMap.containsKey(activeTaskBean.getId()));
@@ -248,7 +248,7 @@ public class TasksRepositoryTest {
 
         // Verify the data sources were called
         verify(tasksRemoteDataSource).deleteAllTasks();
-        verify(tasksSqliteDataSource).deleteAllTasks();
+        verify(tasksLocalDataSource).deleteAllTasks();
 
         assertEquals(tasksRepository.cachedTasksMap.size(), 0);
     }

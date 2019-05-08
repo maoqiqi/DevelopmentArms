@@ -81,6 +81,7 @@ class TasksRepository private constructor(
                 tasksRemoteDataSource.getTask(taskId, object : TasksDataSource.GetTaskCallBack {
                     override fun onTaskLoaded(taskBean: TaskBean) {
                         refreshCache(taskBean)
+                        tasksLocalDataSource.addTask(taskBean)
                         if (!EspressoIdlingResource.countingIdlingResource.isIdleNow) {
                             EspressoIdlingResource.decrement()
                         }
