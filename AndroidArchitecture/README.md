@@ -12,7 +12,7 @@
 >
 > 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 
-Android Architecture Blueprints使用不同的架构概念和工具实现相同功能的应用程序。
+Android Architecture Blueprints 使用不同的架构概念和工具实现相同功能的应用程序。
 
 
 ## 目录
@@ -48,6 +48,10 @@ Android Architecture Blueprints使用不同的架构概念和工具实现相同�
     * 提供基本的Model-View-Presenter（MVP）架构，而不使用任何架构框架。
     * 作为比较和对比该项目中其他kotlin样本的参考点。
     * 与mvp java项目相比，利用习惯用语kotlin来提高可读性和限制冗长。
+
+* mvp-rxjava
+
+  这个应用程序基于mvp示例。并使用RxJava 2进行数据模型和演示者层之间的通信。
 
 * mvvm-databinding
 
@@ -109,6 +113,13 @@ MVVM体系结构中的ViewModel与MVP体系结构中的Presenter扮演类似的�
 
 
 ## Link
+
+* [Data Binding Library(数据绑定库)](md/data_binding.md)
+* [Handling Lifecycle(处理声明周期)](md/lifecycle.md)
+* [LiveData](md/live_data.md)
+* [Paging Library(分页库)](md/paging.md)
+* [Room Persistence Library(数据库持久化库)](md/room.md)
+* [ViewModel(视图模型)](md/view_model.md)
 
 
 ## License
