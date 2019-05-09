@@ -2,6 +2,7 @@ package com.codearms.maoqiqi.app.addedittask;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.assertion.ViewAssertions;
@@ -17,9 +18,11 @@ import com.codearms.maoqiqi.app.R;
 import com.codearms.maoqiqi.app.data.TaskBean;
 import com.codearms.maoqiqi.app.data.source.TasksRepository;
 import com.codearms.maoqiqi.app.data.source.remote.TasksRemoteDataSource;
+import com.codearms.maoqiqi.app.data.source.room.TasksRoomDataSource;
 import com.codearms.maoqiqi.app.tasks.TasksActivity;
 import com.codearms.maoqiqi.app.utils.EspressoIdlingResource;
 import com.codearms.maoqiqi.app.utils.TestUtils;
+import com.codearms.maoqiqi.app.utils.schedulers.ImmediateSchedulerProvider;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -96,7 +99,7 @@ public class AddEditTaskScreenTest {
     public void editTask() {
         // Put a task in the repository and start the activity to edit it
         TasksRepository.destroyInstance();
-        TasksRemoteDataSource.getInstance().addTask(taskBean);
+        TasksRepository.getInstance(TasksRemoteDataSource.getInstance(), TasksRoomDataSource.getInstance(InstrumentationRegistry.getTargetContext(), new ImmediateSchedulerProvider())).addTask(taskBean);
         launchNewTaskActivity(taskBean.getId());
 
         // Check that the toolbar shows the correct title

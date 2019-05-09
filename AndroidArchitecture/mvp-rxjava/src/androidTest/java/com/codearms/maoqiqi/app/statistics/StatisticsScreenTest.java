@@ -8,10 +8,12 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.codearms.maoqiqi.app.Injection;
 import com.codearms.maoqiqi.app.data.TaskBean;
+import com.codearms.maoqiqi.app.data.source.TasksRepository;
 import com.codearms.maoqiqi.app.data.source.remote.TasksRemoteDataSource;
+import com.codearms.maoqiqi.app.data.source.room.TasksRoomDataSource;
 import com.codearms.maoqiqi.app.utils.EspressoIdlingResource;
+import com.codearms.maoqiqi.app.utils.schedulers.ImmediateSchedulerProvider;
 
 import org.hamcrest.Matchers;
 import org.junit.After;
@@ -42,10 +44,11 @@ public class StatisticsScreenTest {
     @Before
     public void setUp() {
         // Given some tasks
-        Injection.provideTasksRepository(InstrumentationRegistry.getTargetContext()).deleteAllTasks();
-        TasksRemoteDataSource.getInstance().addTask(new TaskBean(TITLE, DESCRIPTION, false));
-        TasksRemoteDataSource.getInstance().addTask(new TaskBean(TITLE, DESCRIPTION, false));
-        TasksRemoteDataSource.getInstance().addTask(new TaskBean(TITLE, DESCRIPTION, true));
+        TasksRepository repository = TasksRepository.getInstance(TasksRemoteDataSource.getInstance(), TasksRoomDataSource.getInstance(InstrumentationRegistry.getTargetContext(), new ImmediateSchedulerProvider()));
+        repository.deleteAllTasks();
+        repository.addTask(new TaskBean(TITLE, DESCRIPTION, false));
+        repository.addTask(new TaskBean(TITLE, DESCRIPTION, false));
+        repository.addTask(new TaskBean(TITLE, DESCRIPTION, true));
 
         // Lazily start the Activity from the ActivityTestRule
         Intent intent = new Intent();

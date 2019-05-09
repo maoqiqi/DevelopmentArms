@@ -1,6 +1,7 @@
 package com.codearms.maoqiqi.app.taskdetail;
 
 import android.content.Intent;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -11,9 +12,11 @@ import com.codearms.maoqiqi.app.R;
 import com.codearms.maoqiqi.app.data.TaskBean;
 import com.codearms.maoqiqi.app.data.source.TasksRepository;
 import com.codearms.maoqiqi.app.data.source.remote.TasksRemoteDataSource;
+import com.codearms.maoqiqi.app.data.source.room.TasksRoomDataSource;
 import com.codearms.maoqiqi.app.tasks.TasksActivity;
 import com.codearms.maoqiqi.app.utils.EspressoIdlingResource;
 import com.codearms.maoqiqi.app.utils.TestUtils;
+import com.codearms.maoqiqi.app.utils.schedulers.ImmediateSchedulerProvider;
 
 import org.hamcrest.Matchers;
 import org.junit.After;
@@ -94,7 +97,7 @@ public class TaskDetailScreenTest {
 
     private void startActivity(TaskBean taskBean) {
         TasksRepository.destroyInstance();
-        TasksRemoteDataSource.getInstance().addTask(taskBean);
+        TasksRepository.getInstance(TasksRemoteDataSource.getInstance(), TasksRoomDataSource.getInstance(InstrumentationRegistry.getTargetContext(), new ImmediateSchedulerProvider())).addTask(taskBean);
 
         // Lazily start the Activity from the ActivityTestRule this time to inject the start Intent
         Intent startIntent = new Intent();
