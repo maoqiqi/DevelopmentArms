@@ -4,7 +4,6 @@ import com.codearms.maoqiqi.app.data.TaskBean;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 /**
@@ -16,7 +15,7 @@ public interface TasksDataSource {
 
     Single<List<TaskBean>> loadTasks();
 
-    Flowable<TaskBean> getTask(String taskId);
+    Single<TaskBean> getTask(String taskId);
 
     void clearCompletedTasks();
 

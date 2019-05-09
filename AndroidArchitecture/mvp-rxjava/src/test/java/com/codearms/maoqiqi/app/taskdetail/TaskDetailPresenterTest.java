@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 import static org.mockito.Mockito.verify;
 
@@ -60,7 +60,7 @@ public class TaskDetailPresenterTest {
 
     @Test
     public void getActiveTask() {
-        Mockito.when(tasksRepository.getTask(Mockito.eq(activeTaskBean.getId()))).thenReturn(Flowable.just(activeTaskBean));
+        Mockito.when(tasksRepository.getTask(Mockito.eq(activeTaskBean.getId()))).thenReturn(Single.just(activeTaskBean));
 
         // When tasks presenter is asked to open a task
         taskDetailPresenter = new TaskDetailPresenter(activeTaskBean.getId(), tasksRepository, taskDetailView, schedulerProvider);
@@ -75,7 +75,7 @@ public class TaskDetailPresenterTest {
 
     @Test
     public void getCompletedTask() {
-        Mockito.when(tasksRepository.getTask(Mockito.eq(completedTaskBean.getId()))).thenReturn(Flowable.just(completedTaskBean));
+        Mockito.when(tasksRepository.getTask(Mockito.eq(completedTaskBean.getId()))).thenReturn(Single.just(completedTaskBean));
 
         taskDetailPresenter = new TaskDetailPresenter(completedTaskBean.getId(), tasksRepository, taskDetailView, schedulerProvider);
         taskDetailPresenter.subscribe();
@@ -95,7 +95,7 @@ public class TaskDetailPresenterTest {
 
     @Test
     public void getTaskNotAvailable() {
-        Mockito.when(tasksRepository.getTask(Mockito.eq(activeTaskBean.getId()))).thenReturn(Flowable.<TaskBean>error(new Exception()));
+        Mockito.when(tasksRepository.getTask(Mockito.eq(activeTaskBean.getId()))).thenReturn(Single.<TaskBean>error(new Exception()));
 
         taskDetailPresenter = new TaskDetailPresenter(activeTaskBean.getId(), tasksRepository, taskDetailView, schedulerProvider);
         taskDetailPresenter.subscribe();

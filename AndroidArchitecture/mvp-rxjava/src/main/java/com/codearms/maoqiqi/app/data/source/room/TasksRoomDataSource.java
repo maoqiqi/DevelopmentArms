@@ -10,7 +10,6 @@ import com.codearms.maoqiqi.app.utils.schedulers.BaseSchedulerProvider;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
@@ -55,7 +54,7 @@ public class TasksRoomDataSource implements TasksDataSource {
     }
 
     @Override
-    public Flowable<TaskBean> getTask(final String taskId) {
+    public Single<TaskBean> getTask(final String taskId) {
         return dao.getTaskById(taskId);
     }
 

@@ -93,11 +93,11 @@ public class TasksRepository implements TasksDataSource {
     }
 
     @Override
-    public Flowable<TaskBean> getTask(final String taskId) {
+    public Single<TaskBean> getTask(final String taskId) {
         TaskBean cachedTaskBean = getTaskById(taskId);
         // Respond immediately with cache if available
         if (cachedTaskBean != null) {
-            return Flowable.just(cachedTaskBean);
+            return Single.just(cachedTaskBean);
         }
 
         // Load from server/persisted if needed.
@@ -106,18 +106,18 @@ public class TasksRepository implements TasksDataSource {
             cachedTasksMap = new LinkedHashMap<>();
         }
 
-        return Flowable.concat(tasksLocalDataSource.getTask(taskId).doOnNext(new Consumer<TaskBean>() {
+        return Single.concat(tasksLocalDataSource.getTask(taskId).doOnSuccess(new Consumer<TaskBean>() {
             @Override
             public void accept(TaskBean taskBean) {
                 cachedTasksMap.put(taskBean.getId(), taskBean);
             }
-        }), tasksRemoteDataSource.getTask(taskId).doOnNext(new Consumer<TaskBean>() {
+        }), tasksRemoteDataSource.getTask(taskId).doOnSuccess(new Consumer<TaskBean>() {
             @Override
             public void accept(TaskBean taskBean) {
                 cachedTasksMap.put(taskBean.getId(), taskBean);
                 tasksLocalDataSource.addTask(taskBean);
             }
-        })).firstOrError().toFlowable();
+        })).firstOrError();
     }
 
     @Override

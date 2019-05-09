@@ -15,6 +15,8 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.Single;
+import io.reactivex.internal.operators.flowable.FlowableSingleSingle;
+import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.subscribers.TestSubscriber;
 
 import static org.junit.Assert.assertEquals;
@@ -254,10 +256,10 @@ public class TasksRepositoryTest {
     }
 
     private void setTaskNotAvailable(TasksDataSource dataSource, String taskId) {
-        Mockito.when(dataSource.getTask(Mockito.eq(taskId))).thenReturn(Flowable.<TaskBean>empty());
+        Mockito.when(dataSource.getTask(Mockito.eq(taskId))).thenReturn(RxJavaPlugins.onAssembly(new FlowableSingleSingle<>(Flowable.<TaskBean>empty(), null)));
     }
 
     private void setTaskAvailable(TasksDataSource dataSource, TaskBean taskBean) {
-        Mockito.when(dataSource.getTask(Mockito.eq(taskBean.getId()))).thenReturn(Flowable.just(taskBean));
+        Mockito.when(dataSource.getTask(Mockito.eq(taskBean.getId()))).thenReturn(Single.just(taskBean));
     }
 }

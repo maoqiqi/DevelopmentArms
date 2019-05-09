@@ -5,7 +5,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.codearms.maoqiqi.app.data.TaskBean;
 import com.codearms.maoqiqi.app.data.source.TasksDataSource;
-import com.codearms.maoqiqi.app.utils.SingleExecutors;
+import com.codearms.maoqiqi.app.utils.schedulers.ImmediateSchedulerProvider;
 
 import org.hamcrest.Matchers;
 import org.junit.After;
@@ -15,15 +15,11 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
+import io.reactivex.subscribers.TestSubscriber;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyListOf;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
 
 /**
  * Integration test for the {@link TasksDataSource}.
@@ -39,7 +35,7 @@ public class TasksRoomDataSourceTest {
 
     @Before
     public void setUp() {
-        tasksRoomDataSource = TasksRoomDataSource.getInstance(InstrumentationRegistry.getTargetContext(), new SingleExecutors());
+        tasksRoomDataSource = TasksRoomDataSource.getInstance(InstrumentationRegistry.getTargetContext(), new ImmediateSchedulerProvider());
         tasksRoomDataSource.deleteAllTasks();
     }
 
@@ -51,17 +47,10 @@ public class TasksRoomDataSourceTest {
     @Test
     public void loadTasks() {
         tasksRoomDataSource.addTask(TASK_BEAN);
-        tasksRoomDataSource.loadTasks(new TasksDataSource.LoadTasksCallBack() {
-            @Override
-            public void onTasksLoaded(List<TaskBean> taskBeanList) {
-                assertEquals(taskBeanList.size(), 1);
-            }
 
-            @Override
-            public void onDataNotAvailable() {
-                fail("Callback error");
-            }
-        });
+        TestSubscriber<List<TaskBean>> testSubscriber = new TestSubscriber<>();
+        tasksRoomDataSource.loadTasks().toFlowable().subscribe(testSubscriber);
+        testSubscriber.assertValueCount(1);
     }
 
     @Test
@@ -70,11 +59,9 @@ public class TasksRoomDataSourceTest {
 
         tasksRoomDataSource.clearCompletedTasks();
 
-        TasksDataSource.GetTaskCallBack callBack = mock(TasksDataSource.GetTaskCallBack.class);
-        tasksRoomDataSource.getTask(TASK_BEAN.getId(), callBack);
-
-        verify(callBack).onDataNotAvailable();
-        verify(callBack, never()).onTaskLoaded(any(TaskBean.class));
+        TestSubscriber<TaskBean> testSubscriber = new TestSubscriber<>();
+        tasksRoomDataSource.getTask(TASK_BEAN.getId()).toFlowable().subscribe(testSubscriber);
+        testSubscriber.assertValueCount(0);
     }
 
     @Test
@@ -85,17 +72,10 @@ public class TasksRoomDataSourceTest {
     @Test
     public void addTask() {
         tasksRoomDataSource.addTask(TASK_BEAN);
-        tasksRoomDataSource.getTask(TASK_BEAN.getId(), new TasksDataSource.GetTaskCallBack() {
-            @Override
-            public void onTaskLoaded(TaskBean taskBean) {
-                assertTask(taskBean, TASK_BEAN);
-            }
 
-            @Override
-            public void onDataNotAvailable() {
-                fail("Callback error");
-            }
-        });
+        TestSubscriber<TaskBean> testSubscriber = new TestSubscriber<>();
+        tasksRoomDataSource.getTask(TASK_BEAN.getId()).toFlowable().subscribe(testSubscriber);
+        assertTask(testSubscriber.values().get(0), TASK_BEAN);
     }
 
     @Test
@@ -105,17 +85,9 @@ public class TasksRoomDataSourceTest {
         final TaskBean newTaskBean = new TaskBean(TASK_BEAN.getId(), TASK_BEAN.getTitle(), TASK_BEAN.getDescription(), false);
         tasksRoomDataSource.updateTask(newTaskBean);
 
-        tasksRoomDataSource.getTask(newTaskBean.getId(), new TasksDataSource.GetTaskCallBack() {
-            @Override
-            public void onTaskLoaded(TaskBean taskBean) {
-                assertTask(taskBean, newTaskBean);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                fail("Callback error");
-            }
-        });
+        TestSubscriber<TaskBean> testSubscriber = new TestSubscriber<>();
+        tasksRoomDataSource.getTask(newTaskBean.getId()).toFlowable().subscribe(testSubscriber);
+        assertTask(testSubscriber.values().get(0), newTaskBean);
     }
 
     @Test
@@ -123,34 +95,20 @@ public class TasksRoomDataSourceTest {
         TaskBean newTaskBean = new TaskBean(TASK_BEAN.getId(), TASK_BEAN.getTitle(), TASK_BEAN.getDescription(), false);
         tasksRoomDataSource.addTask(newTaskBean);
         tasksRoomDataSource.completeTask(newTaskBean.getId());
-        tasksRoomDataSource.getTask(newTaskBean.getId(), new TasksDataSource.GetTaskCallBack() {
-            @Override
-            public void onTaskLoaded(TaskBean taskBean) {
-                assertTrue(taskBean.isCompleted());
-            }
 
-            @Override
-            public void onDataNotAvailable() {
-                fail("Callback error");
-            }
-        });
+        TestSubscriber<TaskBean> testSubscriber = new TestSubscriber<>();
+        tasksRoomDataSource.getTask(newTaskBean.getId()).toFlowable().subscribe(testSubscriber);
+        assertTrue(testSubscriber.values().get(0).isCompleted());
     }
 
     @Test
     public void activateTask() {
         tasksRoomDataSource.addTask(TASK_BEAN);
         tasksRoomDataSource.activateTask(TASK_BEAN.getId());
-        tasksRoomDataSource.getTask(TASK_BEAN.getId(), new TasksDataSource.GetTaskCallBack() {
-            @Override
-            public void onTaskLoaded(TaskBean taskBean) {
-                assertTrue(taskBean.isActive());
-            }
 
-            @Override
-            public void onDataNotAvailable() {
-                fail("Callback error");
-            }
-        });
+        TestSubscriber<TaskBean> testSubscriber = new TestSubscriber<>();
+        tasksRoomDataSource.getTask(TASK_BEAN.getId()).toFlowable().subscribe(testSubscriber);
+        assertTrue(testSubscriber.values().get(0).isActive());
     }
 
     @Test
@@ -159,11 +117,9 @@ public class TasksRoomDataSourceTest {
 
         tasksRoomDataSource.deleteTask(TASK_BEAN.getId());
 
-        TasksDataSource.LoadTasksCallBack callBack = mock(TasksDataSource.LoadTasksCallBack.class);
-        tasksRoomDataSource.loadTasks(callBack);
-
-        verify(callBack).onDataNotAvailable();
-        verify(callBack, never()).onTasksLoaded(anyListOf(TaskBean.class));
+        TestSubscriber<List<TaskBean>> testSubscriber = new TestSubscriber<>();
+        tasksRoomDataSource.loadTasks().subscribe();
+        testSubscriber.assertValueCount(0);
     }
 
     @Test
@@ -172,11 +128,9 @@ public class TasksRoomDataSourceTest {
 
         tasksRoomDataSource.deleteAllTasks();
 
-        TasksDataSource.LoadTasksCallBack callBack = mock(TasksDataSource.LoadTasksCallBack.class);
-        tasksRoomDataSource.loadTasks(callBack);
-
-        verify(callBack).onDataNotAvailable();
-        verify(callBack, never()).onTasksLoaded(anyListOf(TaskBean.class));
+        TestSubscriber<List<TaskBean>> testSubscriber = new TestSubscriber<>();
+        tasksRoomDataSource.loadTasks();
+        testSubscriber.assertValueCount(0);
     }
 
     private void assertTask(TaskBean loaded, TaskBean taskBean) {

@@ -10,7 +10,6 @@ import com.codearms.maoqiqi.app.data.TaskBean;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 /**
@@ -36,7 +35,7 @@ public interface TasksDAO {
      * @return the task with taskId.
      */
     @Query("select id,title,description,completed from task where id = :taskId")
-    Flowable<TaskBean> getTaskById(String taskId);
+    Single<TaskBean> getTaskById(String taskId);
 
     /**
      * Insert a task in the database. If the task already exists, replace it.

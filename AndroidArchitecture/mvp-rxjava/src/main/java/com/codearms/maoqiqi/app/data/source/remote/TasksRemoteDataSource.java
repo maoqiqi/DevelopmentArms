@@ -11,6 +11,8 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
 import io.reactivex.Single;
+import io.reactivex.internal.operators.flowable.FlowableSingleSingle;
+import io.reactivex.plugins.RxJavaPlugins;
 
 /**
  * Access the server API interface data as a data source.
@@ -54,12 +56,12 @@ public class TasksRemoteDataSource implements TasksDataSource {
     }
 
     @Override
-    public Flowable<TaskBean> getTask(String taskId) {
+    public Single<TaskBean> getTask(String taskId) {
         final TaskBean taskBean = TASKS_SERVICE_DATA.get(taskId);
         if (taskBean != null) {
-            return Flowable.just(taskBean).delay(SERVICE_LATENCY_IN_MILLIS, TimeUnit.MILLISECONDS);
+            return Single.just(taskBean).delay(SERVICE_LATENCY_IN_MILLIS, TimeUnit.MILLISECONDS);
         } else {
-            return Flowable.empty();
+            return RxJavaPlugins.onAssembly(new FlowableSingleSingle<>(Flowable.<TaskBean>empty(), null));
         }
     }
 

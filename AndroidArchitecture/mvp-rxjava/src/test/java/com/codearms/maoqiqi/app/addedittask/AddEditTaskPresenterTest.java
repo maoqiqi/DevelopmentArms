@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.verify;
@@ -87,7 +87,7 @@ public class AddEditTaskPresenterTest {
     @Test
     public void getTask() {
         TaskBean taskBean = new TaskBean(TITLE, DESCRIPTION, false);
-        Mockito.when(tasksRepository.getTask(taskBean.getId())).thenReturn(Flowable.just(taskBean));
+        Mockito.when(tasksRepository.getTask(taskBean.getId())).thenReturn(Single.just(taskBean));
 
         addEditTaskPresenter = new AddEditTaskPresenter(taskBean.getId(), tasksRepository, addEditTaskView, true, schedulerProvider);
 
