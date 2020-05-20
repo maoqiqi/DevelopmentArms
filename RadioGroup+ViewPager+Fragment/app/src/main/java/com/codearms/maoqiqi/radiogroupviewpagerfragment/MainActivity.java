@@ -1,17 +1,18 @@
 package com.codearms.maoqiqi.radiogroupviewpagerfragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * 主页
@@ -71,7 +72,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         // 保存当前选中索引
         outState.putInt("position", position);
@@ -84,6 +85,7 @@ public class MainActivity extends BaseActivity {
         }
 
         // FragmentPagerAdapter内部已经做了缓存
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             Log.d("Fragment" + (position + 1), "getItem(int position), position = " + position);
@@ -112,6 +114,7 @@ public class MainActivity extends BaseActivity {
             super(fm);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             Log.d("Fragment" + (position + 1), "getItem(int position), position = " + position);
