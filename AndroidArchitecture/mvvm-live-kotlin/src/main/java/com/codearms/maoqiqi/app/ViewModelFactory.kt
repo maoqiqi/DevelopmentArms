@@ -1,9 +1,9 @@
 package com.codearms.maoqiqi.app
 
 import android.app.Application
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
-import android.support.annotation.VisibleForTesting
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.annotation.VisibleForTesting
 import com.codearms.maoqiqi.app.addedittask.AddEditTaskViewModel
 import com.codearms.maoqiqi.app.data.source.TasksRepository
 import com.codearms.maoqiqi.app.statistics.StatisticsViewModel

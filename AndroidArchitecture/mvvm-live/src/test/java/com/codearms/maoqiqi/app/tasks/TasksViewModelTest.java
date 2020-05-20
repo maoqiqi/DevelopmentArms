@@ -1,6 +1,6 @@
 package com.codearms.maoqiqi.app.tasks;
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 
 import com.codearms.maoqiqi.app.Event;
 import com.codearms.maoqiqi.app.LiveDataTestUtils;

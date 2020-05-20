@@ -40,7 +40,7 @@ class TaskDetailFragment : BaseFragment(), TaskDetailContract.View {
         return root
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_task_detail, menu)
     }

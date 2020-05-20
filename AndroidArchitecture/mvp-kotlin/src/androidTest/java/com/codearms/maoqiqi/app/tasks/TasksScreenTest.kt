@@ -1,16 +1,16 @@
 package com.codearms.maoqiqi.app.tasks
 
-import android.support.test.InstrumentationRegistry
-import android.support.test.espresso.Espresso
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.IdlingRegistry
-import android.support.test.espresso.action.ViewActions
-import android.support.test.espresso.assertion.ViewAssertions
-import android.support.test.espresso.matcher.ViewMatchers
-import android.support.test.rule.ActivityTestRule
-import android.support.test.runner.AndroidJUnit4
-import android.support.v4.util.Preconditions
-import android.support.v7.widget.RecyclerView
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.rule.ActivityTestRule
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.core.util.Preconditions
+import androidx.recyclerview.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
 import com.codearms.maoqiqi.app.Injection
@@ -302,7 +302,7 @@ class TasksScreenTest {
         return object : TypeSafeMatcher<View>() {
             override fun matchesSafely(item: View): Boolean {
                 return Matchers.allOf(
-                        ViewMatchers.isDescendantOfA(ViewMatchers.isAssignableFrom(RecyclerView::class.java)),
+                        ViewMatchers.isDescendantOfA(ViewMatchers.isAssignableFrom(androidx.recyclerview.widget.RecyclerView::class.java)),
                         ViewMatchers.withText(itemText)).matches(item)
             }
 

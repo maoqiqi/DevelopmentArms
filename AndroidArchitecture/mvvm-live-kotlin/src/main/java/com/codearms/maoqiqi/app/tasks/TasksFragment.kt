@@ -1,14 +1,14 @@
 package com.codearms.maoqiqi.app.tasks
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.*
 import android.widget.PopupMenu
 import com.codearms.maoqiqi.app.R
@@ -42,9 +42,9 @@ class TasksFragment : BaseFragment() {
         binding.setLifecycleOwner(activity)
 
         val recyclerView = binding.recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         recyclerView.setHasFixedSize(false)
-        recyclerView.itemAnimator = DefaultItemAnimator()
+        recyclerView.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
         recyclerView.isNestedScrollingEnabled = false
         recyclerView.adapter = TasksAdapter(context!!, null, tasksViewModel, activity!!)
 
@@ -66,14 +66,14 @@ class TasksFragment : BaseFragment() {
         })
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_tasks, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         super.onOptionsItemSelected(item)
-        when (item!!.itemId) {
+        when (item.itemId) {
             R.id.menu_filter -> showFilteringPopUpMenu()
             R.id.menu_clear -> tasksViewModel.clearCompletedTasks()
             R.id.menu_refresh -> tasksViewModel.loadTasks(true)
@@ -130,7 +130,7 @@ class TasksFragment : BaseFragment() {
             private val context: Context,
             private var taskBeanList: List<TaskBean>?,
             private val tasksViewModel: TasksViewModel,
-            private val lifecycleOwner: LifecycleOwner) : RecyclerView.Adapter<ViewHolder>() {
+            private val lifecycleOwner: LifecycleOwner) : androidx.recyclerview.widget.RecyclerView.Adapter<ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {
             val binding = DataBindingUtil.inflate<ItemTaskBinding>(LayoutInflater.from(context), R.layout.item_task, parent, false)
@@ -153,7 +153,7 @@ class TasksFragment : BaseFragment() {
         }
     }
 
-    internal class ViewHolder internal constructor(internal var binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root)
+    internal class ViewHolder internal constructor(internal var binding: ItemTaskBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root)
 
     companion object {
         fun newInstance(): TasksFragment = TasksFragment()

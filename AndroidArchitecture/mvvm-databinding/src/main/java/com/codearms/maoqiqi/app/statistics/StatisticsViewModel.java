@@ -1,7 +1,7 @@
 package com.codearms.maoqiqi.app.statistics;
 
-import android.databinding.BaseObservable;
-import android.databinding.ObservableInt;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.ObservableInt;
 
 import com.codearms.maoqiqi.app.CallBack;
 import com.codearms.maoqiqi.app.data.TaskBean;

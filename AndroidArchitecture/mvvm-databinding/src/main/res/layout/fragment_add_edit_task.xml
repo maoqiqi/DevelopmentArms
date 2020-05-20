@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/sixteen">
@@ -39,6 +39,6 @@
                 android:inputType="textMultiLine"
                 android:text="@={addEditTaskViewModel.observableDescription}"
                 app:layout_constraintTop_toBottomOf="@id/editTextTitle" />
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

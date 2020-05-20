@@ -1,7 +1,7 @@
 package com.codearms.maoqiqi.app.data.source.sqlite
 
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.codearms.maoqiqi.app.data.TaskBean
 import com.codearms.maoqiqi.app.data.source.TasksDataSource
 import org.hamcrest.Matchers

@@ -1,6 +1,6 @@
 package com.codearms.maoqiqi.app.utils;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.concurrent.Executor;
 

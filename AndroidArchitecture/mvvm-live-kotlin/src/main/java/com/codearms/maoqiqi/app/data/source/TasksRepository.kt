@@ -1,6 +1,6 @@
 package com.codearms.maoqiqi.app.data.source
 
-import android.support.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting
 import com.codearms.maoqiqi.app.data.TaskBean
 import com.codearms.maoqiqi.app.utils.EspressoIdlingResource
 import java.util.*

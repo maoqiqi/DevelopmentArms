@@ -1,7 +1,7 @@
 package com.codearms.maoqiqi.app.addedittask;
 
-import android.databinding.BaseObservable;
-import android.databinding.ObservableField;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.ObservableField;
 
 import com.codearms.maoqiqi.app.CallBack;
 import com.codearms.maoqiqi.app.data.TaskBean;

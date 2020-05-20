@@ -1,6 +1,6 @@
 package com.codearms.maoqiqi.app.utils
 
-import android.support.design.widget.Snackbar
+import com.google.android.material.snackbar.Snackbar
 import android.view.View
 
 /**

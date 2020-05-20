@@ -3,10 +3,10 @@ package com.codearms.maoqiqi.app.tasks
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.*
 import android.widget.CheckBox
 import android.widget.PopupMenu
@@ -33,9 +33,9 @@ class TasksFragment : BaseFragment(), TasksContract.View {
 
     private lateinit var tasksAdapter: TasksAdapter
 
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var swipeRefreshLayout: androidx.swiperefreshlayout.widget.SwipeRefreshLayout
     private lateinit var tvFilteringLabel: TextView
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
     private lateinit var tvNoTasks: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,17 +68,17 @@ class TasksFragment : BaseFragment(), TasksContract.View {
 
         with(root) {
             // Set up progress indicator
-            swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swipeRefreshLayout).apply {
+            swipeRefreshLayout = findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.swipeRefreshLayout).apply {
                 setColorSchemeResources(R.color.colorPrimary)
                 setOnRefreshListener { presenter.loadTasks(false) }
             }
 
             // Set up tasks view
             tvFilteringLabel = findViewById(R.id.tvFilteringLabel)
-            recyclerView = findViewById<RecyclerView>(R.id.recyclerView).apply {
-                layoutManager = LinearLayoutManager(context)
+            recyclerView = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recyclerView).apply {
+                layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
                 setHasFixedSize(false)
-                itemAnimator = DefaultItemAnimator()
+                itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
                 isNestedScrollingEnabled = false
                 adapter = tasksAdapter
             }
@@ -92,7 +92,7 @@ class TasksFragment : BaseFragment(), TasksContract.View {
         return root
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_tasks, menu)
     }
@@ -192,7 +192,7 @@ class TasksFragment : BaseFragment(), TasksContract.View {
             private val context: Context,
             private var taskBeanList: List<TaskBean>?,
             private val listener: TaskItemListener
-    ) : RecyclerView.Adapter<ViewHolder>() {
+    ) : androidx.recyclerview.widget.RecyclerView.Adapter<ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {
             return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_task, parent, false))
@@ -228,7 +228,7 @@ class TasksFragment : BaseFragment(), TasksContract.View {
         }
     }
 
-    private class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private class ViewHolder internal constructor(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
         internal var llItem: View = itemView.findViewById(R.id.llItem)
         internal var cbComplete: CheckBox = itemView.findViewById(R.id.cbComplete)

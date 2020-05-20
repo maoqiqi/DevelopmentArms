@@ -3,7 +3,7 @@ package com.codearms.maoqiqi.app.data.source.sqlite;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * The Database that contains the task table.

@@ -1,10 +1,10 @@
 package com.codearms.maoqiqi.app.tasks;
 
-import android.databinding.BaseObservable;
-import android.databinding.ObservableArrayList;
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableInt;
-import android.databinding.ObservableList;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.ObservableArrayList;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableInt;
+import androidx.databinding.ObservableList;
 
 import com.codearms.maoqiqi.app.CallBack;
 import com.codearms.maoqiqi.app.R;

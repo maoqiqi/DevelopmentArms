@@ -1,6 +1,6 @@
 package com.codearms.maoqiqi.app.tasks;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.codearms.maoqiqi.app.data.TaskBean;
 import com.codearms.maoqiqi.app.data.source.TasksDataSource;

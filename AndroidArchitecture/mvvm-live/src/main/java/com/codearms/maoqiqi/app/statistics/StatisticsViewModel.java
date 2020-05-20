@@ -1,7 +1,7 @@
 package com.codearms.maoqiqi.app.statistics;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.codearms.maoqiqi.app.Event;
 import com.codearms.maoqiqi.app.data.TaskBean;
