@@ -1,8 +1,9 @@
 package com.codearms.maoqiqi.activityfragment.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 import com.codearms.maoqiqi.activityfragment.R;
 import com.codearms.maoqiqi.activityfragment.fragment.DialogFragment1;

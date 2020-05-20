@@ -2,11 +2,13 @@ package com.codearms.maoqiqi.activityfragment.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.codearms.maoqiqi.activityfragment.R;
 import com.codearms.maoqiqi.activityfragment.fragment.ArticlesFragment;
@@ -23,7 +25,7 @@ public class MainActivity extends BaseActivity implements ArticlesFragment.OnArt
     private int currentPosition;
 
     @Override
-    public void onAttachFragment(Fragment fragment) {
+    public void onAttachFragment(@NonNull Fragment fragment) {
         super.onAttachFragment(fragment);
         if (fragment instanceof ArticlesFragment) {
             ArticlesFragment articlesFragment = (ArticlesFragment) fragment;
@@ -54,7 +56,7 @@ public class MainActivity extends BaseActivity implements ArticlesFragment.OnArt
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         // 保存选中的position
         outState.putInt("currentPosition", currentPosition);

@@ -1,10 +1,12 @@
 package com.codearms.maoqiqi.activityfragment.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.codearms.maoqiqi.activityfragment.R;
 import com.codearms.maoqiqi.activityfragment.fragment.DynamicFragment1;
@@ -115,7 +117,7 @@ public class FragmentMethodActivity extends BaseActivity implements View.OnClick
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putString("str", str);
         super.onSaveInstanceState(outState);
     }

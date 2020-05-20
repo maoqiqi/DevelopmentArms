@@ -1,9 +1,10 @@
 package com.codearms.maoqiqi.activityfragment.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.codearms.maoqiqi.activityfragment.R;
 import com.codearms.maoqiqi.activityfragment.fragment.DynamicFragment;

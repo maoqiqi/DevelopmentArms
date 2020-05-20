@@ -2,7 +2,8 @@ package com.codearms.maoqiqi.activityfragment.activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import com.codearms.maoqiqi.activityfragment.fragment.DetailsFragment;
 
