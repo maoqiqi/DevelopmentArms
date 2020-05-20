@@ -3,14 +3,15 @@ package com.codearms.maoqiqi.radiogroupfragment;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 /**
  * 基类Fragment
@@ -21,6 +22,7 @@ public class BaseFragment extends Fragment {
 
     private final String TAG = getClass().getSimpleName();
 
+    // @deprecated Use {@link FragmentTransaction#setMaxLifecycle(Fragment, Lifecycle.State)} instead.
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -29,15 +31,15 @@ public class BaseFragment extends Fragment {
 
     // 该方法只在我们直接用标签在布局中定义的时候才会被调用
     @Override
-    public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
+    public void onInflate(@NonNull Context context, @NonNull AttributeSet attrs, @Nullable Bundle savedInstanceState) {
         super.onInflate(context, attrs, savedInstanceState);
-        Log.d(TAG, "-->onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState)");
+        Log.d(TAG, "-->onInflate(@NonNull Context context, @NonNull AttributeSet attrs, @Nullable Bundle savedInstanceState)");
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        Log.d(TAG, "-->onAttach(Context context)");
+        Log.d(TAG, "-->onAttach(@NonNull Context context)");
     }
 
     // 系统会在创建片段时调用此方法，只会调用一次。您应该在此初始化您想在片段暂停或停止后恢复时需要的数据。
@@ -123,9 +125,9 @@ public class BaseFragment extends Fragment {
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        Log.d(TAG, "-->onConfigurationChanged(Configuration newConfig)");
+        Log.d(TAG, "-->onConfigurationChanged(@NonNull Configuration newConfig)");
     }
 
     @Override

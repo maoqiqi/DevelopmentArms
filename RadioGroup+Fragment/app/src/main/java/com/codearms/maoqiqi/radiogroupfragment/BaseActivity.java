@@ -2,18 +2,20 @@ package com.codearms.maoqiqi.radiogroupfragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 /**
  * 基类Activity
  * Author: fengqi.mao.march@gmail.com
  * Date: 2019/1/6 18:45
  */
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     private final String TAG = getClass().getSimpleName();
 
@@ -31,9 +33,9 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onAttachFragment(Fragment fragment) {
+    public void onAttachFragment(@NonNull Fragment fragment) {
         super.onAttachFragment(fragment);
-        Log.d(TAG + getNumber(), "-->onAttachFragment(Fragment fragment) = " + fragment.getClass().getName());
+        Log.d(TAG + getNumber(), "-->onAttachFragment(@NonNull Fragment fragment) = " + fragment.getClass().getName());
     }
 
     // 在Activity已停止并即将再次启动前调用.始终后接onStart().
@@ -52,9 +54,9 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        Log.d(TAG + getNumber(), "-->onRestoreInstanceState(Bundle savedInstanceState)");
+        Log.d(TAG + getNumber(), "-->onRestoreInstanceState(@NonNull Bundle savedInstanceState)");
     }
 
     // The activity has become visible (it is now "resumed").
@@ -93,9 +95,9 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d(TAG + getNumber(), "-->onSaveInstanceState(Bundle outState)");
+        Log.d(TAG + getNumber(), "-->onSaveInstanceState(@NonNull Bundle outState)");
     }
 
     // The activity is no longer visible (it is now "stopped")
@@ -123,9 +125,9 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        Log.d(TAG + getNumber(), "-->onConfigurationChanged(Configuration newConfig)");
+        Log.d(TAG + getNumber(), "-->onConfigurationChanged(@NonNull Configuration newConfig)");
         Log.e("configuration", newConfig.toString());
     }
 }

@@ -1,10 +1,12 @@
 package com.codearms.maoqiqi.radiogroupfragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.widget.RadioGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 /**
  * 主页
@@ -50,7 +52,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         // 保存当前选中项
         outState.putInt("checkedId", checkedId);
