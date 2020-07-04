@@ -1,21 +1,20 @@
 package com.codearms.maoqiqi.app.statistics;
 
 import com.codearms.maoqiqi.app.data.TaskBean;
+import com.codearms.maoqiqi.app.data.source.TasksDataSource;
 import com.codearms.maoqiqi.app.data.source.TasksRepository;
 import com.codearms.maoqiqi.app.utils.MessageMap;
-import com.codearms.maoqiqi.app.utils.schedulers.ImmediateSchedulerProvider;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.Flowable;
-import io.reactivex.Single;
 
 import static org.mockito.Mockito.verify;
 
@@ -43,7 +42,7 @@ public class StatisticsPresenterTest {
         MockitoAnnotations.initMocks(this);
         Mockito.when(statisticsView.isActive()).thenReturn(true);
 
-        statisticsPresenter = new StatisticsPresenter(tasksRepository, statisticsView, new ImmediateSchedulerProvider());
+        statisticsPresenter = new StatisticsPresenter(tasksRepository, statisticsView);
 
         taskBeanList = new ArrayList<>();
         taskBeanList.add(new TaskBean(TITLE, DESCRIPTION, false));
@@ -60,33 +59,34 @@ public class StatisticsPresenterTest {
     public void loadStatisticsEmpty() {
         // Given an initialized StatisticsPresenter with no tasks
         taskBeanList.clear();
-        Mockito.when(tasksRepository.loadTasks()).thenReturn(Flowable.fromIterable(taskBeanList).toList());
 
         statisticsPresenter.subscribe();
 
         verify(tasksRepository).loadTasks();
+
+//        loadTasksCallBackArgumentCaptor.getValue().onTasksLoaded(taskBeanList);
 
         verify(statisticsView).showStatistics(0, 0);
     }
 
     @Test
     public void loadStatistics() {
-        Mockito.when(tasksRepository.loadTasks()).thenReturn(Flowable.fromIterable(taskBeanList).toList());
-
         statisticsPresenter.subscribe();
 
         verify(tasksRepository).loadTasks();
+
+//        loadTasksCallBackArgumentCaptor.getValue().onTasksLoaded(taskBeanList);
 
         verify(statisticsView).showStatistics(2, 1);
     }
 
     @Test
     public void loadStatisticsUnavailable() {
-        Mockito.when(tasksRepository.loadTasks()).thenReturn(Single.<List<TaskBean>>error(new Exception()));
-
         statisticsPresenter.subscribe();
 
         verify(tasksRepository).loadTasks();
+
+//        loadTasksCallBackArgumentCaptor.getValue().onDataNotAvailable();
 
         verify(statisticsView).showMessage(MessageMap.NO_DATA);
     }

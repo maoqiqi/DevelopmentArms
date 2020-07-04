@@ -54,7 +54,7 @@ public class TasksActivity extends BaseActivity implements View.OnClickListener 
         }
 
         // Create the presenter
-        tasksPresenter = new TasksPresenter(Injection.provideTasksRepository(getApplicationContext()), tasksFragment, Injection.provideSchedulerProvider());
+//        tasksPresenter = new TasksPresenter(Injection.provideTasksRepository(getApplicationContext()), tasksFragment, Injection.provideSchedulerProvider());
 
         // Load previously saved state, if available.
         if (savedInstanceState != null) {

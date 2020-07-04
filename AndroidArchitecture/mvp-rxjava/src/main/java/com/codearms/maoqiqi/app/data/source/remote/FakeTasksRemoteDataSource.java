@@ -9,9 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Flowable;
-import io.reactivex.Single;
-import io.reactivex.internal.operators.flowable.FlowableSingleSingle;
-import io.reactivex.plugins.RxJavaPlugins;
 
 /**
  * Implement a fast access to the server API interface.
@@ -40,17 +37,17 @@ public class FakeTasksRemoteDataSource implements TasksDataSource {
     }
 
     @Override
-    public Single<List<TaskBean>> loadTasks() {
-        return Flowable.fromIterable(TASKS_SERVICE_DATA.values()).toList();
+    public Flowable<List<TaskBean>> loadTasks() {
+        return Flowable.fromIterable(TASKS_SERVICE_DATA.values()).toList().toFlowable();
     }
 
     @Override
-    public Single<TaskBean> getTask(String taskId) {
+    public Flowable<TaskBean> getTask(String taskId) {
         TaskBean taskBean = TASKS_SERVICE_DATA.get(taskId);
         if (taskBean != null) {
-            return Single.just(taskBean);
+            return Flowable.just(taskBean);
         } else {
-            return RxJavaPlugins.onAssembly(new FlowableSingleSingle<>(Flowable.<TaskBean>empty(), null));
+            return Flowable.empty();
         }
     }
 

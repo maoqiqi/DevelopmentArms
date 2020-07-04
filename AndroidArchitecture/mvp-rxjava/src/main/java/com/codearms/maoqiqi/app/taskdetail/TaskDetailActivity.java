@@ -42,7 +42,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
             getSupportFragmentManager().beginTransaction().add(R.id.contentFrame, taskDetailFragment).commit();
         }
 
-        new TaskDetailPresenter(taskId, Injection.provideTasksRepository(getApplicationContext()), taskDetailFragment, Injection.provideSchedulerProvider());
+//        new TaskDetailPresenter(taskId, Injection.provideTasksRepository(getApplicationContext()), taskDetailFragment, Injection.provideSchedulerProvider());
     }
 
     @Override

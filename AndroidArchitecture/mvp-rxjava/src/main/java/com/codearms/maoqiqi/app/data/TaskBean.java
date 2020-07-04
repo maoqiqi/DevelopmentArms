@@ -1,9 +1,5 @@
 package com.codearms.maoqiqi.app.data;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
 
 import java.util.UUID;
@@ -13,21 +9,15 @@ import java.util.UUID;
  * Author: fengqi.mao.march@gmail.com
  * Date: 2019/3/12 14:16
  */
-@Entity(tableName = "task")
 public final class TaskBean {
 
-    @PrimaryKey
     @NonNull
-    @ColumnInfo(name = "id")
     private String id = "";
 
-    @ColumnInfo(name = "title")
     private String title;
 
-    @ColumnInfo(name = "description")
     private String description;
 
-    @ColumnInfo(name = "completed")
     private boolean completed;
 
     public TaskBean() {
@@ -41,7 +31,6 @@ public final class TaskBean {
      * @param description description of the task
      * @param completed   true if the task is completed, false if it's active
      */
-    @Ignore
     public TaskBean(String title, String description, boolean completed) {
         this(UUID.randomUUID().toString(), title, description, completed);
     }
@@ -55,7 +44,6 @@ public final class TaskBean {
      * @param description description of the task
      * @param completed   true if the task is completed, false if it's active
      */
-    @Ignore
     public TaskBean(@NonNull String id, String title, String description, boolean completed) {
         this.id = id;
         this.title = title;

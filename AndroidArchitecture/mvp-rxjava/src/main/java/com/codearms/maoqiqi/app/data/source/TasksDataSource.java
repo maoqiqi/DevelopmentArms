@@ -4,7 +4,7 @@ import com.codearms.maoqiqi.app.data.TaskBean;
 
 import java.util.List;
 
-import io.reactivex.Single;
+import io.reactivex.Flowable;
 
 /**
  * Main entry point for accessing tasks data.
@@ -13,9 +13,9 @@ import io.reactivex.Single;
  */
 public interface TasksDataSource {
 
-    Single<List<TaskBean>> loadTasks();
+    Flowable<List<TaskBean>> loadTasks();
 
-    Single<TaskBean> getTask(String taskId);
+    Flowable<TaskBean> getTask(String taskId);
 
     void clearCompletedTasks();
 

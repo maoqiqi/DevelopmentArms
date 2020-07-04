@@ -5,7 +5,7 @@ import android.content.Context;
 import com.codearms.maoqiqi.app.data.source.TasksDataSource;
 import com.codearms.maoqiqi.app.data.source.TasksRepository;
 import com.codearms.maoqiqi.app.data.source.remote.TasksRemoteDataSource;
-import com.codearms.maoqiqi.app.data.source.room.TasksRoomDataSource;
+import com.codearms.maoqiqi.app.data.source.sqlbrite.TasksSqlBriteDataSource;
 import com.codearms.maoqiqi.app.utils.schedulers.BaseSchedulerProvider;
 import com.codearms.maoqiqi.app.utils.schedulers.SchedulerProvider;
 
@@ -18,7 +18,7 @@ public class Injection {
 
     public static TasksRepository provideTasksRepository(Context context) {
         return TasksRepository.getInstance(TasksRemoteDataSource.getInstance(),
-                TasksRoomDataSource.getInstance(context, provideSchedulerProvider()));
+                TasksSqlBriteDataSource.getInstance(context, provideSchedulerProvider()));
     }
 
     public static BaseSchedulerProvider provideSchedulerProvider() {

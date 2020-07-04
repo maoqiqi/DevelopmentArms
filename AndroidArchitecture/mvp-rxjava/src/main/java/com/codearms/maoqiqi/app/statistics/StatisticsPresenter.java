@@ -3,6 +3,7 @@ package com.codearms.maoqiqi.app.statistics;
 import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 
+import com.codearms.maoqiqi.app.Injection;
 import com.codearms.maoqiqi.app.data.TaskBean;
 import com.codearms.maoqiqi.app.data.source.TasksRepository;
 import com.codearms.maoqiqi.app.utils.MessageMap;
@@ -29,16 +30,16 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
 
     private TasksRepository tasksRepository;
     private StatisticsContract.View statisticsView;
-    private BaseSchedulerProvider schedulerProvider;
+    @NonNull
+    private final BaseSchedulerProvider schedulerProvider = Injection.provideSchedulerProvider();
 
     @NonNull
     private CompositeDisposable compositeDisposable;
 
-    StatisticsPresenter(TasksRepository tasksRepository, StatisticsContract.View statisticsView, BaseSchedulerProvider schedulerProvider) {
+    StatisticsPresenter(TasksRepository tasksRepository, StatisticsContract.View statisticsView) {
         this.tasksRepository = tasksRepository;
         this.statisticsView = statisticsView;
         this.statisticsView.setPresenter(this);
-        this.schedulerProvider = schedulerProvider;
         compositeDisposable = new CompositeDisposable();
     }
 
@@ -54,7 +55,7 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
 
     @Override
     public void loadStatistics() {
-        Flowable<TaskBean> f = tasksRepository.loadTasks().toFlowable().flatMap(new Function<List<TaskBean>, Publisher<TaskBean>>() {
+        Flowable<TaskBean> f = tasksRepository.loadTasks().flatMap(new Function<List<TaskBean>, Publisher<TaskBean>>() {
             @Override
             public Publisher<TaskBean> apply(List<TaskBean> taskBeans) {
                 return Flowable.fromIterable(taskBeans);

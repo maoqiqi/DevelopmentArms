@@ -12,11 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Flowable;
-import io.reactivex.Single;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
 
 /**
  * Load tasks from the data sources into a cache.
@@ -72,32 +70,26 @@ public class TasksRepository implements TasksDataSource {
      * Gets tasks from cache, local data source (SQLite) or remote data source, whichever is available first.
      */
     @Override
-    public Single<List<TaskBean>> loadTasks() {
+    public Flowable<List<TaskBean>> loadTasks() {
         // Respond immediately with cache if available and not dirty
         if (cachedTasksMap != null && !cacheIsDirty) {
-            return Flowable.fromIterable(cachedTasksMap.values()).toList();
+            return Flowable.fromIterable(cachedTasksMap.values()).toList().toFlowable();
         }
 
         if (cacheIsDirty) {
             return getTasksFromRemoteDataSource();
         } else {
-            return Single.concat(getTasksFromLocalDataSource(), getTasksFromRemoteDataSource())
-                    .filter(new Predicate<List<TaskBean>>() {
-                        @Override
-                        public boolean test(List<TaskBean> taskBeans) {
-                            return !taskBeans.isEmpty();
-                        }
-                    })
-                    .firstOrError();
+            // Flowable<List<TaskBean>> localTasks = getTasksFromLocalDataSource();
+            return getTasksFromRemoteDataSource();
         }
     }
 
     @Override
-    public Single<TaskBean> getTask(final String taskId) {
+    public Flowable<TaskBean> getTask(final String taskId) {
         TaskBean cachedTaskBean = getTaskById(taskId);
         // Respond immediately with cache if available
         if (cachedTaskBean != null) {
-            return Single.just(cachedTaskBean);
+            return Flowable.just(cachedTaskBean);
         }
 
         // Load from server/persisted if needed.
@@ -106,18 +98,20 @@ public class TasksRepository implements TasksDataSource {
             cachedTasksMap = new LinkedHashMap<>();
         }
 
-        return Single.concat(tasksLocalDataSource.getTask(taskId).doOnSuccess(new Consumer<TaskBean>() {
+        Flowable<TaskBean> localTask = tasksLocalDataSource.getTask(taskId).doOnNext(new Consumer<TaskBean>() {
             @Override
             public void accept(TaskBean taskBean) {
                 cachedTasksMap.put(taskBean.getId(), taskBean);
             }
-        }), tasksRemoteDataSource.getTask(taskId).doOnSuccess(new Consumer<TaskBean>() {
+        }).firstElement().toFlowable();
+        Flowable<TaskBean> remoteTask = tasksRemoteDataSource.getTask(taskId).doOnNext(new Consumer<TaskBean>() {
             @Override
             public void accept(TaskBean taskBean) {
                 cachedTasksMap.put(taskBean.getId(), taskBean);
                 tasksLocalDataSource.addTask(taskBean);
             }
-        })).firstOrError();
+        });
+        return Flowable.concat(localTask, remoteTask).firstElement().toFlowable();
     }
 
     @Override
@@ -204,14 +198,14 @@ public class TasksRepository implements TasksDataSource {
     /**
      * Getting new data from the network.
      */
-    private Single<List<TaskBean>> getTasksFromRemoteDataSource() {
+    private Flowable<List<TaskBean>> getTasksFromRemoteDataSource() {
         if (cachedTasksMap == null) {
             cachedTasksMap = new LinkedHashMap<>();
         } else {
             cachedTasksMap.clear();
         }
         tasksLocalDataSource.deleteAllTasks();
-        return tasksRemoteDataSource.loadTasks().toFlowable().flatMap(
+        return tasksRemoteDataSource.loadTasks().flatMap(
                 new Function<List<TaskBean>, Publisher<TaskBean>>() {
                     @Override
                     public Publisher<TaskBean> apply(List<TaskBean> taskBeans) {
@@ -224,21 +218,23 @@ public class TasksRepository implements TasksDataSource {
                         });
                     }
                 })
+                .toList()
+                .toFlowable()
                 .doOnComplete(new Action() {
                     @Override
                     public void run() {
                         cacheIsDirty = false;
                     }
-                }).toList();
+                });
     }
 
-    private Single<List<TaskBean>> getTasksFromLocalDataSource() {
+    private Flowable<List<TaskBean>> getTasksFromLocalDataSource() {
         if (cachedTasksMap == null) {
             cachedTasksMap = new LinkedHashMap<>();
         } else {
             cachedTasksMap.clear();
         }
-        return tasksLocalDataSource.loadTasks().toFlowable().flatMap(
+        return tasksLocalDataSource.loadTasks().flatMap(
                 new Function<List<TaskBean>, Publisher<TaskBean>>() {
                     @Override
                     public Publisher<TaskBean> apply(List<TaskBean> taskBeans) {
@@ -250,13 +246,14 @@ public class TasksRepository implements TasksDataSource {
                         });
                     }
                 })
+                .toList()
+                .toFlowable()
                 .doOnComplete(new Action() {
                     @Override
                     public void run() {
                         cacheIsDirty = false;
                     }
-                })
-                .toList();
+                });
     }
 
     /**

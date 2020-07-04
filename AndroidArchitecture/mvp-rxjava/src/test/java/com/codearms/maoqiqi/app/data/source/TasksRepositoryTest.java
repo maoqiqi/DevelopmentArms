@@ -14,9 +14,6 @@ import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.Flowable;
-import io.reactivex.Single;
-import io.reactivex.internal.operators.flowable.FlowableSingleSingle;
-import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.subscribers.TestSubscriber;
 
 import static org.junit.Assert.assertEquals;
@@ -79,7 +76,7 @@ public class TasksRepositoryTest {
         setTasksNotAvailable(tasksRemoteDataSource);
 
         // When calling getTasks in the repository
-        tasksRepository.loadTasks().toFlowable().subscribe(tasksTestSubscriber);
+        tasksRepository.loadTasks().subscribe(tasksTestSubscriber);
         // Then tasks were only requested once from remote and local sources
         verify(tasksLocalDataSource).loadTasks();
         verify(tasksRemoteDataSource).loadTasks();
@@ -93,8 +90,6 @@ public class TasksRepositoryTest {
 
     @Test
     public void getTask() {
-        setTaskAvailable(tasksLocalDataSource, activeTaskBean);
-        setTaskAvailable(tasksRemoteDataSource, activeTaskBean);
         tasksRepository.getTask(activeTaskBean.getId());
         // if you use the parameter matcher, all parameters should use the parameter matcher.
         verify(tasksLocalDataSource).getTask(Mockito.eq(activeTaskBean.getId()));
@@ -118,8 +113,6 @@ public class TasksRepositoryTest {
 
     @Test
     public void refreshTasks() {
-        setTasksAvailable(tasksRemoteDataSource, taskBeanList);
-
         // When calling getTasks in the repository with dirty cache
         tasksRepository.refreshTasks();
         tasksRepository.loadTasks();
@@ -247,19 +240,19 @@ public class TasksRepositoryTest {
 
 
     private void setTasksNotAvailable(TasksDataSource dataSource) {
-        Mockito.when(dataSource.loadTasks()).thenReturn(Single.just(Collections.<TaskBean>emptyList()));
+        Mockito.when(dataSource.loadTasks()).thenReturn(Flowable.just(Collections.<TaskBean>emptyList()));
     }
 
     private void setTasksAvailable(TasksDataSource dataSource, List<TaskBean> tasks) {
         // don't allow the data sources to complete.
-        Mockito.when(dataSource.loadTasks()).thenReturn(Single.just(tasks));
+        Mockito.when(dataSource.loadTasks()).thenReturn(Flowable.just(tasks).concatWith(Flowable.<List<TaskBean>>never()));
     }
 
     private void setTaskNotAvailable(TasksDataSource dataSource, String taskId) {
-        Mockito.when(dataSource.getTask(Mockito.eq(taskId))).thenReturn(RxJavaPlugins.onAssembly(new FlowableSingleSingle<>(Flowable.<TaskBean>empty(), null)));
+        Mockito.when(dataSource.getTask(Mockito.eq(taskId))).thenReturn(Flowable.<TaskBean>empty());
     }
 
     private void setTaskAvailable(TasksDataSource dataSource, TaskBean taskBean) {
-        Mockito.when(dataSource.getTask(Mockito.eq(taskBean.getId()))).thenReturn(Single.just(taskBean));
+        Mockito.when(dataSource.getTask(Mockito.eq(taskBean.getId()))).thenReturn(Flowable.just(taskBean).concatWith(Flowable.<TaskBean>never()));
     }
 }

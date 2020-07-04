@@ -50,8 +50,8 @@ public class AddEditTaskActivity extends BaseActivity implements View.OnClickLis
             shouldLoadDataFromRepo = savedInstanceState.getBoolean(SHOULD_LOAD_DATA_FROM_REPO);
         }
 
-        presenter = new AddEditTaskPresenter(taskId, Injection.provideTasksRepository(getApplicationContext()),
-                addEditTaskFragment, shouldLoadDataFromRepo, Injection.provideSchedulerProvider());
+//        presenter = new AddEditTaskPresenter(taskId, Injection.provideTasksRepository(getApplicationContext()),
+//                addEditTaskFragment, shouldLoadDataFromRepo, Injection.provideSchedulerProvider());
     }
 
     @Override

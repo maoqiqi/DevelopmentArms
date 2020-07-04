@@ -1,9 +1,6 @@
 package com.codearms.maoqiqi.app.data.source
 
-import com.codearms.maoqiqi.app.any
-import com.codearms.maoqiqi.app.capture
 import com.codearms.maoqiqi.app.data.TaskBean
-import com.codearms.maoqiqi.app.eq
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -69,12 +66,12 @@ class TasksRepositoryTest {
         // When calling getTasks in the repository
         tasksRepository.loadTasks(loadTasksCallBack)
         // Use the Mockito Captor to capture the callback
-        verify(tasksLocalDataSource).loadTasks(capture(loadTasksCallBackArgumentCaptor))
+        verify(tasksLocalDataSource).loadTasks(loadTasksCallBackArgumentCaptor.capture())
 
         // And the local data source has no data available
         loadTasksCallBackArgumentCaptor.value.onDataNotAvailable()
         // Verify the remote data source is queried
-        verify(tasksRemoteDataSource).loadTasks(capture(loadTasksCallBackArgumentCaptor))
+        verify(tasksRemoteDataSource).loadTasks(loadTasksCallBackArgumentCaptor.capture())
 
         // And the remote data source has data available
         loadTasksCallBackArgumentCaptor.value.onTasksLoaded(taskBeanList)
@@ -84,15 +81,15 @@ class TasksRepositoryTest {
         // Second call to API
         tasksRepository.loadTasks(loadTasksCallBack)
         // Then tasks were only requested once from Service API
-        verify(tasksRemoteDataSource, times(1)).loadTasks(any())
-        verify(tasksLocalDataSource, times(1)).loadTasks(any())
+        verify(tasksRemoteDataSource, times(1)).loadTasks(Mockito.any(TasksDataSource.LoadTasksCallBack::class.java))
+        verify(tasksLocalDataSource, times(1)).loadTasks(Mockito.any(TasksDataSource.LoadTasksCallBack::class.java))
     }
 
     @Test
     fun getTask() {
         tasksRepository.getTask(activeTaskBean.id, getTaskCallBack)
         // if you use the parameter matcher, all parameters should use the parameter matcher.
-        verify(tasksLocalDataSource).getTask(eq(activeTaskBean.id), any())
+        verify(tasksLocalDataSource).getTask(Mockito.eq(activeTaskBean.id), Mockito.any(TasksDataSource.GetTaskCallBack::class.java))
     }
 
     @Test
@@ -118,7 +115,7 @@ class TasksRepositoryTest {
         tasksRepository.loadTasks(loadTasksCallBack)
 
         // And the remote data source has data available
-        verify(tasksRemoteDataSource).loadTasks(capture(loadTasksCallBackArgumentCaptor))
+        verify(tasksRemoteDataSource).loadTasks(loadTasksCallBackArgumentCaptor.capture())
         loadTasksCallBackArgumentCaptor.value.onTasksLoaded(taskBeanList)
 
         verify(tasksLocalDataSource, Mockito.never()).loadTasks(loadTasksCallBack)
