@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.codearms.maoqiqi.app.R
 import com.codearms.maoqiqi.app.base.BaseFragment
 import com.codearms.maoqiqi.app.databinding.FragmentAddEditTaskBinding
 import com.codearms.maoqiqi.app.tasks.TasksActivity
 import com.codearms.maoqiqi.app.utils.MessageMap
+import com.codearms.maoqiqi.app.utils.getViewModelFactory
 import com.codearms.maoqiqi.app.utils.show
 
 /**
@@ -20,29 +22,28 @@ import com.codearms.maoqiqi.app.utils.show
  */
 class AddEditTaskFragment : BaseFragment() {
 
-    private lateinit var addEditTaskViewModel: AddEditTaskViewModel
-
-    internal fun setViewModel(addEditTaskViewModel: AddEditTaskViewModel) {
-        this.addEditTaskViewModel = addEditTaskViewModel
-    }
+    private val addEditTaskViewModel by viewModels<AddEditTaskViewModel> { getViewModelFactory() }
+    // add_edit_task_fragment
+//    private val args:AddEditTaskFragment by navArgs()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         val binding = DataBindingUtil.inflate<FragmentAddEditTaskBinding>(inflater, R.layout.fragment_add_edit_task, container, false)
         binding.addEditTaskViewModel = addEditTaskViewModel
-        binding.setLifecycleOwner(activity)
+        // Set the lifecycle owner to the lifecycle of the view
+        binding.lifecycleOwner = this.viewLifecycleOwner
         setHasOptionsMenu(true)
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        addEditTaskViewModel.addTaskEvent.observe(this, Observer { objectEvent ->
+        addEditTaskViewModel.addTaskEvent.observe(viewLifecycleOwner, Observer { objectEvent ->
             if (objectEvent!!.getContentIfNotHandled() != null) {
                 showTasks()
             }
         })
-        addEditTaskViewModel.message.observe(this, Observer { stringEvent ->
+        addEditTaskViewModel.message.observe(viewLifecycleOwner, Observer { stringEvent ->
             val message = stringEvent!!.getContentIfNotHandled()
             if (message != null) showMessage(message)
         })
@@ -50,7 +51,7 @@ class AddEditTaskFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        addEditTaskViewModel.start()
+        addEditTaskViewModel.start("")
     }
 
     private fun showTasks() {
@@ -62,9 +63,5 @@ class AddEditTaskFragment : BaseFragment() {
 
     private fun showMessage(message: String?) {
         view?.show(MessageMap.get(message))
-    }
-
-    companion object {
-        fun newInstance(): AddEditTaskFragment = AddEditTaskFragment()
     }
 }

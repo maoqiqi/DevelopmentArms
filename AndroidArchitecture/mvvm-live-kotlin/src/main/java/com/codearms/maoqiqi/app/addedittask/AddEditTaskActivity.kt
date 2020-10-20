@@ -2,11 +2,11 @@ package com.codearms.maoqiqi.app.addedittask
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import com.codearms.maoqiqi.app.R
 import com.codearms.maoqiqi.app.base.BaseActivity
 import com.codearms.maoqiqi.app.tasks.TasksActivity
-import com.codearms.maoqiqi.app.utils.add
-import com.codearms.maoqiqi.app.utils.obtainViewModel
+import com.codearms.maoqiqi.app.utils.getViewModelFactory
 import com.codearms.maoqiqi.app.utils.setToolbar
 
 /**
@@ -16,13 +16,13 @@ import com.codearms.maoqiqi.app.utils.setToolbar
  */
 class AddEditTaskActivity : BaseActivity(), View.OnClickListener {
 
-    private lateinit var addEditTaskViewModel: AddEditTaskViewModel
+    private val addEditTaskViewModel: AddEditTaskViewModel by viewModels { getViewModelFactory() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_edit_task)
 
-        val taskId = intent.getStringExtra(TasksActivity.EXTRA_TASK_ID)
+        val taskId: String? = intent.getStringExtra(TasksActivity.EXTRA_TASK_ID)
 
         findViewById<View>(R.id.fabAddEditTask).setOnClickListener(this)
 
@@ -30,14 +30,6 @@ class AddEditTaskActivity : BaseActivity(), View.OnClickListener {
             setTitle(if (taskId == null) R.string.add_task else R.string.edit_task)
             setDisplayHomeAsUpEnabled(true)
         }
-
-        val addEditTaskFragment = supportFragmentManager.findFragmentById(R.id.contentFrame) as AddEditTaskFragment?
-                ?: AddEditTaskFragment.newInstance().also { add(R.id.contentFrame, it) }
-
-        addEditTaskViewModel = obtainViewModel(AddEditTaskViewModel::class.java)
-        addEditTaskViewModel.setTaskId(taskId)
-
-        addEditTaskFragment.setViewModel(addEditTaskViewModel)
     }
 
     override fun onClick(v: View) {

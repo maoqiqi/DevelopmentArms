@@ -5,8 +5,6 @@ import android.view.View
 import com.codearms.maoqiqi.app.R
 import com.codearms.maoqiqi.app.base.BaseActivity
 import com.codearms.maoqiqi.app.tasks.TasksActivity
-import com.codearms.maoqiqi.app.utils.add
-import com.codearms.maoqiqi.app.utils.obtainViewModel
 import com.codearms.maoqiqi.app.utils.setToolbar
 
 /**
@@ -32,14 +30,6 @@ class TaskDetailActivity : BaseActivity(), View.OnClickListener {
         }
 
         findViewById<View>(R.id.fabEditTask).setOnClickListener(this)
-
-        taskDetailFragment = supportFragmentManager.findFragmentById(R.id.contentFrame) as TaskDetailFragment?
-                ?: TaskDetailFragment.newInstance().also { add(R.id.contentFrame, it) }
-
-        val taskDetailViewModel = obtainViewModel(TaskDetailViewModel::class.java)
-        taskDetailViewModel.setTaskId(taskId)
-
-        taskDetailFragment.setViewModel(taskDetailViewModel)
     }
 
     override fun onClick(v: View) {

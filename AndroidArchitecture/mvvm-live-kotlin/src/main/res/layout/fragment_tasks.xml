@@ -17,8 +17,7 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:onRefresh="@{tasksViewModel}"
-        app:refreshing="@{tasksViewModel.observableLoading}">
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -30,17 +29,14 @@
                 android:layout_height="wrap_content"
                 android:background="@color/gray"
                 android:padding="@dimen/sixteen"
-                android:text="@{tasksViewModel.observableFilteringLabel,default=@string/all_tasks}"
+
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:visibility="@{tasksViewModel.observableNoTasks ? View.GONE : View.VISIBLE}"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:visibility="@{tasksViewModel.observableNoTasks ? View.GONE : View.VISIBLE}"
-                app:items="@{tasksViewModel.observableList}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvFilteringLabel" />
 
@@ -48,12 +44,9 @@
                 android:id="@+id/tvNoTasks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableStart="@{ContextCompat.getDrawable(context, tasksViewModel.observableNoTasksRes)}"
-                android:drawableLeft="@{ContextCompat.getDrawable(context, tasksViewModel.observableNoTasksRes)}"
                 android:drawablePadding="@dimen/eight"
                 android:gravity="center"
-                android:text="@{tasksViewModel.observableNoTasksText,default=@string/no_all_tasks}"
-                android:visibility="@{tasksViewModel.observableNoTasks ? View.VISIBLE : View.GONE}"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

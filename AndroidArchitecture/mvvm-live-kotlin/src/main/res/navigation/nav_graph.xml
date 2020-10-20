@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/tasks_fragment">
+    <fragment
+        android:id="@+id/tasks_fragment"
+        android:name="com.codearms.maoqiqi.app.tasks.TasksFragment" />
+    <fragment
+        android:id="@+id/add_edit_task_fragment"
+        android:name="com.codearms.maoqiqi.app.addedittask.AddEditTaskFragment">
+        <argument
+            android:name="taskId"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/task_detail_fragment"
+        android:name="com.codearms.maoqiqi.app.taskdetail.TaskDetailFragment" />
+    <fragment
+        android:id="@+id/statistics_fragment"
+        android:name="com.codearms.maoqiqi.app.statistics.StatisticsFragment" />
+</navigation>

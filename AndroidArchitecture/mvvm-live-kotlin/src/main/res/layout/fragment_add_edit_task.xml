@@ -26,7 +26,7 @@
                 android:inputType="text"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
-                android:text="@={addEditTaskViewModel.observableTitle}"
+                android:text="@={addEditTaskViewModel.title}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,7 +37,7 @@
                 android:gravity="top"
                 android:hint="@string/description"
                 android:inputType="textMultiLine"
-                android:text="@={addEditTaskViewModel.observableDescription}"
+                android:text="@={addEditTaskViewModel.description}"
                 app:layout_constraintTop_toBottomOf="@id/editTextTitle" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

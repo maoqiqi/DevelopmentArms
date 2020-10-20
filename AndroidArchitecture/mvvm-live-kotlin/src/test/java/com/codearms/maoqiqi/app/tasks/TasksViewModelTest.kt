@@ -3,8 +3,8 @@ package com.codearms.maoqiqi.app.tasks
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.codearms.maoqiqi.app.LiveDataTestUtils
 import com.codearms.maoqiqi.app.data.TaskBean
-import com.codearms.maoqiqi.app.data.source.TasksDataSource
-import com.codearms.maoqiqi.app.data.source.TasksRepository
+import com.codearms.maoqiqi.app.data.source.TaskDataSource
+import com.codearms.maoqiqi.app.data.source.TaskRepository
 import com.codearms.maoqiqi.app.utils.MessageMap
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -27,10 +27,10 @@ class TasksViewModelTest {
     var instantExecutorRule = InstantTaskExecutorRule()
 
     @Mock
-    private lateinit var tasksRepository: TasksRepository
+    private lateinit var tasksRepository: TaskRepository
 
     @Captor
-    private lateinit var loadTasksCallBackArgumentCaptor: ArgumentCaptor<TasksDataSource.LoadTasksCallBack>
+    private lateinit var loadTaskCallBackArgumentCaptor: ArgumentCaptor<TaskDataSource.LoadTasksCallBack>
 
     private lateinit var tasksViewModel: TasksViewModel
 
@@ -55,13 +55,13 @@ class TasksViewModelTest {
         tasksViewModel.loadTasks(true)
 
         // Callback is captured and invoked with stubbed tasks
-        verify(tasksRepository).loadTasks(loadTasksCallBackArgumentCaptor.capture())
+        verify(tasksRepository).loadTasks(loadTaskCallBackArgumentCaptor.capture())
 
         // Then progress indicator is shown
         assertEquals(tasksViewModel.observableLoading.value, true)
 
         // When task is finally loaded
-        loadTasksCallBackArgumentCaptor.value.onTasksLoaded(taskBeanList)
+        loadTaskCallBackArgumentCaptor.value.onTasksLoaded(taskBeanList)
 
         // Then progress indicator is hidden
         assertEquals(tasksViewModel.observableLoading.value, false)
@@ -75,8 +75,8 @@ class TasksViewModelTest {
         tasksViewModel.setFiltering(TasksFilterType.ACTIVE_TASKS)
         tasksViewModel.loadTasks(true)
 
-        verify(tasksRepository).loadTasks(loadTasksCallBackArgumentCaptor.capture())
-        loadTasksCallBackArgumentCaptor.value.onTasksLoaded(taskBeanList)
+        verify(tasksRepository).loadTasks(loadTaskCallBackArgumentCaptor.capture())
+        loadTaskCallBackArgumentCaptor.value.onTasksLoaded(taskBeanList)
 
         assertEquals(tasksViewModel.observableLoading.value, false)
         assertEquals(Objects.requireNonNull<List<TaskBean>>(tasksViewModel.observableList.value).size, 2)
@@ -87,8 +87,8 @@ class TasksViewModelTest {
         tasksViewModel.setFiltering(TasksFilterType.COMPLETED_TASKS)
         tasksViewModel.loadTasks(true)
 
-        verify(tasksRepository).loadTasks(loadTasksCallBackArgumentCaptor.capture())
-        loadTasksCallBackArgumentCaptor.value.onTasksLoaded(taskBeanList)
+        verify(tasksRepository).loadTasks(loadTaskCallBackArgumentCaptor.capture())
+        loadTaskCallBackArgumentCaptor.value.onTasksLoaded(taskBeanList)
 
         assertEquals(tasksViewModel.observableLoading.value, false)
         assertEquals(Objects.requireNonNull<List<TaskBean>>(tasksViewModel.observableList.value).size, 1)
@@ -100,8 +100,8 @@ class TasksViewModelTest {
         tasksViewModel.loadTasks(true)
 
         // And the tasks aren't available in the repository
-        verify(tasksRepository).loadTasks(loadTasksCallBackArgumentCaptor.capture())
-        loadTasksCallBackArgumentCaptor.value.onDataNotAvailable()
+        verify(tasksRepository).loadTasks(loadTaskCallBackArgumentCaptor.capture())
+        loadTaskCallBackArgumentCaptor.value.onDataNotAvailable()
 
         // Then an error message is shown
         assertEquals(tasksViewModel.observableNoTasks.value, true)
@@ -114,7 +114,7 @@ class TasksViewModelTest {
 
         // Then repository is called and the view is notified
         verify(tasksRepository).clearCompletedTasks()
-        verify(tasksRepository).loadTasks(Mockito.any(TasksDataSource.LoadTasksCallBack::class.java))
+        verify(tasksRepository).loadTasks(Mockito.any(TaskDataSource.LoadTasksCallBack::class.java))
     }
 
     @Test

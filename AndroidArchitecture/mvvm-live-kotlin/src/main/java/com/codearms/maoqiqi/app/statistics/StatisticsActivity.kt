@@ -3,8 +3,6 @@ package com.codearms.maoqiqi.app.statistics
 import android.os.Bundle
 import com.codearms.maoqiqi.app.R
 import com.codearms.maoqiqi.app.base.BaseActivity
-import com.codearms.maoqiqi.app.utils.add
-import com.codearms.maoqiqi.app.utils.obtainViewModel
 import com.codearms.maoqiqi.app.utils.setToolbar
 
 /**
@@ -22,11 +20,6 @@ class StatisticsActivity : BaseActivity() {
             setTitle(R.string.statistics)
             setDisplayHomeAsUpEnabled(true)
         }
-
-        val statisticsFragment = supportFragmentManager.findFragmentById(R.id.contentFrame) as StatisticsFragment?
-                ?: StatisticsFragment.newInstance().also { add(R.id.contentFrame, it) }
-
-        statisticsFragment.setViewModel(obtainViewModel(StatisticsViewModel::class.java))
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -5,12 +5,14 @@ import android.content.Intent
 import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.*
+import androidx.fragment.app.viewModels
 import com.codearms.maoqiqi.app.R
 import com.codearms.maoqiqi.app.addedittask.AddEditTaskActivity
 import com.codearms.maoqiqi.app.base.BaseFragment
 import com.codearms.maoqiqi.app.databinding.FragmentTaskDetailBinding
 import com.codearms.maoqiqi.app.tasks.TasksActivity
 import com.codearms.maoqiqi.app.utils.MessageMap
+import com.codearms.maoqiqi.app.utils.getViewModelFactory
 import com.codearms.maoqiqi.app.utils.show
 
 /**
@@ -20,11 +22,7 @@ import com.codearms.maoqiqi.app.utils.show
  */
 class TaskDetailFragment : BaseFragment() {
 
-    private lateinit var taskDetailViewModel: TaskDetailViewModel
-
-    fun setViewModel(taskDetailViewModel: TaskDetailViewModel) {
-        this.taskDetailViewModel = taskDetailViewModel
-    }
+    private val taskDetailViewModel: TaskDetailViewModel by viewModels { getViewModelFactory() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -37,12 +35,12 @@ class TaskDetailFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        taskDetailViewModel.taskDetailEvent.observe(this, Observer { objectEvent ->
+        taskDetailViewModel.taskDetailEvent.observe(viewLifecycleOwner, Observer { objectEvent ->
             if (objectEvent!!.getContentIfNotHandled() != null) {
                 deleteTask()
             }
         })
-        taskDetailViewModel.message.observe(this, Observer { stringEvent ->
+        taskDetailViewModel.message.observe(viewLifecycleOwner, Observer { stringEvent ->
             val message = stringEvent!!.getContentIfNotHandled()
             if (message != null) showMessage(message)
         })
@@ -96,9 +94,5 @@ class TaskDetailFragment : BaseFragment() {
 
     private fun showMessage(message: String?) {
         view?.show(MessageMap.get(message))
-    }
-
-    companion object {
-        fun newInstance(): TaskDetailFragment = TaskDetailFragment()
     }
 }

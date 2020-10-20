@@ -10,7 +10,7 @@ import androidx.test.rule.ActivityTestRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.codearms.maoqiqi.app.Injection
 import com.codearms.maoqiqi.app.data.TaskBean
-import com.codearms.maoqiqi.app.data.source.remote.TasksRemoteDataSource
+import com.codearms.maoqiqi.app.data.source.remote.TaskRemoteDataSource
 import com.codearms.maoqiqi.app.utils.EspressoIdlingResource
 import org.hamcrest.Matchers
 import org.junit.After
@@ -37,9 +37,9 @@ class StatisticsScreenTest {
     fun setUp() {
         // Given some tasks
         Injection.provideTasksRepository(InstrumentationRegistry.getTargetContext()).deleteAllTasks()
-        TasksRemoteDataSource.getInstance().addTask(TaskBean(TITLE, DESCRIPTION, false))
-        TasksRemoteDataSource.getInstance().addTask(TaskBean(TITLE, DESCRIPTION, false))
-        TasksRemoteDataSource.getInstance().addTask(TaskBean(TITLE, DESCRIPTION, true))
+        TaskRemoteDataSource.getInstance().addTask(TaskBean(TITLE, DESCRIPTION, false))
+        TaskRemoteDataSource.getInstance().addTask(TaskBean(TITLE, DESCRIPTION, false))
+        TaskRemoteDataSource.getInstance().addTask(TaskBean(TITLE, DESCRIPTION, true))
 
         // Lazily start the Activity from the ActivityTestRule
         statisticsActivityTestRule.launchActivity(Intent())

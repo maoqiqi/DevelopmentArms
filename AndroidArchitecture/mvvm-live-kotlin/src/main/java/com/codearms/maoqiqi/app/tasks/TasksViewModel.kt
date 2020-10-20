@@ -2,12 +2,15 @@ package com.codearms.maoqiqi.app.tasks
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.codearms.maoqiqi.app.Event
 import com.codearms.maoqiqi.app.R
+import com.codearms.maoqiqi.app.data.Result
 import com.codearms.maoqiqi.app.data.TaskBean
-import com.codearms.maoqiqi.app.data.source.TasksDataSource
-import com.codearms.maoqiqi.app.data.source.TasksRepository
+import com.codearms.maoqiqi.app.data.source.TaskDataSource
+import com.codearms.maoqiqi.app.data.source.TaskRepository
 import com.codearms.maoqiqi.app.utils.MessageMap
+import kotlinx.coroutines.launch
 import java.util.*
 
 /**
@@ -16,7 +19,7 @@ import java.util.*
  * Date: 2019/3/18 11:42
  */
 class TasksViewModel(
-        private val tasksRepository: TasksRepository
+    private val tasksRepository: TaskRepository
 ) : ViewModel() {
 
     private var currentFiltering = TasksFilterType.ALL_TASKS
@@ -51,7 +54,7 @@ class TasksViewModel(
     /**
      * load tasks
      *
-     * @param forceUpdate Pass in true to refresh the data in the [TasksDataSource]
+     * @param forceUpdate Pass in true to refresh the data in the [TaskDataSource]
      * @param showLoading Pass in true to display a loading icon in the UI
      */
     private fun loadTasks(forceUpdate: Boolean, showLoading: Boolean) {
@@ -60,12 +63,14 @@ class TasksViewModel(
         // Notice:Tests are used to clear the data each time.
         // if (forceUpdate) tasksRepository.refreshTasks();
 
-        tasksRepository.loadTasks(object : TasksDataSource.LoadTasksCallBack {
-            override fun onTasksLoaded(taskBeanList: List<TaskBean>) {
+        viewModelScope.launch {
+            val result = tasksRepository.loadTasks()
+
+            if (result is Result.Success) {
                 val tasksToShow = ArrayList<TaskBean>()
 
                 // We filter the tasks based on the requestType
-                for (taskBean in taskBeanList) {
+                for (taskBean in result.data) {
                     when (currentFiltering) {
                         TasksFilterType.ALL_TASKS -> tasksToShow.add(taskBean)
                         TasksFilterType.ACTIVE_TASKS -> if (taskBean.isActive) tasksToShow.add(taskBean)
@@ -75,14 +80,12 @@ class TasksViewModel(
                 if (showLoading) observableLoading.value = false
 
                 processTasks(tasksToShow)
-            }
-
-            override fun onDataNotAvailable() {
+            } else {
                 if (showLoading) observableLoading.value = false
                 // Show a message indicating there are no tasks for that filter type.
                 observableNoTasks.value = true
             }
-        })
+        }
     }
 
     private fun processTasks(taskBeanList: List<TaskBean>) {
@@ -95,21 +98,27 @@ class TasksViewModel(
     }
 
     internal fun clearCompletedTasks() {
-        tasksRepository.clearCompletedTasks()
-        message.value = Event(MessageMap.CLEAR)
-        loadTasks(forceUpdate = false, showLoading = false)
+        viewModelScope.launch {
+            tasksRepository.clearCompletedTasks()
+            message.value = Event(MessageMap.CLEAR)
+            loadTasks(forceUpdate = false, showLoading = false)
+        }
     }
 
     fun completeTask(completedTaskBean: TaskBean) {
-        tasksRepository.completeTask(completedTaskBean)
-        message.value = Event(MessageMap.COMPLETE)
-        loadTasks(forceUpdate = false, showLoading = false)
+        viewModelScope.launch {
+            tasksRepository.completeTask(completedTaskBean)
+            message.value = Event(MessageMap.COMPLETE)
+            loadTasks(forceUpdate = false, showLoading = false)
+        }
     }
 
     fun activateTask(activeTaskBean: TaskBean) {
-        tasksRepository.activateTask(activeTaskBean)
-        message.value = Event(MessageMap.ACTIVE)
-        loadTasks(forceUpdate = false, showLoading = false)
+        viewModelScope.launch {
+            tasksRepository.activateTask(activeTaskBean)
+            message.value = Event(MessageMap.ACTIVE)
+            loadTasks(forceUpdate = false, showLoading = false)
+        }
     }
 
     fun openTaskDetails(requestedTaskBean: TaskBean) {

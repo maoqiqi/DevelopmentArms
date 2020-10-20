@@ -3,8 +3,8 @@ package com.codearms.maoqiqi.app.addedittask
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.codearms.maoqiqi.app.data.TaskBean
-import com.codearms.maoqiqi.app.data.source.TasksDataSource
-import com.codearms.maoqiqi.app.data.source.TasksRepository
+import com.codearms.maoqiqi.app.data.source.TaskDataSource
+import com.codearms.maoqiqi.app.data.source.TaskRepository
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -23,10 +23,10 @@ class AddEditTaskViewModelTest {
     var instantExecutorRule = InstantTaskExecutorRule()
 
     @Mock
-    private lateinit var tasksRepository: TasksRepository
+    private lateinit var tasksRepository: TaskRepository
 
     @Captor
-    private lateinit var getTaskCallBackArgumentCaptor: ArgumentCaptor<TasksDataSource.GetTaskCallBack>
+    private lateinit var getTaskCallBackArgumentCaptor: ArgumentCaptor<TaskDataSource.GetTaskCallBack>
 
     private lateinit var addEditTaskViewModel: AddEditTaskViewModel
 

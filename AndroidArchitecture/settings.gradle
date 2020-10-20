@@ -1,1 +1,1 @@
-include ':mvp', ':mvp-kotlin', ':mvp-rxjava', ':mvvm-databinding', ':mvvm-live', ':mvvm-live-kotlin'
+include ':mvvm-live-kotlin'

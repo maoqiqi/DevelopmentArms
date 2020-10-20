@@ -9,7 +9,7 @@ import com.codearms.maoqiqi.app.data.TaskBean
  * Date: 2019/3/12 15:18
  */
 @Dao
-interface TasksDAO {
+interface TaskDAO {
 
     /**
      * Select all tasks from the task table.
@@ -17,7 +17,7 @@ interface TasksDAO {
      * @return all tasks.
      */
     @Query("select id,title,description,completed from task")
-    fun loadTasks(): List<TaskBean>
+    suspend fun loadTasks(): List<TaskBean>
 
     /**
      * Select a task by id.
@@ -26,7 +26,7 @@ interface TasksDAO {
      * @return the task with taskId.
      */
     @Query("select id,title,description,completed from task where id = :taskId")
-    fun getTaskById(taskId: String): TaskBean?
+    suspend fun getTaskById(taskId: String): TaskBean?
 
     /**
      * Insert a task in the database. If the task already exists, replace it.
@@ -34,7 +34,7 @@ interface TasksDAO {
      * @param taskBean the task to be inserted.
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addTask(taskBean: TaskBean)
+    suspend fun addTask(taskBean: TaskBean)
 
     /**
      * Update a task.
@@ -43,7 +43,7 @@ interface TasksDAO {
      * @return the number of tasks updated. This should always be 1.
      */
     @Update
-    fun updateTask(taskBean: TaskBean): Int
+    suspend fun updateTask(taskBean: TaskBean): Int
 
     /**
      * Update the complete status of a task
@@ -52,7 +52,7 @@ interface TasksDAO {
      * @param completed status to be updated
      */
     @Query("update task set completed = :completed where id = :taskId")
-    fun updateCompleted(taskId: String, completed: Boolean)
+    suspend fun updateCompleted(taskId: String, completed: Boolean)
 
     /**
      * Delete a task by id.
@@ -61,7 +61,7 @@ interface TasksDAO {
      * @return the number of tasks deleted. This should always be 1.
      */
     @Query("delete from task where id = :taskId")
-    fun deleteTaskById(taskId: String): Int
+    suspend fun deleteTaskById(taskId: String): Int
 
     /**
      * Delete all completed tasks from the table.
@@ -69,11 +69,11 @@ interface TasksDAO {
      * @return the number of tasks deleted.
      */
     @Query("delete from task where completed = 1")
-    fun deleteCompletedTasks(): Int
+    suspend fun deleteCompletedTasks(): Int
 
     /**
      * Delete all tasks.
      */
     @Query("delete from task")
-    fun deleteTasks()
+    suspend fun deleteTasks()
 }

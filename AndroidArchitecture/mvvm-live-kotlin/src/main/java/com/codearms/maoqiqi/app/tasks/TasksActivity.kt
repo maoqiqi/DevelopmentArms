@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import com.codearms.maoqiqi.app.R
 import com.codearms.maoqiqi.app.base.BaseActivity
-import com.codearms.maoqiqi.app.utils.add
-import com.codearms.maoqiqi.app.utils.obtainViewModel
+import com.codearms.maoqiqi.app.utils.getViewModelFactory
 import com.codearms.maoqiqi.app.utils.setToolbar
 
 /**
@@ -17,7 +17,8 @@ import com.codearms.maoqiqi.app.utils.setToolbar
  */
 class TasksActivity : BaseActivity(), View.OnClickListener {
 
-    private lateinit var tasksFragment: TasksFragment
+//    private lateinit var tasksFragment: TasksFragment
+    private val viewModel: TasksViewModel by viewModels { getViewModelFactory() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,16 +31,10 @@ class TasksActivity : BaseActivity(), View.OnClickListener {
         }
 
         // Set up floating action button
-        findViewById<View>(R.id.fabAddTask).setOnClickListener(this)
+        // findViewById<View>(R.id.fabAddTask).setOnClickListener(this)
 
-        tasksFragment = supportFragmentManager.findFragmentById(R.id.contentFrame) as TasksFragment?
-                ?: TasksFragment.newInstance().also { add(R.id.contentFrame, it) }
-
-        // Use a Factory to inject dependencies into the ViewModel
-        val tasksViewModel = obtainViewModel(TasksViewModel::class.java)
-
-        // Link View and ViewModel
-        tasksFragment.setViewModel(tasksViewModel)
+        // Use a Factory to inject dependencies into the ViewModel Link View and ViewModel
+//        tasksFragment.setViewModel(viewModel)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -53,7 +48,7 @@ class TasksActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        tasksFragment.addTask()
+//        tasksFragment.addTask()
     }
 
     companion object {

@@ -10,12 +10,11 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.rule.ActivityTestRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.core.util.Preconditions
-import androidx.recyclerview.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
 import com.codearms.maoqiqi.app.Injection
 import com.codearms.maoqiqi.app.R
-import com.codearms.maoqiqi.app.data.source.TasksDataSource
+import com.codearms.maoqiqi.app.data.source.TaskDataSource
 import com.codearms.maoqiqi.app.utils.EspressoIdlingResource
 import com.codearms.maoqiqi.app.utils.TestUtils
 import org.hamcrest.Description
@@ -44,7 +43,7 @@ class TasksScreenTest {
 
         /**
          * To avoid a long list of tasks and the need to scroll through the list to find a
-         * task, we call [TasksDataSource.deleteAllTasks] before each test.
+         * task, we call [TaskDataSource.deleteAllTasks] before each test.
          */
         override fun beforeActivityLaunched() {
             super.beforeActivityLaunched()

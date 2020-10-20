@@ -3,8 +3,8 @@ package com.codearms.maoqiqi.app.statistics
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.codearms.maoqiqi.app.LiveDataTestUtils
 import com.codearms.maoqiqi.app.data.TaskBean
-import com.codearms.maoqiqi.app.data.source.TasksDataSource
-import com.codearms.maoqiqi.app.data.source.TasksRepository
+import com.codearms.maoqiqi.app.data.source.TaskDataSource
+import com.codearms.maoqiqi.app.data.source.TaskRepository
 import com.codearms.maoqiqi.app.utils.MessageMap
 import org.hamcrest.core.Is.`is`
 import org.junit.Assert.assertEquals
@@ -30,10 +30,10 @@ class StatisticsViewModelTest {
     var instantExecutorRule = InstantTaskExecutorRule()
 
     @Mock
-    private lateinit var tasksRepository: TasksRepository
+    private lateinit var tasksRepository: TaskRepository
 
     @Captor
-    private lateinit var loadTasksCallBackArgumentCaptor: ArgumentCaptor<TasksDataSource.LoadTasksCallBack>
+    private lateinit var loadTaskCallBackArgumentCaptor: ArgumentCaptor<TaskDataSource.LoadTasksCallBack>
 
     private lateinit var statisticsViewModel: StatisticsViewModel
 
@@ -58,9 +58,9 @@ class StatisticsViewModelTest {
 
         statisticsViewModel.start()
 
-        verify(tasksRepository).loadTasks(loadTasksCallBackArgumentCaptor.capture())
+        verify(tasksRepository).loadTasks(loadTaskCallBackArgumentCaptor.capture())
 
-        loadTasksCallBackArgumentCaptor.value.onTasksLoaded(taskBeanList)
+        loadTaskCallBackArgumentCaptor.value.onTasksLoaded(taskBeanList)
 
         assertThat(statisticsViewModel.observableActiveTasks.value, `is`(0))
         assertThat(statisticsViewModel.observableCompletedTasks.value, `is`(0))
@@ -70,9 +70,9 @@ class StatisticsViewModelTest {
     fun loadStatistics() {
         statisticsViewModel.start()
 
-        verify(tasksRepository).loadTasks(loadTasksCallBackArgumentCaptor.capture())
+        verify(tasksRepository).loadTasks(loadTaskCallBackArgumentCaptor.capture())
 
-        loadTasksCallBackArgumentCaptor.value.onTasksLoaded(taskBeanList)
+        loadTaskCallBackArgumentCaptor.value.onTasksLoaded(taskBeanList)
 
         assertThat(statisticsViewModel.observableActiveTasks.value, `is`(2))
         assertThat(statisticsViewModel.observableCompletedTasks.value, `is`(1))
@@ -83,9 +83,9 @@ class StatisticsViewModelTest {
     fun loadStatisticsError() {
         statisticsViewModel.start()
 
-        verify(tasksRepository).loadTasks(loadTasksCallBackArgumentCaptor.capture())
+        verify(tasksRepository).loadTasks(loadTaskCallBackArgumentCaptor.capture())
 
-        loadTasksCallBackArgumentCaptor.value.onDataNotAvailable()
+        loadTaskCallBackArgumentCaptor.value.onDataNotAvailable()
 
         val event = LiveDataTestUtils.getValue(statisticsViewModel.message)
         assertEquals(event.getContent(), MessageMap.NO_DATA)

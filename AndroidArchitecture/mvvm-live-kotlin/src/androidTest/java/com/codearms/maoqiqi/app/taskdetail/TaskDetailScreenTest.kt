@@ -9,8 +9,8 @@ import androidx.test.rule.ActivityTestRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.codearms.maoqiqi.app.R
 import com.codearms.maoqiqi.app.data.TaskBean
-import com.codearms.maoqiqi.app.data.source.TasksRepository
-import com.codearms.maoqiqi.app.data.source.remote.TasksRemoteDataSource
+import com.codearms.maoqiqi.app.data.source.TaskRepository
+import com.codearms.maoqiqi.app.data.source.remote.TaskRemoteDataSource
 import com.codearms.maoqiqi.app.tasks.TasksActivity
 import com.codearms.maoqiqi.app.utils.EspressoIdlingResource
 import com.codearms.maoqiqi.app.utils.TestUtils
@@ -84,8 +84,8 @@ class TaskDetailScreenTest {
     }
 
     private fun startActivity(taskBean: TaskBean) {
-        TasksRepository.destroyInstance()
-        TasksRemoteDataSource.getInstance().addTask(taskBean)
+        TaskRepository.destroyInstance()
+        TaskRemoteDataSource.getInstance().addTask(taskBean)
 
         // Lazily start the Activity from the ActivityTestRule this time to inject the start Intent
         val startIntent = Intent()

@@ -3,7 +3,7 @@ package com.codearms.maoqiqi.app.data.source.room
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.codearms.maoqiqi.app.data.TaskBean
-import com.codearms.maoqiqi.app.data.source.TasksDataSource
+import com.codearms.maoqiqi.app.data.source.TaskDataSource
 import com.codearms.maoqiqi.app.utils.SingleExecutors
 import org.hamcrest.Matchers
 import org.junit.After
@@ -14,30 +14,30 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito.*
 
 /**
- * Integration test for the [TasksDataSource].
+ * Integration test for the [TaskDataSource].
  * Author: fengqi.mao.march@gmail.com
  * Date: 2019/3/13 14:15
  */
 @RunWith(AndroidJUnit4::class)
 class TasksRoomDataSourceTest {
 
-    private lateinit var tasksRoomDataSource: TasksRoomDataSource
+    private lateinit var tasksRoomDataSource: TaskRoomDataSource
 
     @Before
     fun setUp() {
-        tasksRoomDataSource = TasksRoomDataSource.getInstance(InstrumentationRegistry.getTargetContext(), SingleExecutors())
+        tasksRoomDataSource = TaskRoomDataSource.getInstance(InstrumentationRegistry.getTargetContext(), SingleExecutors())
         tasksRoomDataSource.deleteAllTasks()
     }
 
     @After
     fun tearDown() {
-        TasksRoomDataSource.clearInstance()
+        TaskRoomDataSource.clearInstance()
     }
 
     @Test
     fun loadTasks() {
         tasksRoomDataSource.addTask(TASK_BEAN)
-        tasksRoomDataSource.loadTasks(object : TasksDataSource.LoadTasksCallBack {
+        tasksRoomDataSource.loadTasks(object : TaskDataSource.LoadTasksCallBack {
             override fun onTasksLoaded(taskBeanList: List<TaskBean>) {
                 assertEquals(taskBeanList.size.toLong(), 1)
             }
@@ -54,7 +54,7 @@ class TasksRoomDataSourceTest {
 
         tasksRoomDataSource.clearCompletedTasks()
 
-        val callBack = mock(TasksDataSource.GetTaskCallBack::class.java)
+        val callBack = mock(TaskDataSource.GetTaskCallBack::class.java)
         tasksRoomDataSource.getTask(TASK_BEAN.id, callBack)
 
         verify(callBack).onDataNotAvailable()
@@ -69,7 +69,7 @@ class TasksRoomDataSourceTest {
     @Test
     fun addTask() {
         tasksRoomDataSource.addTask(TASK_BEAN)
-        tasksRoomDataSource.getTask(TASK_BEAN.id, object : TasksDataSource.GetTaskCallBack {
+        tasksRoomDataSource.getTask(TASK_BEAN.id, object : TaskDataSource.GetTaskCallBack {
             override fun onTaskLoaded(taskBean: TaskBean) {
                 assertTask(taskBean, TASK_BEAN)
             }
@@ -87,7 +87,7 @@ class TasksRoomDataSourceTest {
         val newTaskBean = TaskBean(TASK_BEAN.id, TASK_BEAN.title!!, TASK_BEAN.description!!, false)
         tasksRoomDataSource.updateTask(newTaskBean)
 
-        tasksRoomDataSource.getTask(newTaskBean.id, object : TasksDataSource.GetTaskCallBack {
+        tasksRoomDataSource.getTask(newTaskBean.id, object : TaskDataSource.GetTaskCallBack {
             override fun onTaskLoaded(taskBean: TaskBean) {
                 assertTask(taskBean, newTaskBean)
             }
@@ -103,7 +103,7 @@ class TasksRoomDataSourceTest {
         val newTaskBean = TaskBean(TASK_BEAN.id, TASK_BEAN.title!!, TASK_BEAN.description!!, false)
         tasksRoomDataSource.addTask(newTaskBean)
         tasksRoomDataSource.completeTask(newTaskBean.id)
-        tasksRoomDataSource.getTask(newTaskBean.id, object : TasksDataSource.GetTaskCallBack {
+        tasksRoomDataSource.getTask(newTaskBean.id, object : TaskDataSource.GetTaskCallBack {
             override fun onTaskLoaded(taskBean: TaskBean) {
                 assertTrue(taskBean.isCompleted)
             }
@@ -118,7 +118,7 @@ class TasksRoomDataSourceTest {
     fun activateTask() {
         tasksRoomDataSource.addTask(TASK_BEAN)
         tasksRoomDataSource.activateTask(TASK_BEAN.id)
-        tasksRoomDataSource.getTask(TASK_BEAN.id, object : TasksDataSource.GetTaskCallBack {
+        tasksRoomDataSource.getTask(TASK_BEAN.id, object : TaskDataSource.GetTaskCallBack {
             override fun onTaskLoaded(taskBean: TaskBean) {
                 assertTrue(taskBean.isActive)
             }
@@ -135,7 +135,7 @@ class TasksRoomDataSourceTest {
 
         tasksRoomDataSource.deleteTask(TASK_BEAN.id)
 
-        val callBack = mock(TasksDataSource.LoadTasksCallBack::class.java)
+        val callBack = mock(TaskDataSource.LoadTasksCallBack::class.java)
         tasksRoomDataSource.loadTasks(callBack)
 
         verify(callBack).onDataNotAvailable()
@@ -148,7 +148,7 @@ class TasksRoomDataSourceTest {
 
         tasksRoomDataSource.deleteAllTasks()
 
-        val callBack = mock(TasksDataSource.LoadTasksCallBack::class.java)
+        val callBack = mock(TaskDataSource.LoadTasksCallBack::class.java)
         tasksRoomDataSource.loadTasks(callBack)
 
         verify(callBack).onDataNotAvailable()

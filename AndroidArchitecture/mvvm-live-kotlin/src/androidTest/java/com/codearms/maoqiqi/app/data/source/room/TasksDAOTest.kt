@@ -12,7 +12,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 /**
- * Integration test for the [TasksDAO].
+ * Integration test for the [TaskDAO].
  * Author: fengqi.mao.march@gmail.com
  * Date: 2019/3/13 11:39
  */
@@ -20,7 +20,7 @@ import org.junit.runner.RunWith
 class TasksDAOTest {
 
     private lateinit var taskDataBase: TaskDataBase
-    private lateinit var dao: TasksDAO
+    private lateinit var dao: TaskDAO
 
     @Before
     fun setUp() {

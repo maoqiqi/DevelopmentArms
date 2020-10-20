@@ -2,12 +2,13 @@ package com.codearms.maoqiqi.app.statistics
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 
 import com.codearms.maoqiqi.app.Event
-import com.codearms.maoqiqi.app.data.TaskBean
-import com.codearms.maoqiqi.app.data.source.TasksDataSource
-import com.codearms.maoqiqi.app.data.source.TasksRepository
+import com.codearms.maoqiqi.app.data.Result
+import com.codearms.maoqiqi.app.data.source.TaskRepository
 import com.codearms.maoqiqi.app.utils.MessageMap
+import kotlinx.coroutines.launch
 
 /**
  * Exposes the data to be used in the statistics screen.
@@ -15,7 +16,7 @@ import com.codearms.maoqiqi.app.utils.MessageMap
  * Date: 2019/3/18 13:28
  */
 class StatisticsViewModel(
-        private val tasksRepository: TasksRepository
+    private val tasksRepository: TaskRepository
 ) : ViewModel() {
 
     val observableActiveTasks = MutableLiveData<Int>()
@@ -28,13 +29,14 @@ class StatisticsViewModel(
     }
 
     private fun loadStatistics() {
-        tasksRepository.loadTasks(object : TasksDataSource.LoadTasksCallBack {
-            override fun onTasksLoaded(taskBeanList: List<TaskBean>) {
+        viewModelScope.launch {
+            val result = tasksRepository.loadTasks()
+            if (result is Result.Success) {
                 var activeTasks = 0
                 var completedTasks = 0
 
                 // We calculate number of active and completed tasks
-                for (taskBean in taskBeanList) {
+                for (taskBean in result.data) {
                     if (taskBean.isCompleted) {
                         completedTasks += 1
                     } else {
@@ -44,11 +46,9 @@ class StatisticsViewModel(
 
                 observableActiveTasks.value = activeTasks
                 observableCompletedTasks.value = completedTasks
-            }
-
-            override fun onDataNotAvailable() {
+            } else {
                 message.value = Event(MessageMap.NO_DATA)
             }
-        })
+        }
     }
 }

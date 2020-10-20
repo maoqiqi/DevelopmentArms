@@ -15,8 +15,8 @@ import androidx.appcompat.widget.Toolbar
 import android.view.View
 import com.codearms.maoqiqi.app.R
 import com.codearms.maoqiqi.app.data.TaskBean
-import com.codearms.maoqiqi.app.data.source.TasksRepository
-import com.codearms.maoqiqi.app.data.source.remote.TasksRemoteDataSource
+import com.codearms.maoqiqi.app.data.source.TaskRepository
+import com.codearms.maoqiqi.app.data.source.remote.TaskRemoteDataSource
 import com.codearms.maoqiqi.app.tasks.TasksActivity
 import com.codearms.maoqiqi.app.utils.EspressoIdlingResource
 import com.codearms.maoqiqi.app.utils.TestUtils
@@ -88,8 +88,8 @@ class AddEditTaskScreenTest {
     @Test
     fun editTask() {
         // Put a task in the repository and start the activity to edit it
-        TasksRepository.destroyInstance()
-        TasksRemoteDataSource.getInstance().addTask(taskBean)
+        TaskRepository.destroyInstance()
+        TaskRemoteDataSource.getInstance().addTask(taskBean)
         launchNewTaskActivity(taskBean.id)
 
         // Check that the toolbar shows the correct title

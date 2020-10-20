@@ -1,8 +1,8 @@
 package com.codearms.maoqiqi.app.tasks;
 
 import androidx.databinding.BindingAdapter;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.codearms.maoqiqi.app.data.TaskBean;
 
@@ -15,17 +15,12 @@ import java.util.List;
  */
 public class TasksBindings {
 
-    @BindingAdapter("android:onRefresh")
+    @BindingAdapter("onRefresh")
     public static void setRefresh(SwipeRefreshLayout swipeRefreshLayout, final TasksViewModel tasksViewModel) {
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                tasksViewModel.loadTasks(false);
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(() -> tasksViewModel.loadTasks(false));
     }
 
-    @BindingAdapter("app:items")
+    @BindingAdapter("items")
     public static void setItems(RecyclerView recyclerView, List<TaskBean> taskBeanList) {
         TasksFragment.TasksAdapter adapter = (TasksFragment.TasksAdapter) recyclerView.getAdapter();
         if (adapter != null) {

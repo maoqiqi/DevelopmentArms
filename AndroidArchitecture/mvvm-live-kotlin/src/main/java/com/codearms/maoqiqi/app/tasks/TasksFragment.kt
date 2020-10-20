@@ -6,11 +6,12 @@ import android.content.Context
 import android.content.Intent
 import androidx.databinding.DataBindingUtil
 import android.os.Bundle
+import android.view.*
+import android.widget.PopupMenu
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.view.*
-import android.widget.PopupMenu
 import com.codearms.maoqiqi.app.R
 import com.codearms.maoqiqi.app.addedittask.AddEditTaskActivity
 import com.codearms.maoqiqi.app.base.BaseFragment
@@ -20,6 +21,7 @@ import com.codearms.maoqiqi.app.databinding.ItemTaskBinding
 import com.codearms.maoqiqi.app.statistics.StatisticsActivity
 import com.codearms.maoqiqi.app.taskdetail.TaskDetailActivity
 import com.codearms.maoqiqi.app.utils.MessageMap
+import com.codearms.maoqiqi.app.utils.getViewModelFactory
 import com.codearms.maoqiqi.app.utils.show
 
 /**
@@ -29,24 +31,20 @@ import com.codearms.maoqiqi.app.utils.show
  */
 class TasksFragment : BaseFragment() {
 
-    private lateinit var tasksViewModel: TasksViewModel
-
-    fun setViewModel(tasksViewModel: TasksViewModel) {
-        this.tasksViewModel = tasksViewModel
-    }
+    private val tasksViewModel: TasksViewModel by viewModels { getViewModelFactory() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         val binding = DataBindingUtil.inflate<FragmentTasksBinding>(inflater, R.layout.fragment_tasks, container, false)
         binding.tasksViewModel = tasksViewModel
-        binding.setLifecycleOwner(activity)
+        binding.lifecycleOwner = viewLifecycleOwner
 
         val recyclerView = binding.recyclerView
-        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(false)
-        recyclerView.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+        recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.isNestedScrollingEnabled = false
-        recyclerView.adapter = TasksAdapter(context!!, null, tasksViewModel, activity!!)
+        recyclerView.adapter = TasksAdapter(requireContext(), null, tasksViewModel, viewLifecycleOwner)
 
         setHasOptionsMenu(true)
 
@@ -56,11 +54,11 @@ class TasksFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         // Subscribe to "open task" event
-        tasksViewModel.taskItemEvent.observe(this, Observer { stringEvent ->
+        tasksViewModel.taskItemEvent.observe(viewLifecycleOwner, Observer { stringEvent ->
             val taskId = stringEvent!!.getContentIfNotHandled()
             if (taskId != null) onOpenTaskDetails(taskId)
         })
-        tasksViewModel.message.observe(this, Observer { stringEvent ->
+        tasksViewModel.message.observe(viewLifecycleOwner, Observer { stringEvent ->
             val message = stringEvent!!.getContentIfNotHandled()
             if (message != null) showMessage(message)
         })
@@ -95,7 +93,7 @@ class TasksFragment : BaseFragment() {
     private fun showFilteringPopUpMenu() {
         if (activity == null) return
 
-        val popup = PopupMenu(activity, activity!!.findViewById(R.id.menu_filter))
+        val popup = PopupMenu(activity, activity?.findViewById(R.id.menu_filter))
         popup.menuInflater.inflate(R.menu.menu_filter_tasks, popup.menu)
 
         popup.setOnMenuItemClickListener { item ->
@@ -127,10 +125,11 @@ class TasksFragment : BaseFragment() {
     }
 
     internal class TasksAdapter(
-            private val context: Context,
-            private var taskBeanList: List<TaskBean>?,
-            private val tasksViewModel: TasksViewModel,
-            private val lifecycleOwner: LifecycleOwner) : androidx.recyclerview.widget.RecyclerView.Adapter<ViewHolder>() {
+        private val context: Context,
+        private var taskBeanList: List<TaskBean>?,
+        private val tasksViewModel: TasksViewModel,
+        private val lifecycleOwner: LifecycleOwner
+    ) : RecyclerView.Adapter<ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {
             val binding = DataBindingUtil.inflate<ItemTaskBinding>(LayoutInflater.from(context), R.layout.item_task, parent, false)
@@ -153,9 +152,6 @@ class TasksFragment : BaseFragment() {
         }
     }
 
-    internal class ViewHolder internal constructor(internal var binding: ItemTaskBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root)
-
-    companion object {
-        fun newInstance(): TasksFragment = TasksFragment()
-    }
+    internal class ViewHolder internal constructor(internal var binding: ItemTaskBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

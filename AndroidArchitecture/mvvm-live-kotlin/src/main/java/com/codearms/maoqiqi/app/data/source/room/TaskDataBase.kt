@@ -1,9 +1,7 @@
 package com.codearms.maoqiqi.app.data.source.room
 
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
-import android.content.Context
 
 import com.codearms.maoqiqi.app.data.TaskBean
 
@@ -15,18 +13,6 @@ import com.codearms.maoqiqi.app.data.TaskBean
 @Database(entities = [TaskBean::class], version = 1)
 abstract class TaskDataBase : RoomDatabase() {
 
-    abstract fun tasksDAO(): TasksDAO
+    abstract fun tasksDAO(): TaskDAO
 
-    companion object {
-        @Volatile
-        private var INSTANCE: TaskDataBase? = null
-
-        private val lock = Any()
-
-        @JvmStatic
-        internal fun getInstance(context: Context): TaskDataBase = INSTANCE ?: synchronized(lock) {
-            INSTANCE ?: Room.databaseBuilder(context.applicationContext,
-                    TaskDataBase::class.java, "room_tasks.db").build().also { INSTANCE = it }
-        }
-    }
 }

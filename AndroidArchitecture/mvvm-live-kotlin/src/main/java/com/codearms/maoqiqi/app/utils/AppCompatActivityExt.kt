@@ -1,13 +1,10 @@
 package com.codearms.maoqiqi.app.utils
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
 import androidx.annotation.IdRes
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.codearms.maoqiqi.app.Injection
 import com.codearms.maoqiqi.app.ViewModelFactory
 
 /**
@@ -29,5 +26,8 @@ fun AppCompatActivity.setToolbar(@IdRes resId: Int, action: ActionBar.() -> Unit
     supportActionBar?.run { action() }
 }
 
-fun <T : ViewModel> AppCompatActivity.obtainViewModel(viewModelClass: Class<T>) =
-        ViewModelProviders.of(this, ViewModelFactory.getInstance(application)).get(viewModelClass)
+fun AppCompatActivity.getViewModelFactory(): ViewModelFactory =
+    ViewModelFactory(Injection.provideTasksRepository(this), this)
+
+fun Fragment.getViewModelFactory(): ViewModelFactory =
+    ViewModelFactory(Injection.provideTasksRepository(requireContext()), this)

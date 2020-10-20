@@ -3,8 +3,8 @@ package com.codearms.maoqiqi.app.taskdetail
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.codearms.maoqiqi.app.LiveDataTestUtils
 import com.codearms.maoqiqi.app.data.TaskBean
-import com.codearms.maoqiqi.app.data.source.TasksDataSource
-import com.codearms.maoqiqi.app.data.source.TasksRepository
+import com.codearms.maoqiqi.app.data.source.TaskDataSource
+import com.codearms.maoqiqi.app.data.source.TaskRepository
 import com.codearms.maoqiqi.app.utils.MessageMap
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -24,10 +24,10 @@ class TaskDetailViewModelTest {
     var instantExecutorRule = InstantTaskExecutorRule()
 
     @Mock
-    private lateinit var tasksRepository: TasksRepository
+    private lateinit var tasksRepository: TaskRepository
 
     @Captor
-    private lateinit var getTaskCallBackArgumentCaptor: ArgumentCaptor<TasksDataSource.GetTaskCallBack>
+    private lateinit var getTaskCallBackArgumentCaptor: ArgumentCaptor<TaskDataSource.GetTaskCallBack>
 
     private lateinit var taskDetailViewModel: TaskDetailViewModel
 

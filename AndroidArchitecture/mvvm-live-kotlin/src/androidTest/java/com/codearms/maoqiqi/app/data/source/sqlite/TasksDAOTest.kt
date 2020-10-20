@@ -11,18 +11,18 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 /**
- * Integration test for the [TasksDAO].
+ * Integration test for the [TaskDAO].
  * Author: fengqi.mao.march@gmail.com
  * Date: 2019/3/13 11:09
  */
 @RunWith(AndroidJUnit4::class)
 class TasksDAOTest {
 
-    private lateinit var dao: TasksDAO
+    private lateinit var dao: TaskDAO
 
     @Before
     fun setUp() {
-        dao = TasksDAO(InstrumentationRegistry.getTargetContext())
+        dao = TaskDAO(InstrumentationRegistry.getTargetContext())
         dao.deleteTasks()
     }
 

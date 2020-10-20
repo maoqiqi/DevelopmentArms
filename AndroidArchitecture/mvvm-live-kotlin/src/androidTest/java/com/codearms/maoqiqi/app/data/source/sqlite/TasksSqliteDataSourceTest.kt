@@ -3,7 +3,7 @@ package com.codearms.maoqiqi.app.data.source.sqlite
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.codearms.maoqiqi.app.data.TaskBean
-import com.codearms.maoqiqi.app.data.source.TasksDataSource
+import com.codearms.maoqiqi.app.data.source.TaskDataSource
 import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Assert.*
@@ -13,24 +13,24 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito.*
 
 /**
- * Integration test for the [TasksDataSource].
+ * Integration test for the [TaskDataSource].
  * Author: fengqi.mao.march@gmail.com
  * Date: 2019/3/13 12:11
  */
 @RunWith(AndroidJUnit4::class)
 class TasksSqliteDataSourceTest {
 
-    private lateinit var tasksSqliteDataSource: TasksSqliteDataSource
+    private lateinit var tasksSqliteDataSource: TaskSqliteDataSource
 
     @Before
     fun setUp() {
-        tasksSqliteDataSource = TasksSqliteDataSource.getInstance(InstrumentationRegistry.getTargetContext())
+        tasksSqliteDataSource = TaskSqliteDataSource.getInstance(InstrumentationRegistry.getTargetContext())
         tasksSqliteDataSource.deleteAllTasks()
     }
 
     @After
     fun tearDown() {
-        TasksSqliteDataSource.clearInstance()
+        TaskSqliteDataSource.clearInstance()
     }
 
     @Test
@@ -39,7 +39,7 @@ class TasksSqliteDataSourceTest {
         tasksSqliteDataSource.addTask(TASK_BEAN)
 
         // Then getting the tasks
-        tasksSqliteDataSource.loadTasks(object : TasksDataSource.LoadTasksCallBack {
+        tasksSqliteDataSource.loadTasks(object : TaskDataSource.LoadTasksCallBack {
             override fun onTasksLoaded(taskBeanList: List<TaskBean>) {
                 assertEquals(taskBeanList.size.toLong(), 1)
             }
@@ -59,7 +59,7 @@ class TasksSqliteDataSourceTest {
         tasksSqliteDataSource.clearCompletedTasks()
 
         // Then the completed tasks cannot be retrieved and the active one can
-        val callBack = mock(TasksDataSource.GetTaskCallBack::class.java)
+        val callBack = mock(TaskDataSource.GetTaskCallBack::class.java)
         tasksSqliteDataSource.getTask(TASK_BEAN.id, callBack)
 
         verify(callBack).onDataNotAvailable()
@@ -76,7 +76,7 @@ class TasksSqliteDataSourceTest {
         tasksSqliteDataSource.addTask(TASK_BEAN)
 
         // Then getting the task by id from the database
-        tasksSqliteDataSource.getTask(TASK_BEAN.id, object : TasksDataSource.GetTaskCallBack {
+        tasksSqliteDataSource.getTask(TASK_BEAN.id, object : TaskDataSource.GetTaskCallBack {
             override fun onTaskLoaded(taskBean: TaskBean) {
                 assertTask(taskBean, TASK_BEAN)
             }
@@ -94,7 +94,7 @@ class TasksSqliteDataSourceTest {
         val newTaskBean = TaskBean(TASK_BEAN.id, TASK_BEAN.title!!, TASK_BEAN.description!!, false)
         tasksSqliteDataSource.updateTask(newTaskBean)
 
-        tasksSqliteDataSource.getTask(newTaskBean.id, object : TasksDataSource.GetTaskCallBack {
+        tasksSqliteDataSource.getTask(newTaskBean.id, object : TaskDataSource.GetTaskCallBack {
             override fun onTaskLoaded(taskBean: TaskBean) {
                 assertTask(taskBean, newTaskBean)
             }
@@ -114,7 +114,7 @@ class TasksSqliteDataSourceTest {
         tasksSqliteDataSource.completeTask(newTaskBean.id)
 
         // Then getting the task by id from the database and is complete
-        tasksSqliteDataSource.getTask(newTaskBean.id, object : TasksDataSource.GetTaskCallBack {
+        tasksSqliteDataSource.getTask(newTaskBean.id, object : TaskDataSource.GetTaskCallBack {
             override fun onTaskLoaded(taskBean: TaskBean) {
                 assertTrue(taskBean.isCompleted)
             }
@@ -133,7 +133,7 @@ class TasksSqliteDataSourceTest {
         tasksSqliteDataSource.activateTask(TASK_BEAN.id)
 
         // Then getting the task by id from the database and is active
-        tasksSqliteDataSource.getTask(TASK_BEAN.id, object : TasksDataSource.GetTaskCallBack {
+        tasksSqliteDataSource.getTask(TASK_BEAN.id, object : TaskDataSource.GetTaskCallBack {
             override fun onTaskLoaded(taskBean: TaskBean) {
                 assertTrue(taskBean.isActive)
             }
@@ -150,7 +150,7 @@ class TasksSqliteDataSourceTest {
 
         tasksSqliteDataSource.deleteTask(TASK_BEAN.id)
 
-        val callBack = mock(TasksDataSource.LoadTasksCallBack::class.java)
+        val callBack = mock(TaskDataSource.LoadTasksCallBack::class.java)
         tasksSqliteDataSource.loadTasks(callBack)
 
         verify(callBack).onDataNotAvailable()
@@ -163,7 +163,7 @@ class TasksSqliteDataSourceTest {
 
         tasksSqliteDataSource.deleteAllTasks()
 
-        val callBack = mock(TasksDataSource.LoadTasksCallBack::class.java)
+        val callBack = mock(TaskDataSource.LoadTasksCallBack::class.java)
         tasksSqliteDataSource.loadTasks(callBack)
 
         verify(callBack).onDataNotAvailable()

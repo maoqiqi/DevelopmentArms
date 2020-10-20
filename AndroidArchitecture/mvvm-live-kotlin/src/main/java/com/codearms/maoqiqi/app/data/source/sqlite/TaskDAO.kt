@@ -9,7 +9,7 @@ import java.util.*
  * Author: fengqi.mao.march@gmail.com
  * Date: 2019/3/12 14:24
  */
-internal class TasksDAO(context: Context) {
+internal class TaskDAO(context: Context) {
 
     private val helper: DatabaseHelper = DatabaseHelper(context)
 
@@ -70,7 +70,7 @@ internal class TasksDAO(context: Context) {
     fun addTask(taskBean: TaskBean) {
         val db = helper.writableDatabase
         val sql = "insert into task(id,title,description,completed) values(?,?,?,?)"
-        db.execSQL(sql, arrayOf(taskBean.id, taskBean.title!!, taskBean.description!!, if (taskBean.isCompleted) 1 else 0))
+        db.execSQL(sql, arrayOf(taskBean.id, taskBean.title, taskBean.description, if (taskBean.isCompleted) 1 else 0))
         db.close()
     }
 
@@ -82,7 +82,7 @@ internal class TasksDAO(context: Context) {
     fun updateTask(taskBean: TaskBean) {
         val db = helper.writableDatabase
         val sql = "update task set title=?,description=?,completed=? where id=?"
-        db.execSQL(sql, arrayOf(taskBean.title!!, taskBean.description!!, if (taskBean.isCompleted) 1 else 0, taskBean.id))
+        db.execSQL(sql, arrayOf(taskBean.title, taskBean.description, if (taskBean.isCompleted) 1 else 0, taskBean.id))
         db.close()
     }
 
