@@ -1,1 +1,21 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "AndroidArchitecture"
+include ':mvp'
+include ':mvp-kotlin'
+include ':mvp-rxjava'
+include ':mvvm-databinding'
+include ':mvvm-live'
 include ':mvvm-live-kotlin'
